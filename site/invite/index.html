@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>CompClub 2019 Summer CTF</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+  <link rel="stylesheet" href="/assets/css/normalize.min.css" />
+  <link rel='stylesheet' href='/assets/font/hack-subset.css'>
+  <link rel="stylesheet" href="/assets/css/bulma.min.css" />
+  <link rel="stylesheet" href="/assets/font/fa-password.css" />
+
+
+  <style>
+    html,
+    body {
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    * {
+      font-family: Hack, monospace;
+    }
+
+    .is-vertical-center {
+      display: flex;
+      align-items: center;
+    }
+
+    .b-wrap {
+      height: 100vh;
+    }
+
+    .content {
+      width: 100%;
+      user-select: none;
+    }
+
+    .logo-compclub {
+      width: 50%;
+      min-width: 400px;
+    }
+
+    input[type="password"] {
+      background-color: rgba(22, 131, 155, 0.22);
+      border-color: rgba(11, 126, 152, 0.22);
+      border-radius: 35px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container is-vertical-center b-wrap has-text-centered">
+    <section class="content">
+      <img class="logo-compclub" src="/assets/img/compclub.logo.svg" />
+      <!-- <img/> LOGO -->
+      <h1 class="is-size-3 has-text-light">Your mission, should you choose to accept ...</h1>
+      <div class="field is-grouped is-grouped-centered">
+        <p class="control">
+          <a class="button is-success is-outlined is-large" href="/start">
+            YEET
+          </a>
+        </p>
+        <p class="control">
+          <a class="button is-danger is-outlined is-large" href="//www.youtube.com/watch?v=dQw4w9WgXcQ">
+            NOPE
+          </a>
+        </p>
+      </div>
+      <!-- <input class="input has-text-centered is-size-1  has-text-light" type="password" placeholder="Text input"> -->
+    </section>
+  </div>
+
+  <div class="background">
+    <canvas id="backgroundCanvas"></canvas>
+  </div>
+
+  <script src="/assets/js/three.min.js"></script>
+  <script src="backgroundFuzz.js"></script>
+  <script>
+    document.querySelectorAll('a.button').forEach(elem => {
+      elem.addEventListener('mouseover', () => document.querySelector('.background').classList.add('blur'))
+      elem.addEventListener('mouseout', () => document.querySelector('.background').classList.remove('blur'))
+    })
+
+    document.querySelector('a.button').addEventListener('click', (evt) => {
+        evt.preventDefault();
+        document.querySelector('.container').classList.add('hide')
+        setTimeout(function(){location.href="/start"}, 1000)
+    })
+
+
+
+  </script>
+
+  <style>
+    .background {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: -1;
+    }
+
+    .background:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transition: all 1s;
+      background-color: rgba(0, 35, 88, 0.7);
+      /* opacity: 1; */
+    }
+
+    .background canvas {
+      transition: filter, transform 1s;
+    }
+
+    .background.blur:after, .container.hide + .background:after  {
+      background-color: rgba(0, 16, 40, 0.9);
+    }
+
+    .background.blur canvas, .container.hide + .background canvas  {
+      filter: blur(5px);
+      transform: scale(1.2);
+    }
+  </style>
+  <style>
+    .container {
+      transition: opacity 1.3s;
+    }
+    .container.hide {
+      opacity: 0;
+
+    }
+  </style>
+</body>
+
+</html>

@@ -1,0 +1,2 @@
+bulma.min.css | 0.7.2
+normalize.min.css | 8.0.1
