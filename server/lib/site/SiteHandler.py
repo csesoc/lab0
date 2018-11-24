@@ -47,7 +47,7 @@ class SiteHandler(tornado.web.StaticFileHandler, BaseHandler):
             user, expiry = getSession(token)
             if int(time()) < expiry:
                 updateSession(token)
-                return UserSession
+                return UserSession(user)
         except Exception:
             return False
 
@@ -59,11 +59,11 @@ class SiteHandler(tornado.web.StaticFileHandler, BaseHandler):
             if urlRoute:
                 self.compute_etag = super(
                     tornado.web.StaticFileHandler, self).compute_etag
-                function(self, path, *urlRoute.groups(), **kwargs)
+                function(self, *urlRoute.groups(), **kwargs)
                 return
         yield super().get(path, **kwargs)
 
     def post(self, path, **kwargs):
         for urlRegex, function in routing._routesPOST.items():
             if re.match("^" + urlRegex.strip("^$") + "$", "/" + path):
-                return function(self, path, **kwargs)
+                return function(self, **kwargs)

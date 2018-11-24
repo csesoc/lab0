@@ -56,15 +56,13 @@ class routing:
 
 class APIHandler(tornado.web.RequestHandler):
     def get_current_user(self):
-        token = self.get_secure_cookie("session")
-        session = getSession(token)
-        if session:
-            user, expiry = session
-            if expiry < int(time()):
-                updateSession(token)
-                return UserSession
-        self.finish(JSON.error("not authenticated"))
-        # return False
+        try:
+            token = self.get_secure_cookie("session").decode()
+            user, expiry = getSession(token)
+            if int(time()) < expiry:
+                return UserSession(user)
+        except Exception:
+            return False
 
     def get(self, path, **kwargs):
         try:
