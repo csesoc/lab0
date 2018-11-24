@@ -34,7 +34,7 @@ class SQLQuery:
                 description TEXT,
                 flag TEXT NOT NULL,
                 value INTEGER NOT NULL,
-                category INTEGER NOT NULL,
+                category INTEGER,
             
                 UNIQUE (title)
             )
@@ -63,3 +63,24 @@ class SQLQuery:
         getAllWithFlag = "SELECT id, title, description, flag, value, category FROM ctf_questions"
         getOneWithFlag = "SELECT id, title, description, flag, value, category FROM ctf_questions WHERE id = ?"
         getFlag = "SELECT flag FROM ctf_questions WHERE id = ?"
+
+    class categories:
+        createTable = """
+            CREATE TABLE IF NOT EXISTS ctf_question_categories (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                UNIQUE (name)
+            )
+            """
+        add = """
+              INSERT OR IGNORE
+              INTO ctf_question_categories (name)
+              VALUES (?)
+              """,
+        delete = "DELETE FROM ctf_question_categories WHERE id = ?"
+        edit = """
+            UPDATE ctf_question_categories
+            SET name = ?
+            WHERE id = ?
+            """
+        getAll = "SELECT id, name FROM ctf_question_categories"
