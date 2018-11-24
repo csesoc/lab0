@@ -1,15 +1,41 @@
-from lib import config, database
+__VERSION = "0.0.1"
+__DEBUG = True
 
-if __name__ == "__main__":
+
+###
+
+# github.com/featherbear/UNSW-CompClub2019Summer-CTF
+
+def run(file: str = None, **kwargs):
+    print("UNSW CSE CompClub 2019 Summer CTF Server")
+    print("                      [ by Andrew Wong ]")
+    print("----------------------------------------")
+    print("Server version:", __VERSION)
+
+    from lib import database
+
+    if file:
+        print("Loading config file:", file)
+        import lib
+        from lib.config import readConfig
+        lib.config = config = readConfig(file)
+    else:
+        from lib.config import config
+
+    if kwargs:
+        print("Applying config overrides")
+        config.update(kwargs)
+    print("----------------------------------------")
 
     import tornado.web
     import tornado.ioloop
 
+    from lib.site import SiteHandler
+
     app = tornado.web.Application([
-        # ("/(.*)", SiteHandler)
+        ("/(.*)", SiteHandler)
     ],
-        cookie_secret = "ABC",
-        # xsrf_cookies = True,
+        cookie_secret = "5206677",
         login_url = "/login/"
     )
 
@@ -22,6 +48,11 @@ if __name__ == "__main__":
     else:
         raise Exception("Cannot create the database connection.")
 
-    app.listen(config["SERVER"].get("port", 8000))
-
+    port = config["SERVER"].get("port", 8000)
+    app.listen(port)
+    print("Server running on port", port)
     tornado.ioloop.IOLoop.current().start()
+
+
+if __name__ == "__main__":
+    run()

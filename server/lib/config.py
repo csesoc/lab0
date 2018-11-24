@@ -1,8 +1,13 @@
-def readConfig() -> dict:
+config: dict
+
+
+def readConfig(file = "settings.ini") -> dict:
     import configparser
-    config = configparser.ConfigParser()
-    config.read('settings.ini')
-    return config._sections
+    _config = configparser.ConfigParser()
+    _config.read(file)
+    global config
+    config = _config._sections
+    return config
 
 
-config: dict = readConfig()
+readConfig()
