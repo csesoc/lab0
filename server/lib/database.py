@@ -1,4 +1,8 @@
+import re
 import sqlite3
+
+from .config import config
+
 
 def create_connection(db_file):
     try:
@@ -10,6 +14,9 @@ def create_connection(db_file):
 
 
 def create_table(create_table_sql):
+    create_table_sql = re.sub("\n|\s{2,}", "", create_table_sql)
+    create_table_sql = re.sub(",(?=\S)", ", ", create_table_sql)
+
     try:
         c = conn.cursor()
         c.execute(create_table_sql)
@@ -30,11 +37,13 @@ def fetchAll(*args, **kwargs):
     result = c.fetchall()
     return result
 
+
 def insert(*args, **kwargs):
     c = conn.cursor()
     c.execute(*args, **kwargs)
     if kwargs.get('commit'): conn.commit()
     return c.lastrowid
+
 
 def update(*args, **kwargs):
     c = conn.cursor()
@@ -42,7 +51,7 @@ def update(*args, **kwargs):
     if kwargs.get('commit'): conn.commit()
     return c.rowcount
 
-from .config import config
+
 conn = create_connection(config["SERVER"].get("database", "database.sqlite3"))
 
 # TODO Concurrent cursors?
