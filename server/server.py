@@ -4,6 +4,10 @@ import tornado.web
 from lib import config, database
 
 if __name__ == "__main__":
+
+    import tornado.web
+    import tornado.ioloop
+
     app = tornado.web.Application([
         # ("/(.*)", SiteHandler)
     ],
