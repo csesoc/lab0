@@ -1,12 +1,10 @@
 import re
-from time import time
-
 import tornado.gen
 import tornado.httputil
 import tornado.web
+from time import time
 
 from .Jinja2 import BaseHandler
-from .. import auth
 from ..config import config
 
 
@@ -35,20 +33,24 @@ class routing:
         return wrapper
 
 
+from ..authSession import updateSession, getSession
+from ..auth import UserSession
+
+
 class SiteHandler(tornado.web.StaticFileHandler, BaseHandler):
     def initialize(self, **kwargs):
-        super().initialize(config["SITE"].get("staticDir", "../site"), default_filename = "index.html")
+        super().initialize(config["SITE"].get("staticdir", "../site"), default_filename = "index.html")
 
     def get_current_user(self):
         try:
-            user = auth.UserSession(
-                *self.get_secure_cookie("session").split(b'|'))
-            user.expiry = str(int(time()) + 60 * 60)
-            self.set_secure_cookie('session', str(user))
-            return user
-        except Exception as e:
-            # print("Auth verify fail:", e)
+            token = self.get_secure_cookie("session").decode()
+            user, expiry = getSession(token)
+            if int(time()) < expiry:
+                updateSession(token)
+                return UserSession
+        except Exception:
             return False
+
 
     @tornado.gen.coroutine
     def get(self, path, **kwargs):

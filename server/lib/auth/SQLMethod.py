@@ -1,6 +1,7 @@
 from typing import Union
 
 from .SQLQuery import SQLQuery
+from .. import database
 
 
 class SQLMethod:
@@ -30,9 +31,3 @@ class SQLMethod:
             return database.fetchOne(SQLQuery.getUserByUsername, (user,))
         else:
             return database.fetchOne(SQLQuery.getUserById, (user,))
-
-
-from .. import database
-from .Tools import passwordHash
-
-database.conn.create_function("cHash", 2, passwordHash)

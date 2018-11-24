@@ -1,7 +1,7 @@
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 from tornado.web import RequestHandler
 
-from .. import config
+from ..config import config
 
 
 # https://bibhasdn.com/blog/using-jinja2-as-the-template-engine-for-tornado-web-framework/
@@ -15,7 +15,7 @@ class BaseHandler(RequestHandler):
         self.write(content)
 
     def render_template(self, template_name, **kwargs):
-        env = Environment(loader = FileSystemLoader(config["SITE"].get("templatesDir", "../site")))
+        env = Environment(loader = FileSystemLoader(config["SITE"].get("templatesdir", "../site")))
 
         try:
             template = env.get_template(template_name)

@@ -1,8 +1,4 @@
 __VERSION = "0.0.1"
-__DEBUG = True
-
-
-###
 
 # github.com/featherbear/UNSW-CompClub2019Summer-CTF
 
@@ -31,17 +27,22 @@ def run(file: str = None, **kwargs):
     import tornado.ioloop
 
     from lib.site import SiteHandler
+    from lib.api import APIHandler
+
 
     app = tornado.web.Application([
+        ("/api/v1/(.*)", APIHandler),
         ("/(.*)", SiteHandler)
     ],
         cookie_secret = "5206677",
-        login_url = "/login/"
+        login_url = "/invite"
     )
 
     if database.conn is not None:
         import lib.auth
         lib.auth.initDatabase()
+        import lib.authSession
+        lib.authSession.initDatabase()
         import lib.ctf
         lib.ctf.initDatabase()
 
@@ -49,7 +50,12 @@ def run(file: str = None, **kwargs):
         raise Exception("Cannot create the database connection.")
 
     port = config["SERVER"].get("port", 8000)
-    app.listen(port)
+    try:
+        app.listen(port)
+    except OSError:
+        print("Port", port, "is in use!\nAborting...")
+        return
+        
     print("Server running on port", port)
     tornado.ioloop.IOLoop.current().start()
 

@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="ja">
-
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>CompClub 2019 Summer CTF</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
-    <link rel="stylesheet" href="/assets/css/normalize.min.css"/>
+    <meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1'>
+    <link rel='stylesheet' href='/assets/css/normalize.min.css'/>
     <link rel='stylesheet' href='/assets/font/hack-subset.css'>
-    <link rel="stylesheet" href="/assets/css/bulma.min.css"/>
-    <link rel="stylesheet" href="/assets/font/fa-password.css"/>
+    <link rel='stylesheet' href='/assets/css/bulma.min.css'/>
+    <link rel='stylesheet' href='/assets/font/fa-password.css'/>
 
     <style>
         html,
@@ -43,10 +42,14 @@
             margin-bottom: 20px;
         }
 
-        input[type="password"].blueBox {
+        input[type=password].blueBox {
             background-color: rgba(22, 131, 155, 0.22);
             border-color: rgba(11, 126, 152, 0.22);
             border-radius: 35px;
+        }
+
+        input::placeholder {
+            text-align: center;
         }
 
         section {
@@ -80,6 +83,11 @@
             visibility: hidden;
         }
 
+        .section[name=login] input::placeholder {
+            color: #f5f5f5;
+
+        }
+
         .section .page {
             transition: opacity 0.7s, visibility 0s 0.7s;
             visibility: visible;
@@ -107,11 +115,11 @@
             var hour = new Date().getHours()
 
             if (hour < 12) {
-                return "morning"
+                return 'morning'
             } else if (hour < 18) {
-                return "afternoon"
+                return 'afternoon'
             } else {
-                return "evening"
+                return 'evening'
             }
 
         }
@@ -120,64 +128,59 @@
 </head>
 
 <body>
-<div class="container is-vertical-center b-wrap has-text-centered">
-    <div class="content">
-        <img class="logo-compclub" src="/assets/img/compclub.logo.white.svg"/>
+<div class='container is-vertical-center b-wrap has-text-centered'>
+    <div class='content'>
+        <img class='logo-compclub' src='/assets/img/compclub.logo.white.svg'/>
         <!-- <img/> LOGO -->
-        <section class="section" name="invite">
-            <h1 class="is-size-3 has-text-light">Your mission, should you choose to accept ...</h1>
-            <div class="field is-grouped is-grouped-centered">
-                <p class="control">
-                    <a class="button is-success is-outlined is-large">
+        <section class='section' name='invite'>
+            <h1 class='is-size-3 has-text-light'>Your mission, should you choose to accept ...</h1>
+            <div class='field is-grouped is-grouped-centered'>
+                <p class='control'>
+                    <a class='button is-success is-outlined is-large'>
                         YEET
                     </a>
                 </p>
-                <p class="control">
-                    <a class="button is-danger is-outlined is-large" href="//www.youtube.com/watch?v=dQw4w9WgXcQ">
+                <p class='control'>
+                    <a class='button is-danger is-outlined is-large' href='//www.youtube.com/watch?v=dQw4w9WgXcQ'>
                         NOPE
                     </a>
                 </p>
             </div>
 
         </section>
-        <section class="section hide" name="auth-type">
-            <h1 class="is-size-3 has-text-light">Are you new here?</h1>
-            <div class="field is-grouped is-grouped-centered">
-                <p class="control">
-                    <a class="button is-warning is-outlined is-large" name="register">
+        <section class='section hide' name='auth-type'>
+            <h1 class='is-size-3 has-text-light'>Are you new here?</h1>
+            <div class='field is-grouped is-grouped-centered'>
+                <p class='control'>
+                    <a class='button is-warning is-outlined is-large' name='register'>
                         REGISTER
                     </a>
                 </p>
-                <p class="control">
-                    <a class="button is-warning is-outlined is-large" name="login">
+                <p class='control'>
+                    <a class='button is-warning is-outlined is-large' name='login'>
                         LOGIN
                     </a>
                 </p>
             </div>
         </section>
 
-        <section class="section hide" name="login">
-            <div class="page" name="username">
+        <section class='section hide' name='login'>
 
-                <h1 class="is-size-1 has-text-light">Username: <input type="text"
-                                                                      name="username"
-                                                                      class="has-text-light minimal"
-                                                                      spellcheck="false"
-                                                                      required
-                                                                      placeholder="(your username)">.
-                </h1>
 
-            </div>
-            <div class="page" name="password">
+            <input type='text'
+                   name='username'
+                   class='is-size-1 has-text-light minimal has-text-centered'
+                   spellcheck='false'
+                   required
+                   placeholder='username'>
 
-                <h1 class="is-size-1 has-text-light">Password: </h1>
-                <form><input class="input blueBox has-text-centered is-size-1 has-text-light" name="password"
-                             type="password"></form>
+            <form><input class='input blueBox has-text-centered is-size-1 has-text-light' name='password'
+                         type='password' placeholder='password'></form>
 
-            </div>
+
         </section>
-        <section class="section hide" name="register">
-            <div class="page" name="name">
+        <section class='section hide' name='register'>
+            <div class='page' name='name'>
                 <style>
 
                     .page[name=name] input.minimal {
@@ -190,58 +193,58 @@
                         padding: 15px;
                     }
                 </style>
-                <h1 class="is-size-1 has-text-light">Good <span class="salutation"></span>, Agent <input type="text"
-                                                                                                         name="name"
-                                                                                                         class="has-text-light minimal"
-                                                                                                         spellcheck="false"
+                <h1 class='is-size-1 has-text-light'>Good <span class='salutation'></span>, Agent <input type='text'
+                                                                                                         name='name'
+                                                                                                         class='has-text-light minimal'
+                                                                                                         spellcheck='false'
                                                                                                          required
-                                                                                                         placeholder="(your display name)">.
+                                                                                                         placeholder='(your display name)'>.
                 </h1>
 
             </div>
-            <div class="page" name="username">
+            <div class='page' name='username'>
 
-                <h1 class="is-size-1 has-text-light">Username: <input type="text"
-                                                                      name="username"
-                                                                      class="has-text-light minimal"
-                                                                      spellcheck="false"
+                <h1 class='is-size-1 has-text-light'>Username: <input type='text'
+                                                                      name='username'
+                                                                      class='has-text-light minimal'
+                                                                      spellcheck='false'
                                                                       required
-                                                                      placeholder="(your username)">.
+                                                                      placeholder='(your username)'>.
                 </h1>
 
             </div>
 
 
-            <div class="page" name="password">
+            <div class='page' name='password'>
 
-                <h1 class="is-size-1 has-text-light">Password: </h1>
-                <form><input class="input blueBox has-text-centered is-size-1 has-text-light" name="password"
-                             type="password"></form>
+                <h1 class='is-size-1 has-text-light'>Password: </h1>
+                <form><input class='input blueBox has-text-centered is-size-1 has-text-light' name='password'
+                             type='password'></form>
 
             </div>
 
 
-            <div class="page" name="password2">
-                <h1 class="is-size-1 has-text-light">Confirm: </h1>
+            <div class='page' name='password2'>
+                <h1 class='is-size-1 has-text-light'>Confirm: </h1>
 
                 <form>
-                    <input class="input blueBox has-text-centered is-size-1 has-text-light" name="password2"
-                           type="password"></form>
+                    <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password2'
+                           type='password'></form>
             </div>
 
         </section>
     </div>
 </div>
 
-<div class="background">
-    <canvas id="backgroundCanvas"></canvas>
+<div class='background'>
+    <canvas id='backgroundCanvas'></canvas>
 </div>
 
-<script type="text/javascript">
+<script type='text/javascript'>
 
 </script>
-<script src="/assets/js/three.min.js"></script>
-<script src="backgroundFuzz.js"></script>
+<script src='/assets/js/three.min.js'></script>
+<script src='backgroundFuzz.js'></script>
 <script>
     (function inviteSection() {
         const evtMouseover = function () {
@@ -266,7 +269,6 @@
                 elem.removeEventListener('mouseout', evtMouseout);
             });
             elem.classList.add('hide');
-            console.log("about to fire showAuthType");
             setTimeout(showAuthType, 1300);
         })
     })();
@@ -281,15 +283,15 @@
             elem.classList.add('hide');
 
             switch (this.name) {
-                case "register":
+                case 'register':
                     setTimeout(showRegister, 1300);
                     break;
-                case "login":
+                case 'login':
                     setTimeout(showLogin, 1300);
                     break;
             }
         };
-        elem.querySelectorAll('a.button[name=register]').forEach(function (btn) {
+        elem.querySelectorAll('a.button').forEach(function (btn) {
             btn.addEventListener('click', clickEvt)
         })
     })();
@@ -323,7 +325,7 @@
 
         passwordInput.addEventListener('keypress', verifyKeyEvent(function () {
             // Password validate
-            password2Input.value = "";
+            password2Input.value = '';
             passwordElem.classList.remove('active');
             password2Elem.classList.add('active');
             password2Elem.focus()
@@ -336,7 +338,7 @@
                 // try register
             } else {
                 // Probably add some flag here
-                passwordInput.value = ""
+                passwordInput.value = ''
                 passwordElem.classList.add('active');
                 passwordInput.focus()
             }
@@ -352,19 +354,30 @@
         var usernameInput = elem.querySelector('input[name=username]');
         var passwordInput = elem.querySelector('input[name=password]');
 
-        var usernameElem = elem.querySelector('.page[name=username]');
-        var passwordElem = elem.querySelector('.page[name=password]');
-
         usernameInput.addEventListener('keypress', verifyKeyEvent(function () {
-            usernameElem.classList.remove('active');
-            passwordElem.classList.add('active');
             passwordInput.focus()
-        }))
+        }));
 
         passwordInput.addEventListener('keypress', verifyKeyEvent(function () {
             // Logon
-            passwordElem.classList.remove('active');
-
+            fetch('/api/v1/auth/login', {
+                method: 'post',
+                body: JSON.stringify({
+                    username: usernameInput.value,
+                    password: passwordInput.value
+                })
+            })
+                .then(response => response.json())
+                .then(jsonData => {
+                    console.log(jsonData)
+                    if (jsonData.status === true) {
+                        location.href = '/'
+                    } else {
+                        usernameInput.value = '';
+                        passwordInput.value = '';
+                        usernameInput.focus();
+                    }
+                })
         }))
 
     })();
@@ -390,7 +403,6 @@
 
     // register stuff
     function showRegister() {
-        console.log('register');
         var elem = document.querySelector('.section[name=register]');
         elem.classList.remove('hide');
 
@@ -402,6 +414,14 @@
 
     }
 
+
+    function showLogin() {
+        var elem = document.querySelector('.section[name=login]');
+        elem.classList.remove('hide');
+
+        elem.querySelector('input[name=username]').focus()
+
+    }
 
     ///
 </script>
