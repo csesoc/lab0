@@ -31,3 +31,7 @@ class SQLMethod:
             return database.fetchOne(SQLQuery.getUserByUsername, (user,))
         else:
             return database.fetchOne(SQLQuery.getUserById, (user,))
+
+    @staticmethod
+    def getUsers():
+        return database.fetchAll(SQLQuery.getUsers)

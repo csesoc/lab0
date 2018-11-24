@@ -34,3 +34,4 @@ class SQLQuery:
 
     getUserByUsername = "SELECT id, name FROM users WHERE username = ?"
     getUserById = "SELECT username, name FROM users WHERE id = ?"
+    getUsers = "SELECT id, username, name FROM users"
