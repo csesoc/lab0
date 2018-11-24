@@ -35,20 +35,20 @@ password = password     # Superuser password
 ## Credits
 
 ### Server (Python)
-[`Jinja2`](http://jinja.pocoo.org) - _Version 2.10_
+[`Jinja2`](http://jinja.pocoo.org) - _Version 2.10_  
 [`tornado`](//www.tornadoweb.org) - _Version 5.1.1_
 
 ### Website
-[`bulma.css`](//bulma.io) - _Version 0.7.2_
-[`normalize.css`](//necolas.github.io/normalize.css) - _Version 8.0.1_
-[`three.js`](//threejs.org) - _Version 98_
+[`bulma.css`](//bulma.io) - _Version 0.7.2_  
+[`normalize.css`](//necolas.github.io/normalize.css) - _Version 8.0.1_  
+[`three.js`](//threejs.org) - _Version 98_  
 
-[`Font Awesome`](//fontawesome.com)
-[`Hack`](//sourcefoundry.org/hack) - _Version 3.3.0_
+[`Font Awesome`](//fontawesome.com)  
+[`Hack`](//sourcefoundry.org/hack) - _Version 3.3.0_  
 
 ### Snippets
-[`glitch | sketch of three.js`](//ykob.github.io/sketch-threejs/sketch/glitch.html) by yoichi kobayashi
-`Jinja2 Tornado Stub` - https://bibhasdn.com/blog/using-jinja2-as-the-template-engine-for-tornado-web-framework/
+[`glitch | sketch of three.js`](//ykob.github.io/sketch-threejs/sketch/glitch.html) by yoichi kobayashi  
+`Jinja2 Tornado Stub` - https://bibhasdn.com/blog/using-jinja2-as-the-template-engine-for-tornado-web-framework/  
 
 ---
 ## License
