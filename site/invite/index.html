@@ -2,140 +2,444 @@
 <html lang="ja">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>CompClub 2019 Summer CTF</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
-  <link rel="stylesheet" href="/assets/css/normalize.min.css" />
-  <link rel='stylesheet' href='/assets/font/hack-subset.css'>
-  <link rel="stylesheet" href="/assets/css/bulma.min.css" />
-  <link rel="stylesheet" href="/assets/font/fa-password.css" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CompClub 2019 Summer CTF</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+    <link rel="stylesheet" href="/assets/css/normalize.min.css"/>
+    <link rel='stylesheet' href='/assets/font/hack-subset.css'>
+    <link rel="stylesheet" href="/assets/css/bulma.min.css"/>
+    <link rel="stylesheet" href="/assets/font/fa-password.css"/>
+
+    <style>
+        html,
+        body {
+            overflow: hidden;
+
+        }
+
+        * {
+            font-family: Hack, monospace !important;
+            cursor: pointer;
+        }
+
+        .is-vertical-center {
+            display: flex;
+            align-items: center;
+        }
+
+        .b-wrap {
+            height: 100vh;
+        }
+
+        .content {
+            width: 100%;
+            user-select: none;
+        }
+
+        .logo-compclub {
+            width: 50%;
+            min-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        input[type="password"].blueBox {
+            background-color: rgba(22, 131, 155, 0.22);
+            border-color: rgba(11, 126, 152, 0.22);
+            border-radius: 35px;
+        }
+
+        section {
+            transition: opacity 1.3s, max-height 1s, max-width 1s;
+            max-height: 100vh;
+            position: absolute;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        section.hide
+            /*, section.hide-opacity */
+        {
+            opacity: 0;
+            z-index: -99;
+
+        }
+
+        /*section.hide, section.hide-height {*/
+        /*max-height: 0;*/
+        /*}*/
+
+        .section[name=register] {
+            max-height: 100vh;
+            overflow-y: hidden;
+        }
+
+        .section[name=register] .page:not(.active) {
+            opacity: 0;
+            max-height: 0;
+            visibility: hidden;
+        }
+
+        .section .page {
+            transition: opacity 0.7s, visibility 0s 0.7s;
+            visibility: visible;
+        }
+
+        input[type=text].minimal {
+
+            /* background-color: rgba(22, 131, 155, 0.22); */
+            background-color: transparent;
+            outline: none;
+            border: none;
+            border-bottom: 5px solid white;
+            padding: 15px;
+        }
+
+        .page > h1 {
+            display: initial;
+        }
 
 
-  <style>
-    html,
-    body {
-      overflow: hidden;
-      cursor: pointer;
-    }
+    </style>
 
-    * {
-      font-family: Hack, monospace;
-    }
+    <script>
+        function getTimeSalutation() {
+            var hour = new Date().getHours()
 
-    .is-vertical-center {
-      display: flex;
-      align-items: center;
-    }
+            if (hour < 12) {
+                return "morning"
+            } else if (hour < 18) {
+                return "afternoon"
+            } else {
+                return "evening"
+            }
 
-    .b-wrap {
-      height: 100vh;
-    }
+        }
+    </script>
 
-    .content {
-      width: 100%;
-      user-select: none;
-    }
-
-    .logo-compclub {
-      width: 50%;
-      min-width: 400px;
-    }
-
-    input[type="password"] {
-      background-color: rgba(22, 131, 155, 0.22);
-      border-color: rgba(11, 126, 152, 0.22);
-      border-radius: 35px;
-    }
-  </style>
 </head>
 
 <body>
-  <div class="container is-vertical-center b-wrap has-text-centered">
-    <section class="content">
-      <img class="logo-compclub" src="/assets/img/compclub.logo.white.svg" />
-      <!-- <img/> LOGO -->
-      <h1 class="is-size-3 has-text-light">Your mission, should you choose to accept ...</h1>
-      <div class="field is-grouped is-grouped-centered">
-        <p class="control">
-          <a class="button is-success is-outlined is-large" href="/start">
-            YEET
-          </a>
-        </p>
-        <p class="control">
-          <a class="button is-danger is-outlined is-large" href="//www.youtube.com/watch?v=dQw4w9WgXcQ">
-            NOPE
-          </a>
-        </p>
-      </div>
-      <!-- <input class="input has-text-centered is-size-1  has-text-light" type="password" placeholder="Text input"> -->
-    </section>
-  </div>
+<div class="container is-vertical-center b-wrap has-text-centered">
+    <div class="content">
+        <img class="logo-compclub" src="/assets/img/compclub.logo.white.svg"/>
+        <!-- <img/> LOGO -->
+        <section class="section" name="invite">
+            <h1 class="is-size-3 has-text-light">Your mission, should you choose to accept ...</h1>
+            <div class="field is-grouped is-grouped-centered">
+                <p class="control">
+                    <a class="button is-success is-outlined is-large">
+                        YEET
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button is-danger is-outlined is-large" href="//www.youtube.com/watch?v=dQw4w9WgXcQ">
+                        NOPE
+                    </a>
+                </p>
+            </div>
 
-  <div class="background">
+        </section>
+        <section class="section hide" name="auth-type">
+            <h1 class="is-size-3 has-text-light">Are you new here?</h1>
+            <div class="field is-grouped is-grouped-centered">
+                <p class="control">
+                    <a class="button is-warning is-outlined is-large" name="register">
+                        REGISTER
+                    </a>
+                </p>
+                <p class="control">
+                    <a class="button is-warning is-outlined is-large" name="login">
+                        LOGIN
+                    </a>
+                </p>
+            </div>
+        </section>
+
+        <section class="section hide" name="login">
+            <div class="page" name="username">
+
+                <h1 class="is-size-1 has-text-light">Username: <input type="text"
+                                                                      name="username"
+                                                                      class="has-text-light minimal"
+                                                                      spellcheck="false"
+                                                                      required
+                                                                      placeholder="(your username)">.
+                </h1>
+
+            </div>
+            <div class="page" name="password">
+
+                <h1 class="is-size-1 has-text-light">Password: </h1>
+                <form><input class="input blueBox has-text-centered is-size-1 has-text-light" name="password"
+                             type="password"></form>
+
+            </div>
+        </section>
+        <section class="section hide" name="register">
+            <div class="page" name="name">
+                <style>
+
+                    .page[name=name] input.minimal {
+
+                        /* background-color: rgba(22, 131, 155, 0.22); */
+                        background-color: transparent;
+                        outline: none;
+                        border: none;
+                        border-bottom: 5px solid white;
+                        padding: 15px;
+                    }
+                </style>
+                <h1 class="is-size-1 has-text-light">Good <span class="salutation"></span>, Agent <input type="text"
+                                                                                                         name="name"
+                                                                                                         class="has-text-light minimal"
+                                                                                                         spellcheck="false"
+                                                                                                         required
+                                                                                                         placeholder="(your display name)">.
+                </h1>
+
+            </div>
+            <div class="page" name="username">
+
+                <h1 class="is-size-1 has-text-light">Username: <input type="text"
+                                                                      name="username"
+                                                                      class="has-text-light minimal"
+                                                                      spellcheck="false"
+                                                                      required
+                                                                      placeholder="(your username)">.
+                </h1>
+
+            </div>
+
+
+            <div class="page" name="password">
+
+                <h1 class="is-size-1 has-text-light">Password: </h1>
+                <form><input class="input blueBox has-text-centered is-size-1 has-text-light" name="password"
+                             type="password"></form>
+
+            </div>
+
+
+            <div class="page" name="password2">
+                <h1 class="is-size-1 has-text-light">Confirm: </h1>
+
+                <form>
+                    <input class="input blueBox has-text-centered is-size-1 has-text-light" name="password2"
+                           type="password"></form>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+<div class="background">
     <canvas id="backgroundCanvas"></canvas>
-  </div>
+</div>
 
-  <script src="/assets/js/three.min.js"></script>
-  <script src="backgroundFuzz.js"></script>
-  <script>
-    document.querySelectorAll('a.button').forEach(elem => {
-      elem.addEventListener('mouseover', () => document.querySelector('.background').classList.add('blur'))
-      elem.addEventListener('mouseout', () => document.querySelector('.background').classList.remove('blur'))
-    })
+<script type="text/javascript">
 
-    document.querySelector('a.button').addEventListener('click', (evt) => {
-        evt.preventDefault();
-        document.querySelector('.container').classList.add('hide')
-        setTimeout(function(){location.href="/start"}, 1000)
-    })
+</script>
+<script src="/assets/js/three.min.js"></script>
+<script src="backgroundFuzz.js"></script>
+<script>
+    (function inviteSection() {
+        const evtMouseover = function () {
+            document.querySelector('.background').classList.add('blur')
+        };
+        const evtMouseout = function () {
+            document.querySelector('.background').classList.remove('blur')
+        };
+
+        let elem = document.querySelector('.section[name=invite]');
+
+        elem.querySelectorAll('a.button').forEach(function (btn) {
+            btn.addEventListener('mouseover', evtMouseover);
+            btn.addEventListener('mouseout', evtMouseout);
+        });
+
+        elem.querySelector('a.button.is-success').addEventListener('click', function (evt) {
+            evt.preventDefault();
+            evtMouseover();
+            elem.querySelectorAll('a.button').forEach(function (elem) {
+                elem.removeEventListener('mouseover', evtMouseover);
+                elem.removeEventListener('mouseout', evtMouseout);
+            });
+            elem.classList.add('hide');
+            console.log("about to fire showAuthType");
+            setTimeout(showAuthType, 1300);
+        })
+    })();
 
 
+    (function authTypeSection() {
+        let elem = document.querySelector('.section[name=auth-type]');
+        const clickEvt = function (evt) {
+            elem.querySelectorAll('a.button[name=register]').forEach(function (btn) {
+                btn.removeEventListener('click', clickEvt);
+            });
+            elem.classList.add('hide');
 
-  </script>
+            switch (this.name) {
+                case "register":
+                    setTimeout(showRegister, 1300);
+                    break;
+                case "login":
+                    setTimeout(showLogin, 1300);
+                    break;
+            }
+        };
+        elem.querySelectorAll('a.button[name=register]').forEach(function (btn) {
+            btn.addEventListener('click', clickEvt)
+        })
+    })();
 
-  <style>
+    (function registerSection() {
+        let elem = document.querySelector('.section[name=register]');
+
+        var nameInput = elem.querySelector('input[name=name]');
+        var usernameInput = elem.querySelector('input[name=username]');
+        var passwordInput = elem.querySelector('input[name=password]');
+        var password2Input = elem.querySelector('input[name=password2]');
+
+        var nameElem = elem.querySelector('.page[name=name]');
+        var usernameElem = elem.querySelector('.page[name=username]');
+        var passwordElem = elem.querySelector('.page[name=password]');
+        var password2Elem = elem.querySelector('.page[name=password2]');
+
+        nameInput.addEventListener('keypress', verifyKeyEvent(function () {
+            nameElem.classList.remove('active');
+            usernameElem.classList.add('active');
+            usernameInput.focus()
+        }))
+
+        usernameInput.addEventListener('keypress', verifyKeyEvent(function () {
+            // Check if username used
+            usernameElem.classList.remove('active');
+            passwordElem.classList.add('active');
+            passwordInput.focus()
+        }))
+
+
+        passwordInput.addEventListener('keypress', verifyKeyEvent(function () {
+            // Password validate
+            password2Input.value = "";
+            passwordElem.classList.remove('active');
+            password2Elem.classList.add('active');
+            password2Elem.focus()
+        }))
+
+        password2Input.addEventListener('keypress', verifyKeyEvent(function () {
+            password2Elem.classList.remove('active');
+
+            if (password2Input.value == passwordInput.value) {
+                // try register
+            } else {
+                // Probably add some flag here
+                passwordInput.value = ""
+                passwordElem.classList.add('active');
+                passwordInput.focus()
+            }
+            // password.classList.remove('active');
+        }))
+
+
+    })();
+
+    (function loginSection() {
+        let elem = document.querySelector('.section[name=login]');
+
+        var usernameInput = elem.querySelector('input[name=username]');
+        var passwordInput = elem.querySelector('input[name=password]');
+
+        var usernameElem = elem.querySelector('.page[name=username]');
+        var passwordElem = elem.querySelector('.page[name=password]');
+
+        usernameInput.addEventListener('keypress', verifyKeyEvent(function () {
+            usernameElem.classList.remove('active');
+            passwordElem.classList.add('active');
+            passwordInput.focus()
+        }))
+
+        passwordInput.addEventListener('keypress', verifyKeyEvent(function () {
+            // Logon
+            passwordElem.classList.remove('active');
+
+        }))
+
+    })();
+
+    function showAuthType() {
+        var elem = document.querySelector('.section[name=auth-type]');
+        elem.classList.remove('hide');
+    }
+
+    function verifyKeyEvent(cb_true, cb_false) {
+        return function (evt) {
+            evt = evt || window.event;
+            var charCode = evt.which || evt.keyCode;
+            if (charCode === 13) {
+                evt.preventDefault();
+                var name = this.value.trim();
+                ((name.length ? cb_true : cb_false) || function () {
+                })(evt);
+            }
+        }
+    }
+
+
+    // register stuff
+    function showRegister() {
+        console.log('register');
+        var elem = document.querySelector('.section[name=register]');
+        elem.classList.remove('hide');
+
+        var page_name = elem.querySelector('.page[name=name]');
+
+        page_name.classList.add('active');
+        page_name.querySelector('.salutation').innerText = getTimeSalutation();
+        page_name.querySelector('input[name=name]').focus()
+
+    }
+
+
+    ///
+</script>
+
+<style>
     .background {
-      position: fixed;
-      left: 0;
-      top: 0;
-      z-index: -1;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: -1;
     }
 
     .background:after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      transition: all 1s;
-      background-color: rgba(0, 35, 88, 0.7);
-      /* opacity: 1; */
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        transition: all 1s;
+        background-color: rgba(0, 35, 88, 0.7);
+        /* opacity: 1; */
     }
 
     .background canvas {
-      transition: filter, transform 1s;
+        transition: filter, transform 1s;
     }
 
-    .background.blur:after, .container.hide + .background:after  {
-      background-color: rgba(0, 16, 40, 0.9);
+    .background.blur:after {
+        background-color: rgba(0, 16, 40, 0.9);
     }
 
-    .background.blur canvas, .container.hide + .background canvas  {
-      filter: blur(5px);
-      transform: scale(1.2);
+    .background.blur canvas {
+        filter: blur(5px);
+        transform: scale(1.2);
     }
-  </style>
-  <style>
-    .container {
-      transition: opacity 1.3s;
-    }
-    .container.hide {
-      opacity: 0;
+</style>
 
-    }
-  </style>
 </body>
 
 </html>
