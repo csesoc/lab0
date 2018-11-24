@@ -38,17 +38,17 @@ def fetchAll(*args, **kwargs):
     return result
 
 
-def insert(*args, **kwargs):
+def insert(*args, commit = True, **kwargs):
     c = conn.cursor()
     c.execute(*args, **kwargs)
-    if kwargs.get('commit'): conn.commit()
+    if commit: conn.commit()
     return c.lastrowid
 
 
-def update(*args, **kwargs):
+def update(*args, commit = True, **kwargs):
     c = conn.cursor()
     c.execute(*args, **kwargs)
-    if kwargs.get('commit'): conn.commit()
+    if commit: conn.commit()
     return c.rowcount
 
 
