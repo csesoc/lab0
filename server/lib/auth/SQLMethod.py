@@ -1,30 +1,38 @@
-from .SQLQuery import SQLQuery
-from .. import database
 from typing import Union
 
-userType = Union[int, str]
+from .SQLQuery import SQLQuery
+
 
 class SQLMethod:
     @staticmethod
-    def createUser():
-        pass
+    def createUser(username: str, name: str, hash: str, salt: str):
+        return database.insert(SQLQuery.add, (username, name, hash, salt))
 
     @staticmethod
-    def deleteUser(user: userType):
-        pass
+    def deleteUser(user: int):
+        return database.update(SQLQuery.delete, (user,))
 
     @staticmethod
-    def changePassword(user: userType, password: str):
-        pass
+    def changeHashSalt(user: int, hash: str, salt: str):
+        return database.update(SQLQuery.changeHashSalt, (hash, salt, user))
 
     @staticmethod
-    def changeName(user: userType, name: str):
-        pass
-    
+    def changeName(user: int, name: str):
+        return database.update(SQLQuery.changeName, (name, user))
+
     @staticmethod
-    def checkPassword(user: userType, password: str):
-        pass
-    
+    def checkPassword(username: str, password: str):
+        return database.fetchOne(SQLQuery.passwordCheck, (username, password))
+
     @staticmethod
-    def getUserData(user: userType):
-        pass
+    def getUser(user: Union[str, int]):
+        if type(user) is str:
+            return database.fetchOne(SQLQuery.getUserByUsername, (user,))
+        else:
+            return database.fetchOne(SQLQuery.getUserById, (user,))
+
+
+from .. import database
+from .Tools import passwordHash
+
+database.conn.create_function("cHash", 2, passwordHash)

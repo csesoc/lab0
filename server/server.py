@@ -1,6 +1,3 @@
-import tornado.ioloop
-import tornado.web
-
 from lib import config, database
 
 if __name__ == "__main__":
@@ -11,12 +8,14 @@ if __name__ == "__main__":
     app = tornado.web.Application([
         # ("/(.*)", SiteHandler)
     ],
-        cookie_secret="ABC",
+        cookie_secret = "ABC",
         # xsrf_cookies = True,
-        login_url="/login/"
+        login_url = "/login/"
     )
 
     if database.conn is not None:
+        import lib.auth
+        lib.auth.initDatabase()
         import lib.ctf
         lib.ctf.initDatabase()
 
