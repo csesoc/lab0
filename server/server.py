@@ -55,7 +55,11 @@ def run(file: str = None, **kwargs):
     except OSError:
         print("Port", port, "is in use!\nAborting...")
         return
-        
+
+    print("TODO")
+    print("- Concurrent SQLCursors")
+    print("- Session token cleanup")
+
     print("Server running on port", port)
     tornado.ioloop.IOLoop.current().start()
 
