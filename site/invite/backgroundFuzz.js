@@ -1,5 +1,6 @@
 // Shout out to ykob (github.com/ykob/sketch-threejs)
 
+(function(){
 // var THREE = require('three')
 
 const debounce = function (callback, duration) {
@@ -16,10 +17,6 @@ const normalizeVector2 = function (vector) {
   vector.x = (vector.x / document.body.clientWidth) * 2 - 1;
   vector.y = - (vector.y / window.innerHeight) * 2 + 1;
 };
-
-
-
-
 
 var BackgroundImage_vertexShader = `
 attribute vec3 position;
@@ -424,4 +421,5 @@ class PostEffect {
     renderLoop();
   }
   init();
+})()
 })()
