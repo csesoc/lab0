@@ -136,18 +136,14 @@
             var style = style.sheet;
             var options = location.hash.substr(1).split(",");
 
-
-            /*
-                noSplash -> go to register / login
-                register -> accept goes to register
-                login -> go to login
-                noSplash,register -> go to register
-             */
-
             // Set stylesheet before page load
             if (options.has("nosplash")) {
                 style.insertRule("section[name=invite]{display:none!important}");
             }
+
+            window.addEventListener('hashchange', function () {
+                location.reload()
+            })
 
             document.addEventListener('DOMContentLoaded', function () {
 
@@ -165,11 +161,7 @@
                         document.querySelector('section[name=invite] a.button.is-success').clickOverride = showRegister
                     }
                 } else if (options.has("login")) {
-                    if (options.has("nosplash")) {
-                        showLogin()
-                    } else {
-                        document.querySelector('section[name=invite] a.button.is-success').clickOverride = showLogin
-                    }
+                    showLogin()
                 }
             })
         })()
