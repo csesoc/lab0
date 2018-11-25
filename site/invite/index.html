@@ -18,6 +18,7 @@
 
         * {
             font-family: Hack, monospace !important;
+
             cursor: pointer;
         }
 
@@ -51,8 +52,15 @@
             box-shadow: none;
         }
 
+        input[type=password].blueBox::placeholder {
+            text-align: center;
+            color: #6c6c6c !important;
+            font-family: Hack, monospace !important;
+        }
+
         input::placeholder {
             text-align: center;
+            font-family: Hack, monospace !important;
         }
 
         section {
@@ -85,9 +93,12 @@
             pointer-events: none;
         }
 
-        .section[name=login] input::placeholder {
-            color: #f5f5f5;
+        .section[name=login] input[name=password] {
+            transition: opacity 0.5s;
+        }
 
+        .section[name=login] input[name=password]:not(.ready) {
+            opacity: 0;
         }
 
         .section .page {
@@ -113,8 +124,59 @@
 
 
     </style>
-
     <script>
+        (function () {
+            Array.prototype.has = function (obj) {
+                return this.indexOf(obj) > -1
+            }
+
+            var style = document.createElement("style");
+            document.head.appendChild(style); // must append before you can access sheet property
+
+            var style = style.sheet;
+            var options = location.hash.substr(1).split(",");
+
+
+            /*
+                noSplash -> go to register / login
+                register -> accept goes to register
+                login -> go to login
+                noSplash,register -> go to register
+             */
+
+            // Set stylesheet before page load
+            if (options.has("nosplash")) {
+                style.insertRule("section[name=invite]{display:none!important}");
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+                if (options.has("nosplash")) {
+                    document.querySelector('.background').classList.add('blur');
+                    if (options.length === 1) {
+                        document.querySelector('section[name=auth-type]').classList.remove('hide')
+                    }
+                }
+
+                if (options.has("register")) {
+                    if (options.has("nosplash")) {
+                        showRegister()
+                    } else {
+                        document.querySelector('section[name=invite] a.button.is-success').clickOverride = showRegister
+                    }
+                } else if (options.has("login")) {
+                    if (options.has("nosplash")) {
+                        showLogin()
+                    } else {
+                        document.querySelector('section[name=invite] a.button.is-success').clickOverride = showLogin
+                    }
+                }
+            })
+        })()
+    </script>
+    <script>
+
+
         function getTimeSalutation() {
             var hour = new Date().getHours()
 
@@ -170,16 +232,16 @@
 
         <section class='section hide' name='login'>
             <form>
-
                 <input type='text'
                        name='username'
                        class='is-size-1 has-text-light minimal has-text-centered'
                        spellcheck='false'
-                       required
+                       pattern="\w."
+                       maxlength="20"
                        placeholder='username'>
 
                 <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password'
-                       type='password' placeholder='password'>
+                       type='password' placeholder="password">
             </form>
 
         </section>
@@ -203,7 +265,8 @@
                                                                                                              class='has-text-light minimal'
                                                                                                              spellcheck='false'
                                                                                                              required
-                                                                                                             placeholder='(your display name)'>.
+                                                                                                             placeholder='(your display name)'
+                                                                                                             maxlength="20">.
                     </h1>
 
                 </div>
@@ -212,14 +275,15 @@
                                                                           name='username'
                                                                           class='has-text-light minimal'
                                                                           spellcheck='false'
-                                                                          required
+                                                                          pattern="\w."
+                                                                          maxlength="20"
                                                                           placeholder='(your username)'></h1>
 
                 </div>
 
 
                 <div class='page' name='password'>
-                    <h1 class='is-size-1 has-text-light'>password: </h1>
+                    <h1 class='is-size-1 has-text-light'>password</h1>
                     <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password'
                            type='password'>
 
@@ -227,7 +291,7 @@
 
 
                 <div class='page' name='password2'>
-                    <h1 class='is-size-1 has-text-light'>Confirm: </h1>
+                    <h1 class='is-size-1 has-text-light'>confirm</h1>
                     <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password2'
                            type='password'>
                 </div>
@@ -269,7 +333,7 @@
                 elem.removeEventListener('mouseout', evtMouseout);
             });
             elem.classList.add('hide');
-            setTimeout(showAuthType, 1300);
+            setTimeout(this.clickOverride || showAuthType, 1300);
         })
     })();
 
@@ -309,21 +373,37 @@
         var passwordElem = elem.querySelector('.page[name=password]');
         var password2Elem = elem.querySelector('.page[name=password2]');
 
-        nameInput.addEventListener('keypress', verifyKeyEvent(function () {
+        nameInput.addEventListener('keypress', validateEnterEvent(function () {
             nameElem.classList.remove('active');
             usernameElem.classList.add('active');
             usernameInput.focus()
         }))
 
-        usernameInput.addEventListener('keypress', verifyKeyEvent(function () {
+        usernameInput.addEventListener('keypress', validateEnterEvent(function () {
             // Check if username used
-            usernameElem.classList.remove('active');
-            passwordElem.classList.add('active');
-            passwordInput.focus()
+            fetch('/api/v1/auth/usernameAvailable', {
+                method: 'post',
+                body: JSON.stringify({
+                    username: usernameInput.value,
+                })
+            })
+                .then(response => response.json())
+                .then(jsonData => {
+                    console.log(jsonData)
+                    if (jsonData.status === true) {
+                        usernameElem.classList.remove('active');
+                        passwordElem.classList.add('active');
+                        passwordInput.focus()
+                    } else {
+                        usernameInput.placeholder = 'username taken';
+                        usernameInput.value = '';
+                        usernameInput.focus();
+                    }
+                })
         }))
 
 
-        passwordInput.addEventListener('keypress', verifyKeyEvent(function () {
+        passwordInput.addEventListener('keypress', validateEnterEvent(function () {
             // Password validate
             password2Input.value = '';
             passwordElem.classList.remove('active');
@@ -331,11 +411,28 @@
             password2Input.focus()
         }))
 
-        password2Input.addEventListener('keypress', verifyKeyEvent(function () {
+        password2Input.addEventListener('keypress', validateEnterEvent(function () {
             password2Elem.classList.remove('active');
 
-            if (password2Input.value == passwordInput.value) {
-                // try register
+            if (password2Input.value === passwordInput.value) {
+
+
+                fetch('/api/v1/auth/register', {
+                    method: 'post',
+                    body: JSON.stringify({
+                        name: nameInput.value.trim(),
+                        username: usernameInput.value.trim(),
+                        password: passwordInput.value
+                    })
+                })
+                    .then(response => response.json())
+                    .then(jsonData => {
+                        if (jsonData.status === true) {
+                            location.href = '/'
+                        } else {
+                            location.reload()
+                        }
+                    })
             } else {
                 // Probably add some flag here
                 passwordInput.value = ''
@@ -354,11 +451,12 @@
         var usernameInput = elem.querySelector('input[name=username]');
         var passwordInput = elem.querySelector('input[name=password]');
 
-        usernameInput.addEventListener('keypress', verifyKeyEvent(function () {
+        usernameInput.addEventListener('keypress', validateEnterEvent(function () {
+            passwordInput.classList.add('ready')
             passwordInput.focus()
         }));
 
-        passwordInput.addEventListener('keypress', verifyKeyEvent(function () {
+        passwordInput.addEventListener('keypress', validateEnterEvent(function () {
             // Logon
             fetch('/api/v1/auth/login', {
                 method: 'post',
@@ -374,6 +472,7 @@
                         location.href = '/'
                     } else {
                         usernameInput.value = '';
+                        usernameInput.placeholder = 'sorry, try again';
                         passwordInput.value = '';
                         usernameInput.focus();
                     }
@@ -387,7 +486,7 @@
         elem.classList.remove('hide');
     }
 
-    function verifyKeyEvent(cb_true, cb_false) {
+    function validateEnterEvent(cb_true, cb_false) {
         return function (evt) {
             evt = evt || window.event;
             var charCode = evt.which || evt.keyCode;
@@ -424,6 +523,15 @@
 
     }
 
+    Array.from(document.querySelectorAll('input[type=text]')).forEach(function (elem) {
+
+        if (elem.pattern) {
+            var regexReplacer = new RegExp("[^" + elem.pattern + "]", "g");
+            elem.addEventListener('input', function () {
+                this.value = this.value.replace(regexReplacer, "")
+            });
+        }
+    })
     ///
 </script>
 
@@ -460,7 +568,6 @@
         transform: scale(1.2);
     }
 </style>
-
 </body>
 
 </html>
