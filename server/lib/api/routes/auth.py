@@ -25,7 +25,7 @@ def login(self: tornado.web.RequestHandler, args: dict):
 def register(self: tornado.web.RequestHandler, args: dict):
     self.request: tornado.httputil.HTTPServerRequest
     if "name" and "username" and "password" in args:
-        uid = authTools.createUser(args["username"], args["password"], args["user"])
+        uid = authTools.createUser(args["username"], args["password"], args["name"])
         if uid is not None:
             token = createSession(uid)
             self.set_secure_cookie('session', token)
