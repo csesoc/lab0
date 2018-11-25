@@ -1,6 +1,64 @@
-html,body {
-    background-color: #151a17;
-    overflow-y:hidden;;
+html, body {
+    /*background-color: #151a17;*/
+    overflow-y: hidden;
+}
+
+div.background {
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /*background-image: url(../img/worldmap.background.svg);*/
+    background-color: black;
+}
+
+div.background:after {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 35, 88, 0.7);
+}
+
+div.background img, div.background svg {
+    height: 100%;
+    width: 100%;
+}
+
+/* Dot colour */
+div.background svg .points path {
+    fill: white;
+}
+
+/* Region tracer effect */
+div.background svg path:not(:hover) {
+    transition: fill 6.5s;
+}
+
+div.background svg path:hover {
+    fill: red
+}
+
+/* Region hover effect */
+/* Originally wanted to do a fill transition, but it conflicted with the tracer points */
+div.background svg g.points {
+    transition: opacity .5s;
+}
+
+div.background svg g.regions g:hover g.points {
+    opacity: 0.7;
+}
+
+/* Hide mouse area regions */
+div.background svg g.mouseArea {
+    opacity: 0;
+}
+
+div.background svg g.mouseArea path {
+    fill: #6ABD45;
 }
 
 .slideout {
@@ -10,8 +68,9 @@ html,body {
     right: 0;
 }
 
-
-        * {
-            font-family: Hack, monospace !important;
-            cursor: pointer;
-        }
+* {
+    font-family: Hack, monospace !important;
+    /*cursor: pointer;*/
+    cursor: crosshair;
+    user-select: none;
+}

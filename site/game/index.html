@@ -146,6 +146,10 @@
 
 
 <style>
+    body > div.container {
+        pointer-events: none;
+    }
+
     article {
         cursor: pointer;
         border: 1px #dbdbdb !important;
@@ -162,6 +166,7 @@
 
     article.tile.is-child {
         margin: 5px !important;
+        pointer-events: auto;
     }
 
     @media screen and (min-width: 769px) {

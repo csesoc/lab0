@@ -22,12 +22,32 @@
     {% block head %}{% endblock %}
 </head>
 <body class="has-navbar-fixed-bottom">
+<div class="background scanlines">
+    <img class="svg" src="/assets/img/worldmap.background.svg"></img>
+</div>
+
+<link rel='stylesheet' href='/assets/css/codepen.css'/>
+
+<script>
 
 
+    Array.from(document.querySelectorAll('img.svg')).forEach(img => {
+        fetch(img.src).then(content => content.text()).then(data => {
+            // var svgElem = document.createElement('svg');
+            // svgElem.innerHTML = data  // Well ain't this look XSS-able
+            img.classList.remove('svg');
+            var svg = new DOMParser().parseFromString(data, "image/svg+xml").querySelector('svg');
+            svg.classList = img.classList;
+
+            img.parentElement.replaceChild(svg, img)
+            //svgElem)
+        })
+    })
+</script>
 <div class="slideout has-background-dark has-text-centered">
     <p>Rank</p>
 </div>
- {% block content %}{% endblock %}
+{% block content %}{% endblock %}
 <!--<section class="hero is-primary">-->
 <!--<div class="hero-body">-->
 <!--<div class="container">-->
@@ -55,6 +75,8 @@
         </a>
     </div>
 </nav>
+
+
 </body>
 <!-- Site by Andrew Wong -->
 <!-- github.com/featherbear/UNSW-CompClub2019Summer-CTF -->
