@@ -14,7 +14,6 @@
         html,
         body {
             overflow: hidden;
-
         }
 
         * {
@@ -48,6 +47,10 @@
             border-radius: 35px;
         }
 
+        input[type=password].blueBox:focus {
+            box-shadow: none;
+        }
+
         input::placeholder {
             text-align: center;
         }
@@ -64,8 +67,8 @@
             /*, section.hide-opacity */
         {
             opacity: 0;
-            z-index: -99;
-
+            pointer-events: none;
+            /*z-index: -99;*/
         }
 
         /*section.hide, section.hide-height {*/
@@ -74,13 +77,12 @@
 
         .section[name=register] {
             max-height: 100vh;
-            overflow-y: hidden;
+            /*overflow-y: hidden;*/
         }
 
         .section[name=register] .page:not(.active) {
             opacity: 0;
-            max-height: 0;
-            visibility: hidden;
+            pointer-events: none;
         }
 
         .section[name=login] input::placeholder {
@@ -89,12 +91,14 @@
         }
 
         .section .page {
-            transition: opacity 0.7s, visibility 0s 0.7s;
-            visibility: visible;
+            transition: opacity 0.7s;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
         }
 
         input[type=text].minimal {
-
             /* background-color: rgba(22, 131, 155, 0.22); */
             background-color: transparent;
             outline: none;
@@ -130,7 +134,7 @@
 <body>
 <div class='container is-vertical-center b-wrap has-text-centered'>
     <div class='content'>
-        <img class='logo-compclub' src='/assets/img/compclub.logo.white.svg'/>
+        <img class='logo-compclub' src='/assets/img/compclub.logo.white.svg' style="margin-top: -10vh"/>
         <!-- <img/> LOGO -->
         <section class='section' name='invite'>
             <h1 class='is-size-3 has-text-light'>Your mission, should you choose to accept ...</h1>
@@ -165,73 +169,69 @@
         </section>
 
         <section class='section hide' name='login'>
+            <form>
 
+                <input type='text'
+                       name='username'
+                       class='is-size-1 has-text-light minimal has-text-centered'
+                       spellcheck='false'
+                       required
+                       placeholder='username'>
 
-            <input type='text'
-                   name='username'
-                   class='is-size-1 has-text-light minimal has-text-centered'
-                   spellcheck='false'
-                   required
-                   placeholder='username'>
-
-            <form><input class='input blueBox has-text-centered is-size-1 has-text-light' name='password'
-                         type='password' placeholder='password'></form>
-
+                <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password'
+                       type='password' placeholder='password'>
+            </form>
 
         </section>
         <section class='section hide' name='register'>
-            <div class='page' name='name'>
-                <style>
+            <form>
+                <div class='page' name='name'>
+                    <style>
 
-                    .page[name=name] input.minimal {
+                        .page[name=name] input.minimal {
 
-                        /* background-color: rgba(22, 131, 155, 0.22); */
-                        background-color: transparent;
-                        outline: none;
-                        border: none;
-                        border-bottom: 5px solid white;
-                        padding: 15px;
-                    }
-                </style>
-                <h1 class='is-size-1 has-text-light'>Good <span class='salutation'></span>, Agent <input type='text'
-                                                                                                         name='name'
-                                                                                                         class='has-text-light minimal'
-                                                                                                         spellcheck='false'
-                                                                                                         required
-                                                                                                         placeholder='(your display name)'>.
-                </h1>
+                            /* background-color: rgba(22, 131, 155, 0.22); */
+                            background-color: transparent;
+                            outline: none;
+                            border: none;
+                            border-bottom: 5px solid white;
+                            padding: 15px;
+                        }
+                    </style>
+                    <h1 class='is-size-1 has-text-light'>Good <span class='salutation'></span>, Agent <input type='text'
+                                                                                                             name='name'
+                                                                                                             class='has-text-light minimal'
+                                                                                                             spellcheck='false'
+                                                                                                             required
+                                                                                                             placeholder='(your display name)'>.
+                    </h1>
 
-            </div>
-            <div class='page' name='username'>
+                </div>
+                <div class='page' name='username'>
+                    <h1 class='is-size-1 has-text-light'>Username: <input type='text'
+                                                                          name='username'
+                                                                          class='has-text-light minimal'
+                                                                          spellcheck='false'
+                                                                          required
+                                                                          placeholder='(your username)'></h1>
 
-                <h1 class='is-size-1 has-text-light'>Username: <input type='text'
-                                                                      name='username'
-                                                                      class='has-text-light minimal'
-                                                                      spellcheck='false'
-                                                                      required
-                                                                      placeholder='(your username)'>.
-                </h1>
-
-            </div>
-
-
-            <div class='page' name='password'>
-
-                <h1 class='is-size-1 has-text-light'>Password: </h1>
-                <form><input class='input blueBox has-text-centered is-size-1 has-text-light' name='password'
-                             type='password'></form>
-
-            </div>
+                </div>
 
 
-            <div class='page' name='password2'>
-                <h1 class='is-size-1 has-text-light'>Confirm: </h1>
+                <div class='page' name='password'>
+                    <h1 class='is-size-1 has-text-light'>password: </h1>
+                    <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password'
+                           type='password'>
 
-                <form>
+                </div>
+
+
+                <div class='page' name='password2'>
+                    <h1 class='is-size-1 has-text-light'>Confirm: </h1>
                     <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password2'
-                           type='password'></form>
-            </div>
-
+                           type='password'>
+                </div>
+            </form>
         </section>
     </div>
 </div>
@@ -277,9 +277,9 @@
     (function authTypeSection() {
         let elem = document.querySelector('.section[name=auth-type]');
         const clickEvt = function (evt) {
-            elem.querySelectorAll('a.button[name=register]').forEach(function (btn) {
-                btn.removeEventListener('click', clickEvt);
-            });
+            // elem.querySelectorAll('a.button[name=register]').forEach(function (btn) {
+            //     btn.removeEventListener('click', clickEvt);
+            // });
             elem.classList.add('hide');
 
             switch (this.name) {
@@ -328,7 +328,7 @@
             password2Input.value = '';
             passwordElem.classList.remove('active');
             password2Elem.classList.add('active');
-            password2Elem.focus()
+            password2Input.focus()
         }))
 
         password2Input.addEventListener('keypress', verifyKeyEvent(function () {
@@ -392,6 +392,7 @@
             evt = evt || window.event;
             var charCode = evt.which || evt.keyCode;
             if (charCode === 13) {
+                console.log(evt)
                 evt.preventDefault();
                 var name = this.value.trim();
                 ((name.length ? cb_true : cb_false) || function () {
