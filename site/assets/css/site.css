@@ -31,6 +31,8 @@ div.background img, div.background svg {
 /* Dot colour */
 div.background svg .points path {
     fill: white;
+    stroke: transparent;
+    stroke-width: 5px;
 }
 
 /* Region tracer effect */
@@ -45,11 +47,11 @@ div.background svg path:hover {
 /* Region hover effect */
 /* Originally wanted to do a fill transition, but it conflicted with the tracer points */
 div.background svg g.points {
-    transition: opacity .5s;
+    transition: opacity 1s;
 }
 
-div.background svg g.regions g:hover g.points {
-    opacity: 0.7;
+div.background svg g.regions g:not(:hover) g.points, div.background svg > g.points path:not(:hover) {
+    opacity: 0.3;
 }
 
 /* Hide mouse area regions */
