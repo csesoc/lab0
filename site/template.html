@@ -33,8 +33,6 @@
 
     Array.from(document.querySelectorAll('img.svg')).forEach(img => {
         fetch(img.src).then(content => content.text()).then(data => {
-            // var svgElem = document.createElement('svg');
-            // svgElem.innerHTML = data  // Well ain't this look XSS-able
             img.classList.remove('svg');
             var svg = new DOMParser().parseFromString(data, "image/svg+xml").querySelector('svg');
             svg.classList = img.classList;
@@ -74,9 +72,42 @@
             <span aria-hidden="true"></span>
         </a>
     </div>
+    <div class="navbar-menu">
+        <!--
+        You can add the following modifier classes:
+
+is-expanded to turn it into a full-width element
+is-tab to add a bottom border on hover and show the bottom border using is-active
+
+        -->
+
+        <div class="navbar-start">
+            <!-- navbar items -->
+        </div>
+
+        <div class="navbar-end">
+            <!-- navbar items -->
+            <div class="navbar-item" name="mouseCoordinates">
+                <div name="mouseX"></div>
+                <div name="mouseY"></div>
+            </div>
+        </div>
+    </div>
 </nav>
 
+<script>
+    (() => {
+        let x = document.querySelector('.navbar [name=mouseCoordinates] [name=mouseX]');
+        let y = document.querySelector('.navbar [name=mouseCoordinates] [name=mouseY]');
 
+        document.body.addEventListener('mousemove', evt => {
+            // var elem = document.querySelector( ".regions g:hover .mouseArea");
+            // if (elem) console.log(elem.getAttribute('data-text'))
+            x.innerText = evt.clientX;
+            y.innerText = evt.clientY;
+        })
+    })()
+</script>
 </body>
 <!-- Site by Andrew Wong -->
 <!-- github.com/featherbear/UNSW-CompClub2019Summer-CTF -->
