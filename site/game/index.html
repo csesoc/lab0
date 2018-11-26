@@ -1,50 +1,190 @@
 {% extends "template.html" %}
 {% block content %}
+<style>
+    #questionModal .modal-card > * {
+        border: 2px solid rgba(22, 131, 155, 0.5);
+    }
+
+    #questionModal .modal-card header, #questionModal .modal-card footer {
+        background-color: rgba(22, 131, 155, 0.5);
+    }
+
+    #questionModal .modal-card section {
+        background-color: rgba(11, 126, 152, 0.22);
+    }
+
+    #questionModal.solved [name=title]::before {
+        content: "[solved] ";
+        color: hsl(0, 0%, 71%);
+    }
+
+    #questionModal [name=solves]:not(:empty)::before {
+        content: "solves: ";
+    }
+
+    #questionModal [name=solves] {
+        flex-grow: 1;
+    }
+
+    #questionModal [name=category]:not(:empty)::before {
+        content: ": "
+    }
+
+    #questionModal [name=value]::after {
+        content: " pts";
+    }
+
+    #questionModal:not(.solved) [name=value] {
+        transition: color 0.5s;
+    }
+
+    #questionModal [name=value].solved, #questionModal.solved [name=value] {
+        color: green;
+    }
+
+    #questionModal iframe {
+        width: 100%;
+    }
+</style>
+<style>
+    article {
+        transition: box-shadow 250ms;
+        background-color: rgba(22, 131, 155, 0.3) !important;
+    }
+
+    article:hover {
+        box-shadow: inset 0 0 60px rgba(11, 126, 152, 0.5);
+        color: white;
+    }
+
+    article.solved {
+        filter: saturate(0);
+    }
+
+</style>
 <div id="questionModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title"></p>
+            <p class="modal-card-title has-text-light">
+                <span name="title"></span>
+                <span class="has-text-grey-light" name="category"></span>
+            </p>
+            <button class="delete cancel" aria-label="close"></button>
+
         </header>
         <section class="modal-card-body">
+            <iframe name="description" sandbox seamless></iframe>
+            <form>
+                <div class="field is-grouped">
+                    <p class="control is-expanded">
+                        <input class="input blueBox has-text-centered has-text-light" name="flag" type="text"
+                               placeholder="FLAG{...}"
+                               spellcheck="false">
+                    </p>
+                    <p class="control">
+                        <a class="button">
+                            SUBMIT
+                        </a>
+                    </p>
+                </div>
+            </form>
         </section>
-        <footer class="modal-card-foot">
-            <!-- Statistics go here -->
-            <button class="button is-success confirm"> Changes</button>
-            <button class="button cancel">Cancel</button>
+        <footer class="modal-card-foot has-text-light">
+            <span name="solves"></span>
+            <div name="value"></div>
         </footer>
     </div>
 </div>
 
 <script>
-    function openModalQuestion(questionID, /*onConfirm*/ /*, onCancel*/) {
-        var modal = document.getElementById('questionModal');
+    Array.prototype.has = function (obj) {
+        return this.indexOf(obj) > -1
+    }
 
-        const closeModal = function () {
-            modal.querySelector('button.confirm').removeEventListener('click', confirmEvent)
-            modal.querySelector('button.cancel').removeEventListener('click', cancelEvent)
-            modal.querySelector('.modal-background').removeEventListener('click', cancelEvent)
-            modal.classList.remove('is-active');
+
+    function openModalQuestion(questionData, srcElem) {
+        var modal = document.getElementById('questionModal');
+        console.log(questionData.id)
+        console.log(solves)
+        modal.classList.toggle('solved', solves.has(questionData.id))
+
+        fetch('/api/v1/ctf/questionSolves.json', {
+            method: 'post',
+            body: JSON.stringify({
+                question: questionData.id,
+            })
+        })
+            .then(response => response.json())
+            .then(jsonData => {
+                if (jsonData.status) {
+                    modal.querySelector('[name=solves]').innerText = jsonData.data;
+                }
+            })
+
+        modal.querySelector("[name=flag]").value = questions[questionData.id].inputValue || "";
+        modal.querySelector('[name=title]').innerText = questionData.title
+        modal.querySelector('[name=category]').innerText = categories[questionData.category] || "";
+        modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
+
+        modal.querySelector('form .button').onclick = () => {
+            modal.querySelector("[name=flag]").form.dispatchEvent(new Event('submit'))
         }
 
-        const confirmEvent = function (evt) {
-            evt.target.classList.add('is-loading')
-            fetch('delete', {
+        // this.querySelector('form .button').onclick
+        function flagSubmissionDisable() {
+            modal.querySelector('form .input').disabled = true;
+            modal.querySelector('form .button').disabled = true;
+        }
+
+        function flagSubmissionEnable() {
+            modal.querySelector('form .input').disabled = false;
+            modal.querySelector('form .button').disabled = false;
+        }
+
+        modal.querySelector('form').addEventListener('submit', function (evt) {
+            evt.preventDefault();
+            if (!modal.querySelector("[name=flag]").value.trim()) return;
+
+            modal.querySelector('form .button').classList.add('is-loading')
+
+            flagSubmissionDisable()
+            var flagValue = modal.querySelector("[name=flag]").value.trim()
+
+            fetch('/api/v1/ctf/solve', {
                 method: 'post',
-                body: JSON.stringify({id: noticeID})
+                body: JSON.stringify({
+                    question: questionData.id,
+                    flag: flagValue
+                })
             })
                 .then(response => response.json())
                 .then(jsonData => {
-                    evt.target.classList.remove('is-loading')
+                    flagSubmissionEnable()
+                    modal.querySelector('form .button').classList.remove('is-loading');
                     if (jsonData.status) {
-                        var tile = document.getElementById('tile' + noticeID).parentElement.parentElement
-                        tile.parentElement.removeChild(tile)
-                        // reflow()
-                        closeModal();
+                        if (!solves.has(questionData.id)) {
+                            solves.push(questionData.id)
+                            modal.querySelector('[name=solves]').innerText = parseInt(modal.querySelector('[name=solves]').innerText) + 1
+                        }
+                        modal.querySelector('[name=value]').classList.add('solved')
+                        srcElem.classList.add('solved')
                     } else {
-                        // what to do if there's an error?
                     }
                 })
+        })
+        modal.querySelector('[name=value]').innerText = questionData.value;
+
+
+        const closeModal = function () {
+            questions[questionData.id].inputValue = modal.querySelector("[name=flag]").value;
+            modal.querySelector('[name=value]').classList.remove('solved');
+            modal.classList.remove('solved');
+            flagSubmissionEnable();
+
+            modal.querySelector('button.cancel').removeEventListener('click', cancelEvent)
+            modal.querySelector('.modal-background').removeEventListener('click', cancelEvent)
+            modal.classList.remove('is-active');
         }
 
         const cancelEvent = function (evt) {
@@ -52,13 +192,13 @@
             closeModal();
         }
 
-        modal.querySelector('button.confirm').addEventListener('click', confirmEvent)
+        // modal.querySelector('button.confirm').addEventListener('click', confirmEvent)
         modal.querySelector('button.cancel').addEventListener('click', cancelEvent)
         modal.querySelector('.modal-background').addEventListener('click', cancelEvent)
 
         modal.classList.add('is-active');
     }
-    </script>
+</script>
 
 <div class="container">
     <div class="tile is-ancestor is-unselectable">
@@ -66,95 +206,140 @@
     </div>
 </div>
 
+<style>
+    article h2:not(:empty)::before {
+        content: "category: "
+    }
 
-
+    article h3:not(:empty)::before {
+        content: "points: "
+    }
+</style>
 <script>
     function dataToTile(data) {
-        tile = document.createElement('article')
-        tile.classList.add("tile", "is-child", "notification", "is-3")
-        tile.classList.add("is-info")
+        var tile = document.createElement('article');
+        tile.classList.toggle('solved', solves.has(data.id))
 
-        title = document.createElement('p')
-        title.classList.add("title")
-        title.innerText = data.title
+        tile.classList.add("tile", "is-child", "notification", "is-3");
+        tile.name = "question-" + data.id;
+
+        var title = document.createElement('h1');
+        title.classList.add("title");
+        title.innerText = data.title;
+        tile.appendChild(title);
+
+        var category = document.createElement('h2')
+        category.innerText = categories[data.category] || ""
+        tile.appendChild(category)
+
+        var points = document.createElement('h3')
+        points.innerText = data.value
+        tile.appendChild(points)
 
         tile.addEventListener('click', function () {
-            openModalEdit(data.id, this)
-        })
+            openModalQuestion(data, this)
+        });
 
-        tile.appendChild(title)
 
         return tile
     }
 
+
+    function getQuestions() {
+        return fetch('/api/v1/ctf/questions.json', {
+            method: 'post',
+        })
+            .then(response => response.json())
+
+    }
+
+
+    function getCategories() {
+        return fetch('/api/v1/ctf/categories.json', {
+            method: 'post',
+        })
+            .then(response => response.json())
+    }
+
+
+    function getSolves() {
+        return fetch('/api/v1/ctf/userSolves.json', {
+            method: 'post',
+        })
+            .then(response => response.json())
+    }
+
+    function getData() {
+        return Promise.all([getQuestions(), getCategories(), getSolves()])
+    }
+
+
     var questions = {};
     var questionsByCategory = {};
-    fetch('/api/v1/ctf/questions.json', {
-        method: 'post',
-    })
-        .then(response => response.json())
-        .then(jsonData => {
-            if (jsonData.status) {
-                for (var data of jsonData.data || []) {
-                    questions[data[0]] = {
-                        id: data[0],
-                        title: data[1],
-                        description: data[2],
-                        value: data[3],
-                        category: data[4]
-                    };
-                    if (!questionsByCategory.hasOwnProperty(data[4])) {
-                        questionsByCategory[data[4]] = [];
-                        questionsByCategory[data[4]].push(data[0])
-                    }
-                    document.querySelector('div.tile.is-ancestor .is-parent').appendChild(dataToTile(questions[data[0]]))
-                }
-            }
-        })
-
     var categories = {};
-    fetch('/api/v1/ctf/categories.json', {
-        method: 'post',
-    })
-        .then(response => response.json())
-        .then(jsonData => {
-            if (jsonData.status) {
-                for (var data of jsonData.data || []) {
-                    categories[data[0]] = data[1]
-                }
-            }
-        })
-
     var solves = [];
-    fetch('/api/v1/ctf/solves.json', {
-        method: 'post',
-    })
-        .then(response => response.json())
-        .then(jsonData => {
-            if (jsonData.status) {
-                if (jsonData.data) {
-                    solves = jsonData.data
-                }
+
+    getData().then(([questionsData, categoriesData, solvesData]) => {
+
+        if (categoriesData.status) {
+            for (var data of categoriesData.data || []) {
+                categories[data[0]] = data[1]
             }
-        })
+        }
+
+        if (solvesData.status && solvesData.data) {
+            solves = solvesData.data
+            console.log(solves)
+        }
+
+        if (questionsData.status) {
+            for (var data of questionsData.data || []) {
+                questions[data[0]] = {
+                    id: data[0],
+                    title: data[1],
+                    description: data[2],
+                    value: data[3],
+                    category: data[4],
+                };
+                if (!questionsByCategory.hasOwnProperty(data[4])) {
+                    questionsByCategory[data[4]] = [];
+                    questionsByCategory[data[4]].push(data[0])
+                }
+                document.querySelector('div.tile.is-ancestor .is-parent').appendChild(dataToTile(questions[data[0]]))
+            }
+        }
+
+    })
 
 
 </script>
 
 
-
-
-
 <style>
+    * {
+        cursor: pointer;
+    }
+
+    .modal {
+        opacity: 0;
+        transition: opacity 200ms;
+        display: flex;
+        pointer-events: none;
+    }
+
+    .modal.is-active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
     body > div.container {
         pointer-events: none;
     }
 
     article {
-        cursor: pointer;
         border: 1px #dbdbdb !important;
+        color: grey;
     }
-
 
     article.tile {
         transition: all 0.3s;
@@ -171,7 +356,7 @@
 
     @media screen and (min-width: 769px) {
         article.tile.is-child {
-            width: 25%;
+            width: 24%;
             min-height: 25vh;
         }
     }

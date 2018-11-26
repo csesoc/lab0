@@ -1,10 +1,8 @@
 html, body {
-    /*background-color: #151a17;*/
     overflow-y: hidden;
 }
 
 div.background {
-
     position: fixed;
     left: 0;
     top: 0;
@@ -12,6 +10,10 @@ div.background {
     height: 100%;
     /*background-image: url(../img/worldmap.background.svg);*/
     background-color: black;
+}
+
+div.background * {
+    cursor: crosshair !important;
 }
 
 div.background:after {
@@ -72,7 +74,53 @@ div.background svg g.mouseArea path {
 
 * {
     font-family: Hack, monospace !important;
-    /*cursor: pointer;*/
-    cursor: crosshair;
+    cursor: pointer;
     user-select: none;
+}
+
+.navbar {
+    z-index: 40 !important;
+}
+
+.navbar [name=mouseCoordinates] {
+
+}
+
+.navbar [name=mouseCoordinates] [name=mouseX]:not(:empty)::before {
+    content: "x:"
+}
+
+.navbar [name=mouseCoordinates] [name=mouseX]:not(:empty)::after {
+    content: "\00a0 "
+}
+
+.navbar [name=mouseCoordinates] [name=mouseY]:not(:empty)::before {
+    content: "y:"
+}
+
+/*
+
+
+ */
+
+
+form .button {
+    color: white !important;
+    background-color: transparent;
+    border-color: rgba(22, 131, 155, 0.6) !important;
+}
+input.blueBox, form .button:hover {
+    background-color: rgba(22, 131, 155, 0.22) !important;
+    border-color: rgba(11, 126, 152, 0.22) !important;
+    /*border-radius: 35px;*/
+}
+
+input.blueBox:focus {
+    box-shadow: none;
+}
+
+input.blueBox::placeholder {
+    text-align: center;
+    color: #6c6c6c !important;
+    font-family: Hack, monospace !important;
 }
