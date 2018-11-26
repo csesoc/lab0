@@ -34,17 +34,17 @@ class SQLQuery:
                 description TEXT,
                 flag TEXT NOT NULL,
                 value INTEGER NOT NULL,
-                category INTEGER,
+                category INTEGER NOT NULL,
             
-                UNIQUE (title)
+                UNIQUE (flag)
             )
             """
 
         add = """
-            INSERT OR IGNORE
+            INSERT
             INTO ctf_questions (title, description, flag, value, category)
             VALUES (?, ?, ?, ?, ?)
-            """,
+            """
 
         delete = "DELETE FROM ctf_questions WHERE id = ?"
         edit = """
@@ -53,7 +53,7 @@ class SQLQuery:
             WHERE id = ?
             """
         editFlag = """
-            UPDATE ctf_qustions
+            UPDATE ctf_questions
             SET flag = ?
             WHERE id = ?
             """
@@ -73,7 +73,7 @@ class SQLQuery:
             )
             """
         add = """
-              INSERT OR IGNORE
+              INSERT
               INTO ctf_question_categories (name)
               VALUES (?)
               """,
