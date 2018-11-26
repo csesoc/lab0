@@ -59,12 +59,12 @@ class SQLMethod:
 
         @staticmethod
         def getSolves(*, user: int = None, question: int = None):
-            if not any([user, question]):
-                database.fetchAll(SQLQuery.solves.getAll)
+            if not any([user is not None, question is not None]):
+                return database.fetchAll(SQLQuery.solves.getAll)
             elif user is not None:
-                database.fetchAll(SQLQuery.solves.getUser, (user,))
+                return list(map(lambda result: result[0], database.fetchAll(SQLQuery.solves.getUser, (user,))))
             else:  # question is not None
-                database.fetchAll(SQLQuery.solves.getQuestion, (question,))
+                return list(map(lambda result: result[0], database.fetchAll(SQLQuery.solves.getQuestion, (question,))))
 
         @staticmethod
         def getQuestions(*, question: int = None, flag: bool = False):
