@@ -26,13 +26,14 @@ def run(file: str = None, **kwargs):
     import tornado.web
     import tornado.ioloop
 
-    from lib.site import SiteHandler
+    from lib.site import SiteHandler, SSEHandler, SSE_messages
     from lib.api import APIHandler
 
 
     app = tornado.web.Application([
         ("/api/v1/(.*)", APIHandler),
-        ("/(.*)", SiteHandler)
+        ("/orchestrator", SSEHandler),
+        ("/(.*)", SiteHandler),
     ],
         cookie_secret = "5206677",
         login_url = "/invite"
@@ -61,6 +62,7 @@ def run(file: str = None, **kwargs):
     print("- Session token cleanup")
 
     print("Server running on port", port)
+    SSE_messages.addMessage("server up")
     tornado.ioloop.IOLoop.current().start()
 
 

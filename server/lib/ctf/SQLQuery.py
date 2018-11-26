@@ -13,7 +13,7 @@ class SQLQuery:
             """
 
         add = """
-            INSERT OR IGNORE
+            INSERT
             INTO ctf_solves (user, question)
             VALUES (?, ?)
             """
