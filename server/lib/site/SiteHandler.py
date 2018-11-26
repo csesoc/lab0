@@ -51,7 +51,6 @@ class SiteHandler(tornado.web.StaticFileHandler, BaseHandler):
         except Exception:
             return False
 
-
     @tornado.gen.coroutine
     def get(self, path, **kwargs):
         for urlRegex, function in routing._routesGET.items():

@@ -40,6 +40,7 @@ def questionEditFlag(self: RequestHandler, args: dict):
         return self.finish(JSON.OK())
     return self.finish(JSON.FALSE())
 
+
 @routing.POST("/ctf/question/getFlag")
 @authenticated
 def questionGetFlag(self: RequestHandler, args: dict):
@@ -49,6 +50,7 @@ def questionGetFlag(self: RequestHandler, args: dict):
     if result:
         return self.finish(JSON.data(result))
     return self.finish(JSON.FALSE())
+
 
 @routing.POST("/ctf/question/delete")
 @authenticated

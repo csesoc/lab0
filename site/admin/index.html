@@ -12,7 +12,7 @@
         </section>
         <footer class="modal-card-foot">
             <!-- Statistics go here -->
-            <button class="button is-success confirm"> Changes</button>
+            <button class="button is-success confirm">Changes</button>
             <button class="button cancel">Cancel</button>
         </footer>
     </div>
@@ -101,10 +101,10 @@
                 body: JSON.stringify({question: data.id})
             })
                 .then(response => response.json()).then(jsonData => {
-                    if (jsonData.status) {
-                        this.classList.remove('is-loading')
-                        this.outerText=jsonData.data
-                    }
+                if (jsonData.status) {
+                    this.classList.remove('is-loading')
+                    this.outerText = jsonData.data
+                }
             })
         }
 

@@ -1,5 +1,6 @@
 __VERSION = "0.0.1"
 
+
 # github.com/featherbear/UNSW-CompClub2019Summer-CTF
 
 def run(file: str = None, **kwargs):
@@ -28,7 +29,6 @@ def run(file: str = None, **kwargs):
 
     from lib.site import SiteHandler, SSEHandler, SSE_messages
     from lib.api import APIHandler
-
 
     app = tornado.web.Application([
         ("/api/v1/(.*)", APIHandler),

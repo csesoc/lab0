@@ -46,9 +46,11 @@ password = password     # Superuser password
 [`Font Awesome`](//fontawesome.com)  
 [`Hack`](//sourcefoundry.org/hack) - _Version 3.3.0_  
 
-### Snippets
+### Snippets / Resources
 [`glitch | sketch of three.js`](//ykob.github.io/sketch-threejs/sketch/glitch.html) by yoichi kobayashi  
-`Jinja2 Tornado Stub` - https://bibhasdn.com/blog/using-jinja2-as-the-template-engine-for-tornado-web-framework/  
+`Jinja2 Rendering stub for Tornado` - https://bibhasdn.com/blog/using-jinja2-as-the-template-engine-for-tornado-web-framework/  
+[Dotted World Map](//www.deviantart.com/snowfleikun/art/Dots-world-map-179891314) by sNowFleikuN  
+[CSS Scanlines](//codepen.io/meduzen/pen/zxbwRV) by meduzen  
 
 ---
 ## License

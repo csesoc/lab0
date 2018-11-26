@@ -7,4 +7,3 @@ def initDatabase():
     database.create_table(SQLQuery.categories.createTable)
     database.create_table(SQLQuery.questions.createTable)
     database.create_table(SQLQuery.solves.createTable)
-

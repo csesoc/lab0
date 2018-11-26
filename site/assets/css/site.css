@@ -72,6 +72,35 @@ div.background svg g.mouseArea path {
     right: 0;
 }
 
+.slideout {
+    /*border-left: 2px solid rgba(22, 131, 155, 0.5);*/
+    background-color: rgba(22, 131, 155, 0.2);
+    /*text-transform: uppercase;*/
+    transition: box-shadow 200ms;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+
+}
+
+.slideout:hover {
+    /*box-shadow: 0px 0px 15px 0px rgba(11, 126, 152, 0.5);*/
+}
+
+.slideout [name] {
+    color: white;
+}
+
+.slideout [name=rank]:not(:empty)::before {
+    content: "rank: "
+}
+
+.slideout [name=places]:not(:empty)::before {
+    content: "/"
+}
+
+.slideout [name=score]:not(:empty)::before {
+    content: "score: "
+}
+
 * {
     font-family: Hack, monospace !important;
     cursor: pointer;
@@ -103,12 +132,12 @@ div.background svg g.mouseArea path {
 
  */
 
-
 form .button {
     color: white !important;
     background-color: transparent;
     border-color: rgba(22, 131, 155, 0.6) !important;
 }
+
 input.blueBox, form .button:hover {
     background-color: rgba(22, 131, 155, 0.22) !important;
     border-color: rgba(11, 126, 152, 0.22) !important;
