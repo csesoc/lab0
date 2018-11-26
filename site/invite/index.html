@@ -42,17 +42,17 @@
             margin-bottom: 20px;
         }
 
-        input[type=password].blueBox {
+        input.blueBox {
             background-color: rgba(22, 131, 155, 0.22);
             border-color: rgba(11, 126, 152, 0.22);
             border-radius: 35px;
         }
 
-        input[type=password].blueBox:focus {
+        input.blueBox:focus {
             box-shadow: none;
         }
 
-        input[type=password].blueBox::placeholder {
+        input.blueBox::placeholder {
             text-align: center;
             color: #6c6c6c !important;
             font-family: Hack, monospace !important;
@@ -110,7 +110,6 @@
         }
 
         input[type=text].minimal {
-            /* background-color: rgba(22, 131, 155, 0.22); */
             background-color: transparent;
             outline: none;
             border: none;
@@ -243,8 +242,6 @@
                     <style>
 
                         .page[name=name] input.minimal {
-
-                            /* background-color: rgba(22, 131, 155, 0.22); */
                             background-color: transparent;
                             outline: none;
                             border: none;
@@ -407,8 +404,6 @@
             password2Elem.classList.remove('active');
 
             if (password2Input.value === passwordInput.value) {
-
-
                 fetch('/api/v1/auth/register', {
                     method: 'post',
                     body: JSON.stringify({
@@ -426,12 +421,11 @@
                         }
                     })
             } else {
-                // Probably add some flag here
-                passwordInput.value = ''
+                passwordInput.placeholder = "passwords didn't match";
+                passwordInput.value = '';
                 passwordElem.classList.add('active');
                 passwordInput.focus()
             }
-            // password.classList.remove('active');
         }))
 
 
@@ -544,7 +538,6 @@
         left: 0;
         transition: all 1s;
         background-color: rgba(0, 35, 88, 0.7);
-        /* opacity: 1; */
     }
 
     .background canvas {
