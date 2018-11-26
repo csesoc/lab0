@@ -136,7 +136,7 @@
             var options = location.hash.substr(1).split(",");
 
             // Set stylesheet before page load
-            if (options.has("nosplash")) {
+            if (options.has("nosplash") || options.has("login")) {
                 style.insertRule("section[name=invite]{display:none!important}");
             }
 
@@ -504,7 +504,6 @@
     function showLogin() {
         var elem = document.querySelector('.section[name=login]');
         elem.classList.remove('hide');
-
         elem.querySelector('input[name=username]').focus()
 
     }
