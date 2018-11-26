@@ -1,23 +1,147 @@
 {% extends "template.html" %}
-{% block head %]
+{% block head %}
+<link rel='stylesheet' href='/assets/css/bulma-slider.min.css'/>
 {% endblock %}
 {% block content %}
-<div id="questionModal" class="modal">
+<style>
+    #editModal .modal-card > * {
+        border: 2px solid rgba(22, 131, 155, 0.5);
+    }
+
+    #editModal .modal-card header, #editModal .modal-card footer {
+        background-color: rgba(22, 131, 155, 0.5);
+    }
+
+    #editModal .modal-card section {
+        background-color: rgba(11, 126, 152, 0.22);
+    }
+
+    #editModal textarea[name=description] {
+        resize: none;
+        height: 200px
+    }
+
+    #editModal .modal-card-title::before {
+        content: "Question"
+    }
+
+    #editModal.editQuestion .modal-card-title::after {
+        content: "\00a0 Edit"
+    }
+
+    #editModal .modal-card-title::after {
+        content: "\00a0 Create"
+    }
+
+    #editModal:not(.editQuestion) form p {
+        margin-right: 0;
+    }
+
+    #editModal:not(.editQuestion) form a.button {
+        display: none
+    }
+
+    #editModal .valueField {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+
+    #editModal [name=value] {
+        width: 100px;
+        margin-right: 10px;
+        text-align: center;
+    }
+
+    #editModal select {
+        background-color: #133945 !important;
+    }
+
+    #editModal.editQuestion .modal-card-foot button.confirm::before {
+        content: "Save"
+    }
+
+    #editModal .modal-card-foot button.confirm::before {
+        content: "Create"
+    }
+</style>
+<div id="editModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
         <header class="modal-card-head">
-            <p class="modal-card-title"></p>
+            <p class="modal-card-title has-text-light"></p>
         </header>
         <section class="modal-card-body">
+            <form>
+                <div class="field">
+                    <label class="label has-text-light">Title</label>
+                    <div class="control">
+                        <input class="input blueBox has-text-light" name="title" type="text" spellcheck="true"
+                               placeholder="Question title" required>
+                    </div>
+                </div>
+
+
+                <div class="field">
+                    <label class="label has-text-light">Flag</label>
+                    <div class="field is-grouped">
+                        <p class="control is-expanded">
+                            <input class="input blueBox has-text-light" name="flag" type="text"
+                                   placeholder="FLAG{...}" spellcheck="false" pattern="^FLAG[{].+[}]$">
+                        </p>
+                        <p class="control">
+                            <a class="button" name="updateFlag">
+                                UPDATE FLAG
+                            </a>
+                        </p></div>
+
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="field">
+                        <label class="label has-text-light">Category</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="category" class="blueBox has-text-light" required>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field valueField">
+                        <label class="label has-text-light">Value</label>
+                        <div class="control">
+                            <div class="field is-grouped">
+                                <input name="value" class="input blueBox has-text-light" type="number" step="10" min="0"
+                                       value="100" required>
+                                <input class="slider is-fullwidth is-small is-circle" step="1" min="0"
+                                       max="200" value="100"
+                                       type="range">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label has-text-light">Description</label>
+                    <div class="control">
+                    <textarea class="textarea blueBox has-text-light" name="description"
+                              placeholder="Question description"></textarea>
+                    </div>
+                </div>
+            </form>
         </section>
         <footer class="modal-card-foot">
-            <!-- Statistics go here -->
-            <button class="button is-success confirm">Changes</button>
+            <button class="button is-success confirm"></button>
             <button class="button cancel">Cancel</button>
         </footer>
     </div>
 </div>
 
+<style>
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
 <div class="container">
     <table class="table is-fullwidth">
         <thead>
@@ -52,6 +176,126 @@
 
 
 <script>
+    (function () {
+        var modal = document.getElementById('editModal');
+        modal.querySelector('input[type=range].slider').addEventListener('input', evt => {
+            modal.querySelector('[name=value]').value = evt.target.value
+        })
+        modal.querySelector('[name=value]').addEventListener('input', evt => {
+            modal.querySelector('input[type=range]').value = evt.target.value
+        })
+    })()
+
+    function openModalEdit(questionId, srcElem) {
+        console.log(srcElem.innerText)
+        var modal = document.getElementById('editModal');
+        let isNew = questionId == undefined;
+        modal.classList.toggle('editQuestion', !isNew);
+        modal.querySelector('[name=flag]').value = "";
+        modal.querySelector('[name=flag]').placeholder = "FLAG{...}";
+        modal.querySelector('[name=flag]').required = isNew;
+
+        if (isNew) {
+            modal.querySelector('[name=title]').value = ""
+            modal.querySelector('[name=category]').value = ""
+            modal.querySelector('[name=description]').value = ""
+        } else {
+            question = questions[questionId]
+            modal.querySelector('[name=title]').value = question.title;
+            modal.querySelector('[name=category]').value = question.category;
+            modal.querySelector('[name=description]').value = question.description;
+        }
+        const closeModal = function () {
+            modal.querySelector('button.confirm').removeEventListener('click', confirmEvent)
+            modal.querySelector('button.cancel').removeEventListener('click', cancelEvent)
+            modal.querySelector('.modal-background').removeEventListener('click', cancelEvent)
+            modal.classList.remove('is-active');
+        }
+
+        const updateFlagEvent = function (evt) {
+            let flagElem = modal.querySelector('[name=flag]');
+            flagElem.required = true;
+            if (flagElem.reportValidity()) {
+                flagElem.required = false;
+                this.removeEventListener('click', updateFlagEvent);
+                this.classList.add('is-loading')
+                fetch("/api/v1/ctf/question/editFlag", {
+                    method: 'post',
+                    body: JSON.stringify({
+                        question: questionId,
+                        flag: flagElem.value
+                    })
+                })
+                    .then(response => response.json())
+                    .then(jsonData => {
+                        this.addEventListener('click', updateFlagEvent);
+                        this.classList.remove('is-loading');
+                        if (jsonData.status) {
+                            console.log(srcElem)
+                            var flagColumn = srcElem.querySelector('.flag');
+                            if (!flagColumn.children.length) {
+                                flagColumn.innerText = flagElem.value
+                            }
+                            flagElem.value = "";
+                        } else if (jsonData.error == -1) {
+                            flagElem.placeholder = "Flag already used";
+                            flagElem.value = "";
+                        }
+                    })
+            }
+        }
+
+
+        const confirmEvent = function (evt) {
+            if (modal.querySelector('form').reportValidity()) {
+
+                modal.querySelector('button.confirm').removeEventListener('click', confirmEvent)
+                this.classList.add('is-loading');
+
+                let endpoint = isNew ? "submit" : "edit";
+
+                let data = {
+                    title: modal.querySelector('[name=title]').value,
+                    category: modal.querySelector('[name=category]').value,
+                    description: modal.querySelector('[name=description]').value,
+                    value: modal.querySelector('[name=value]').value,
+                }
+                if (isNew) {
+                    data.flag = modal.querySelector('[name=flag]').value
+                } else {
+                    data.question = questionId;
+                }
+
+                fetch('/api/v1/ctf/question/' + endpoint, {
+                    method: 'post',
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(jsonData => {
+                        this.classList.remove('is-loading');
+                        modal.querySelector('button.confirm').addEventListener('click', confirmEvent)
+                        if (jsonData.status) {
+                            location.reload()
+                        } else if (jsonData.error == -1) {
+                            modal.querySelector('[name=flag]').placeholder = "Flag already used";
+                            modal.querySelector('[name=flag]').value = ""
+                        }
+                    })
+            }
+        }
+
+        const cancelEvent = function (evt) {
+            // onCancel && onCancel();
+            closeModal();
+        }
+
+        modal.querySelector('.button[name=updateFlag]').addEventListener('click', updateFlagEvent);
+        modal.querySelector('button.confirm').addEventListener('click', confirmEvent)
+        modal.querySelector('button.cancel').addEventListener('click', cancelEvent)
+        modal.querySelector('.modal-background').addEventListener('click', cancelEvent)
+
+        modal.classList.add('is-active');
+    }
 
 
     function dataToRow(data) {
@@ -71,6 +315,7 @@
         row.appendChild(category);
 
         var flag = document.createElement('td');
+        flag.classList.add("flag");
         var flagReveal = document.createElement('button');
         flagReveal.classList.add('button', 'is-outlined', "is-info")
         flagReveal.innerText = "click to reveal"
@@ -93,7 +338,6 @@
         row.appendChild(edit)
 
         const flagRevealClickEvent = function () {
-
             flagReveal.removeEventListener('click', flagRevealClickEvent)
             this.classList.add('is-loading')
             fetch('/api/v1/ctf/question/getFlag', {
@@ -109,10 +353,9 @@
         }
 
         flagReveal.addEventListener('click', flagRevealClickEvent);
-        // tile.addEventListener('click', function () {
-        //     openModalEdit(data.id, this)
-        // })
-
+        editBtn.addEventListener('click', function (evt) {
+            openModalEdit(data.id, this.parentElement.parentElement)
+        })
         return row
     }
 
@@ -151,10 +394,18 @@
     var solves = [];
 
     getData().then(([questionsData, categoriesData, solvesData]) => {
+        let modal = document.getElementById('editModal');
+        var categoryElem = modal.querySelector('select');
 
         if (categoriesData.status) {
             for (var data of categoriesData.data || []) {
                 categories[data[0]] = data[1]
+
+                let option = document.createElement('option')
+                option.value = data[0]
+                option.innerText = data[1]
+                categoryElem.appendChild(option)
+
             }
         }
 
@@ -182,7 +433,6 @@
     })
 </script>
 
-
 <style>
     table.table {
         background-color: transparent;
@@ -191,6 +441,46 @@
 
     table th {
         color: #f5f5f5 !important;
+    }
+
+    .container {
+        height: 95vh;
+        overflow-y: scroll;
+    }
+
+    /* ? */
+    table td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        backgrouad: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(22, 131, 155, 0.22);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(11, 126, 152, 0.22);
+    }
+
+    button.button {
+        color: white !important;
+        background-color: transparent;
+        border-color: rgba(22, 131, 155, 0.6) !important;
+    }
+
+    button.button:hover {
+        background-color: rgba(22, 131, 155, 0.22) !important;
+        border-color: rgba(11, 126, 152, 0.22) !important;
+        /*border-radius: 35px;*/
     }
 </style>
 {% endblock %}

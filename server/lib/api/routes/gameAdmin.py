@@ -11,10 +11,14 @@ def questionSubmit(self: RequestHandler, args: dict):
     if self.current_user.id != 0:
         return self.finish(JSON.error("access denied"))
 
-    result = ctfSQLMethod.questions.createQuestion(**args)
-    if result:
-        return self.finish(JSON.OK())
-    return self.finish(JSON.FALSE())
+    try:
+        result = ctfSQLMethod.questions.createQuestion(**args)
+        if result:
+            return self.finish(JSON.OK())
+        return self.finish(JSON.FALSE())
+    except Exception as e:
+        print(e)
+        return self.finish(JSON.error("-1"))
 
 
 @routing.POST("/ctf/question/edit")
@@ -35,10 +39,13 @@ def questionEditFlag(self: RequestHandler, args: dict):
     if self.current_user.id != 0:
         return self.finish(JSON.error("access denied"))
 
-    result = ctfSQLMethod.questions.editQuestionFlag(**args)
-    if result:
-        return self.finish(JSON.OK())
-    return self.finish(JSON.FALSE())
+    try:
+        result = ctfSQLMethod.questions.editQuestionFlag(**args)
+        if result:
+            return self.finish(JSON.OK())
+        return self.finish(JSON.FALSE())
+    except Exception:
+        return self.finish(JSON.error("-1"))
 
 
 @routing.POST("/ctf/question/getFlag")

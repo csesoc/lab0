@@ -40,6 +40,7 @@ password = password     # Superuser password
 
 ### Website
 [`bulma.css`](//bulma.io) - _Version 0.7.2_  
+[`Bulma-extensions`](//wikiki.github.io)  
 [`normalize.css`](//necolas.github.io/normalize.css) - _Version 8.0.1_  
 [`three.js`](//threejs.org) - _Version 98_  
 

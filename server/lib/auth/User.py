@@ -32,4 +32,6 @@ class User:
 
 class UserSession(User):
     def changePassword(self, password: str):
+        if self.id == 0:
+            return False
         return Tools.changePassword(self.id, password)

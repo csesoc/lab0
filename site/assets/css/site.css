@@ -138,18 +138,21 @@ form .button {
     border-color: rgba(22, 131, 155, 0.6) !important;
 }
 
-input.blueBox, form .button:hover {
+.blueBox, form .button:hover {
     background-color: rgba(22, 131, 155, 0.22) !important;
     border-color: rgba(11, 126, 152, 0.22) !important;
     /*border-radius: 35px;*/
 }
 
-input.blueBox:focus {
+.blueBox:focus {
     box-shadow: none;
 }
 
-input.blueBox::placeholder {
-    text-align: center;
+.blueBox::placeholder {
     color: #6c6c6c !important;
     font-family: Hack, monospace !important;
+}
+
+.placeholder-center-text::placeholder {
+text-align: center;
 }
