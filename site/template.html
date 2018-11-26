@@ -20,6 +20,15 @@
     <link rel='stylesheet' href='/assets/css/site.css'/>
 
     {% block head %}{% endblock %}
+    <script>
+        let me = {}
+        fetch("/api/v1/auth/me", {method: "POST"}).then(response => response.json())
+            .then(jsonData => {
+                if (jsonData.status) {
+                    me = jsonData.data
+                }
+            })
+    </script>
 </head>
 <body class="has-navbar-fixed-bottom">
 <div class="background scanlines">
@@ -42,8 +51,12 @@
         })
     })
 </script>
-<div class="slideout has-background-dark has-text-centered">
-    <p>Rank</p>
+
+<div class="slideout has-text-centered">
+    <div><span class="title" name="rank"></span><span class="subtitle" name="places"></span>
+    </div>
+    <h1 class="title" name="score"></h1>
+
 </div>
 {% block content %}{% endblock %}
 <!--<section class="hero is-primary">-->
@@ -108,7 +121,86 @@ is-tab to add a bottom border on hover and show the bottom border using is-activ
         })
     })()
 </script>
+<script>
+    (() => {
+            var lastSC;
+            var lastId = -1;
+            if (EventSource) {
+                let source = new EventSource("/orchestrator");
+                source.onmessage = function (event) {
+                    var id_data = event.lastEventId.split(":");
+                    var _sc = id_data[0];
+                    var _id = parseInt(id_data[1]);
+
+                    if (_sc !== lastSC) {
+                        lastSC = _sc;
+                        lastId = -1;
+                    }
+
+                    if (_id > lastId) {
+                        console.log(event.data)
+                        lastId = _id;
+                    }
+
+                };
+            }
+        }
+    )();
+
+    (updateLeaderboard = (callbackTrue, callbackFalse) => {
+        fetch("/api/v1/ctf/leaderboard.json", {method: "POST"}).then(response => response.json())
+            .then(jsonData => {
+                if (jsonData.status) {
+                    var scoreData = [];
+                    var myScore;
+                    for (var dataId in jsonData.data) {
+                        var data = jsonData.data[dataId];
+                        if (me.id == dataId) {
+                            myScore = data.points;
+                        }
+                        scoreData.push({
+                            id: dataId,
+                            name: data.name,
+                            points: data.points
+                        })
+                    }
+                    scoreData.sort((next, prev) => prev.points - next.points);
+                    var myRank;
+                    for (var i = 0; i < scoreData.length; i++) {
+                        if (myScore === scoreData[i].points) {
+                            myRank = i + 1;
+                            break;
+                        }
+                    }
+                    document.querySelector('div.slideout [name=rank]').innerText = myRank;
+                    document.querySelector('div.slideout [name=places]').innerText = scoreData.length;
+                    document.querySelector('div.slideout [name=score]').innerText = myScore;
+
+                    // console.log("Ranked " + myRank + " out of " + scoreData.length + ".");
+                    callbackTrue && callbackTrue(jsonData)
+                } else {
+                    callbackFalse && callbackFalse()
+
+                }
+            })
+    })();
+
+    (() => {
+        var updateReady = true;
+        let leaderboardLoop = () => {
+            if (updateReady) {
+                updateReady = false;
+                updateLeaderboard(() => {
+                    updateReady = true
+                })
+            }
+        }
+        setInterval(leaderboardLoop, 10 * 1000)
+
+    })()
+</script>
 </body>
+
 <!-- Site by Andrew Wong -->
 <!-- github.com/featherbear/UNSW-CompClub2019Summer-CTF -->
 </html>

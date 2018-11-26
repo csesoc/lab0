@@ -7,7 +7,7 @@ from ..config import config
 userType = Union[int, str]
 
 
-class UserSession:
+class User:
     id: int = None
     username: str = None
     name: str = None
@@ -29,5 +29,7 @@ class UserSession:
                 self.username = user
             self.name = data[1]
 
+
+class UserSession(User):
     def changePassword(self, password: str):
         return Tools.changePassword(self.id, password)

@@ -1,7 +1,7 @@
 from . import Tools
 from .SQLMethod import SQLMethod
 from .SQLQuery import SQLQuery
-from .UserSession import UserSession
+from .User import User, UserSession
 
 
 def initDatabase():
