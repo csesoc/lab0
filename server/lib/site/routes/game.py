@@ -12,8 +12,16 @@ def gameHome(self: BaseHandler):
 @routing.GET('/admin/?')
 @authenticated
 def gameAdmin(self: BaseHandler):
-    return self.render_jinja2("admin/index.html")
+    if self.current_user.id == 0:
+        return self.render_jinja2("admin/index.html")
 
+@routing.GET('/login/?')
+def loginRedirect(self: BaseHandler):
+    return self.redirect("/invite/#login", True)
+
+@routing.GET('/register/?')
+def register(self: BaseHandler):
+    return self.redirect("/invite/#register", True)
 
 @routing.GET('/template.html')
 @authenticated
