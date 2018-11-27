@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>CompClub 2019 Summer CTF</title>
+    <meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1'>
+    <link rel='stylesheet' href='/assets/css/normalize.min.css' />
+    <link rel='stylesheet' href='/assets/font/hack-subset.css'>
+    <link rel='stylesheet' href='/assets/css/bulma.min.css' />
+    <link rel='stylesheet' href='/assets/font/fa-password.css' />
+
+    <style>
+        html,
+        body {
+            overflow: hidden;
+        }
+
+        * {
+            font-family: Hack, monospace !important;
+
+            cursor: pointer;
+        }
+
+        .is-vertical-center {
+            display: flex;
+            align-items: center;
+        }
+
+        .b-wrap {
+            height: 100vh;
+        }
+
+        .content {
+            width: 100%;
+            user-select: none;
+        }
+
+        .logo-compclub {
+            width: 50%;
+            min-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        input.blueBox {
+            background-color: rgba(22, 131, 155, 0.22);
+            border-color: rgba(11, 126, 152, 0.22);
+            border-radius: 35px;
+        }
+
+        input.blueBox:focus {
+            box-shadow: none;
+        }
+
+        input.blueBox::placeholder {
+            text-align: center;
+            color: #6c6c6c !important;
+            font-family: Hack, monospace !important;
+        }
+
+        input::placeholder {
+            text-align: center;
+            font-family: Hack, monospace !important;
+        }
+
+        section {
+            transition: opacity 1.3s, max-height 1s, max-width 1s;
+            max-height: 100vh;
+            position: absolute;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        section.hide
+            /*, section.hide-opacity */
+        {
+            opacity: 0;
+            pointer-events: none;
+            /*z-index: -99;*/
+        }
+
+        /*section.hide, section.hide-height {*/
+        /*max-height: 0;*/
+        /*}*/
+
+        .section[name=register] {
+            max-height: 100vh;
+            /*overflow-y: hidden;*/
+        }
+
+        .section[name=register] .page:not(.active) {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .section[name=login] input[name=password] {
+            transition: opacity 0.5s;
+        }
+
+        .section[name=login] input[name=password]:not(.ready) {
+            opacity: 0;
+        }
+
+        .section .page {
+            transition: opacity 0.7s;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        input[type=text].minimal {
+            background-color: transparent;
+            outline: none;
+            border: none;
+            border-bottom: 5px solid white;
+            padding: 15px;
+        }
+
+        .page > h1 {
+            display: initial;
+        }
+
+
+    </style>
+    <script>
+        (function () {
+            Array.prototype.has = function (obj) {
+                return this.indexOf(obj) > -1
+            }
+
+            var style = document.createElement("style");
+            document.head.appendChild(style); // must append before you can access sheet property
+
+            var style = style.sheet;
+            var options = location.hash.substr(1).split(",");
+
+            // Set stylesheet before page load
+            if (options.has("nosplash") || options.has("login")) {
+                style.insertRule("section[name=invite]{display:none!important}");
+            }
+
+            window.addEventListener('hashchange', function () {
+                location.reload()
+            })
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+                if (options.has("nosplash")) {
+                    document.querySelector('.background').classList.add('blur');
+                    if (options.length === 1) {
+                        document.querySelector('section[name=auth-type]').classList.remove('hide')
+                    }
+                }
+
+                if (options.has("register")) {
+                    if (options.has("nosplash")) {
+                        showRegister()
+                    } else {
+                        document.querySelector('section[name=invite] a.button.is-success').clickOverride = showRegister
+                    }
+                } else if (options.has("login")) {
+                    showLogin()
+                }
+            })
+        })()
+    </script>
+    <script>
+
+
+        function getTimeSalutation() {
+            var hour = new Date().getHours()
+
+            if (hour < 12) {
+                return 'morning'
+            } else if (hour < 18) {
+                return 'afternoon'
+            } else {
+                return 'evening'
+            }
+
+        }
+    </script>
+
+</head>
+
+<body>
+    <div class='container is-vertical-center b-wrap has-text-centered'>
+        <div class='content'>
+            <img class='logo-compclub' src='/assets/img/compclub.logo.white.svg' style="margin-top: -10vh" />
+            <!-- <img/> LOGO -->
+            <section class='section' name='invite'>
+                <h1 class='is-size-3 has-text-light'>Your mission, should you choose to accept ...</h1>
+                <div class='field is-grouped is-grouped-centered'>
+                    <p class='control'>
+                        <a class='button is-success is-outlined is-large'>
+                            YEET
+                        </a>
+                    </p>
+                    <p class='control'>
+                        <a class='button is-danger is-outlined is-large' href='//www.youtube.com/watch?v=dQw4w9WgXcQ'>
+                            NOPE
+                        </a>
+                    </p>
+                </div>
+
+            </section>
+            <section class='section hide' name='auth-type'>
+                <h1 class='is-size-3 has-text-light'>Are you new here?</h1>
+                <div class='field is-grouped is-grouped-centered'>
+                    <p class='control'>
+                        <a class='button is-warning is-outlined is-large' name='register'>
+                            REGISTER
+                        </a>
+                    </p>
+                    <p class='control'>
+                        <a class='button is-warning is-outlined is-large' name='login'>
+                            LOGIN
+                        </a>
+                    </p>
+                </div>
+            </section>
+
+            <section class='section hide' name='login'>
+                <form>
+                    <input type='text' name='username' class='is-size-1 has-text-light minimal has-text-centered' spellcheck='false' pattern="\w." maxlength="20" placeholder='username'>
+
+                    <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password' type='password' placeholder="password">
+                </form>
+
+            </section>
+            <section class='section hide' name='register'>
+                <form>
+                    <div class='page' name='name'>
+                        <style>
+
+                            .page[name=name] input.minimal {
+                            background-color: transparent;
+                            outline: none;
+                            border: none;
+                            border-bottom: 5px solid white;
+                            padding: 15px;
+                        }
+                    </style>
+                        <h1 class='is-size-1 has-text-light'>Good <span class='salutation'></span>, Agent <input type='text' name='name' class='has-text-light minimal' spellcheck='false' required placeholder='(your display name)' maxlength="20">.
+                        </h1>
+
+                    </div>
+                    <div class='page' name='username'>
+                        <h1 class='is-size-1 has-text-light'>Username: <input type='text' name='username' class='has-text-light minimal' spellcheck='false' pattern="\w." maxlength="20" placeholder='(your username)'></h1>
+
+                    </div>
+
+
+                    <div class='page' name='password'>
+                        <h1 class='is-size-1 has-text-light'>password</h1>
+                        <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password' type='password'>
+
+                    </div>
+
+
+                    <div class='page' name='password2'>
+                        <h1 class='is-size-1 has-text-light'>confirm</h1>
+                        <input class='input blueBox has-text-centered is-size-1 has-text-light' name='password2' type='password'>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <div class='background'>
+        <canvas id='backgroundCanvas'></canvas>
+    </div>
+
+    <script type='text/javascript'>
+
+    </script>
+    <script src='/assets/js/three.min.js'></script>
+    <script src='backgroundFuzz.js'></script>
+    <script>
+        (function inviteSection() {
+            const evtMouseover = function() {
+                document.querySelector('.background').classList.add('blur')
+            };
+            const evtMouseout = function() {
+                document.querySelector('.background').classList.remove('blur')
+            };
+
+            let elem = document.querySelector('.section[name=invite]');
+
+            elem.querySelectorAll('a.button').forEach(function(btn) {
+                btn.addEventListener('mouseover', evtMouseover);
+                btn.addEventListener('mouseout', evtMouseout);
+            });
+
+            elem.querySelector('a.button.is-success').addEventListener('click', function(evt) {
+                evt.preventDefault();
+                evtMouseover();
+                elem.querySelectorAll('a.button').forEach(function(elem) {
+                    elem.removeEventListener('mouseover', evtMouseover);
+                    elem.removeEventListener('mouseout', evtMouseout);
+                });
+                elem.classList.add('hide');
+                setTimeout(this.clickOverride || showAuthType, 1300);
+            })
+        })();
+
+
+        (function authTypeSection() {
+            let elem = document.querySelector('.section[name=auth-type]');
+            const clickEvt = function(evt) {
+                // elem.querySelectorAll('a.button[name=register]').forEach(function (btn) {
+                //     btn.removeEventListener('click', clickEvt);
+                // });
+                elem.classList.add('hide');
+
+                switch (this.name) {
+                    case 'register':
+                        setTimeout(showRegister, 1300);
+                        break;
+                    case 'login':
+                        setTimeout(showLogin, 1300);
+                        break;
+                }
+            };
+            elem.querySelectorAll('a.button').forEach(function(btn) {
+                btn.addEventListener('click', clickEvt)
+            })
+        })();
+
+        (function registerSection() {
+            let elem = document.querySelector('.section[name=register]');
+
+            var nameInput = elem.querySelector('input[name=name]');
+            var usernameInput = elem.querySelector('input[name=username]');
+            var passwordInput = elem.querySelector('input[name=password]');
+            var password2Input = elem.querySelector('input[name=password2]');
+
+            var nameElem = elem.querySelector('.page[name=name]');
+            var usernameElem = elem.querySelector('.page[name=username]');
+            var passwordElem = elem.querySelector('.page[name=password]');
+            var password2Elem = elem.querySelector('.page[name=password2]');
+
+            nameInput.addEventListener('keypress', validateEnterEvent(function() {
+                nameElem.classList.remove('active');
+                usernameElem.classList.add('active');
+                usernameInput.focus()
+            }))
+
+            usernameInput.addEventListener('keypress', validateEnterEvent(function() {
+                usernameElem.classList.remove('active');
+                passwordElem.classList.add('active');
+                passwordInput.focus()
+
+
+            }))
+
+
+            passwordInput.addEventListener('keypress', validateEnterEvent(function() {
+                // Password validate
+                password2Input.value = '';
+                passwordElem.classList.remove('active');
+                password2Elem.classList.add('active');
+                password2Input.focus()
+            }))
+
+            password2Input.addEventListener('keypress', validateEnterEvent(function() {
+                password2Elem.classList.remove('active');
+
+                if (password2Input.value === passwordInput.value) {
+                    location.href = '/game';
+
+                } else {
+                    passwordInput.placeholder = "passwords didn't match";
+                    passwordInput.value = '';
+                    passwordElem.classList.add('active');
+                    passwordInput.focus()
+                }
+            }))
+
+
+        })();
+
+        (function loginSection() {
+            let elem = document.querySelector('.section[name=login]');
+
+            var usernameInput = elem.querySelector('input[name=username]');
+            var passwordInput = elem.querySelector('input[name=password]');
+
+            usernameInput.addEventListener('keypress', validateEnterEvent(function() {
+                passwordInput.classList.add('ready')
+                passwordInput.focus()
+            }));
+
+            passwordInput.addEventListener('keypress', validateEnterEvent(function() {
+                if (usernameInput.value == "admin" && passwordInput.value == "password") {
+                    location.href = '/game';
+                } else {
+                    usernameInput.value = '';
+                    usernameInput.placeholder = 'sorry, try again';
+                    passwordInput.value = '';
+                    usernameInput.focus();
+                }
+            }))
+
+        })();
+
+        function showAuthType() {
+            var elem = document.querySelector('.section[name=auth-type]');
+            elem.classList.remove('hide');
+        }
+
+        function validateEnterEvent(cb_true, cb_false) {
+            return function(evt) {
+                evt = evt || window.event;
+                var charCode = evt.which || evt.keyCode;
+                if (charCode === 13) {
+                    evt.preventDefault();
+                    var name = this.value.trim();
+                    ((name.length ? cb_true : cb_false) || function() {})(evt);
+                }
+            }
+        }
+
+
+        // register stuff
+        function showRegister() {
+            var elem = document.querySelector('.section[name=register]');
+            elem.classList.remove('hide');
+
+            var page_name = elem.querySelector('.page[name=name]');
+
+            page_name.classList.add('active');
+            page_name.querySelector('.salutation').innerText = getTimeSalutation();
+            page_name.querySelector('input[name=name]').focus()
+
+        }
+
+
+        function showLogin() {
+            var elem = document.querySelector('.section[name=login]');
+            elem.classList.remove('hide');
+            elem.querySelector('input[name=username]').focus()
+
+        }
+
+        Array.from(document.querySelectorAll('input[type=text]')).forEach(function(elem) {
+
+            if (elem.pattern) {
+                var regexReplacer = new RegExp("[^" + elem.pattern + "]", "g");
+                elem.addEventListener('input', function() {
+                    this.value = this.value.replace(regexReplacer, "")
+                });
+            }
+        })
+        ///
+    </script>
+
+    <style>
+        .background {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: -1;
+        }
+
+        .background:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transition: all 1s;
+            background-color: rgba(0, 35, 88, 0.7);
+        }
+
+        .background canvas {
+            transition: filter, transform 1s;
+        }
+
+        .background.blur:after {
+            background-color: rgba(0, 16, 40, 0.9);
+        }
+
+        .background.blur canvas {
+            filter: blur(5px);
+            transform: scale(1.2);
+        }
+    </style>
+    <div style="position:fixed;width:100%;height:50px;bottom:0;text-align:center;background-color:rgba(212,200,15,0.7);pointer-events:none"><p>DEMO Site | Log on with username 'admin', and password 'password' </p></div>
+</body>
+
+</html>

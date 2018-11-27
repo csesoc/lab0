@@ -1,0 +1,409 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CompClub 2019 Summer CTF</title>
+
+    <link rel="stylesheet" href="/assets/css/normalize.min.css">
+    <link rel="stylesheet" href="/assets/font/hack-subset.css">
+    <link rel="stylesheet" href="/assets/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+
+</head>
+
+<body class="has-navbar-fixed-bottom vsc-initialized">
+    <div class="background scanlines">
+        <img class="svg" src="/assets/img/worldmap.background.svg" />
+    </div>
+
+
+    <link rel="stylesheet" href="/assets/css/scanlines.css">
+
+    <script>
+
+
+        Array.from(document.querySelectorAll('img.svg')).forEach(img => {
+        fetch(img.src).then(content => content.text()).then(data => {
+            img.classList.remove('svg');
+            var svg = new DOMParser().parseFromString(data, "image/svg+xml").querySelector('svg');
+            svg.classList = img.classList;
+
+            img.parentElement.replaceChild(svg, img)
+            //svgElem)
+        })
+    })
+</script>
+
+    <div class="slideout has-text-centered">
+        <div><span class="title" name="rank">1</span><span class="subtitle" name="places">4</span>
+        </div>
+        <h1 class="title" name="score">100</h1>
+
+    </div>
+
+    <style>
+        #questionModal .modal-card > * {
+        border: 2px solid rgba(22, 131, 155, 0.5);
+    }
+
+    #questionModal .modal-card header, #questionModal .modal-card footer {
+        background-color: rgba(22, 131, 155, 0.5);
+    }
+
+    #questionModal .modal-card section {
+        background-color: rgba(11, 126, 152, 0.22);
+    }
+
+    #questionModal.solved [name=title]::before {
+        content: "[solved] ";
+        color: hsl(0, 0%, 71%);
+    }
+
+    #questionModal [name=solves]:not(:empty)::before {
+        content: "solves: ";
+    }
+
+    #questionModal [name=solves] {
+        flex-grow: 1;
+    }
+
+    #questionModal [name=category]:not(:empty)::before {
+        content: ": "
+    }
+
+    #questionModal [name=value]::after {
+        content: " pts";
+    }
+
+    #questionModal:not(.solved) [name=value] {
+        transition: color 0.5s;
+    }
+
+    #questionModal [name=value].solved, #questionModal.solved [name=value] {
+        color: green;
+    }
+
+    #questionModal iframe {
+        width: 100%;
+    }
+</style>
+    <style>
+        article {
+        transition: box-shadow 250ms;
+        background-color: rgba(22, 131, 155, 0.3) !important;
+    }
+
+    article:hover {
+        box-shadow: inset 0 0 60px rgba(11, 126, 152, 0.5);
+        color: white;
+    }
+
+    article.solved {
+        filter: saturate(0);
+    }
+
+</style>
+    <div id="questionModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title has-text-light">
+                    <span name="title">Parse the Parcel</span>
+                    <span class="has-text-grey-light" name="category">Crypto</span>
+                </p>
+                <button class="delete cancel" aria-label="close"></button>
+
+            </header>
+            <section class="modal-card-body">
+                <iframe name="description" sandbox="" seamless="" srcdoc="<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>RkxBR3tCQVNFXzY0fQ=="></iframe>
+                <form>
+                    <div class="field is-grouped">
+                        <p class="control is-expanded">
+                            <input class="input blueBox has-text-centered has-text-light" name="flag" type="text" placeholder="FLAG{...}" spellcheck="false">
+                        </p>
+                        <p class="control">
+                            <a class="button">
+                                SUBMIT
+                            </a>
+                        </p>
+                    </div>
+                </form>
+            </section>
+            <footer class="modal-card-foot has-text-light">
+                <span name="solves">2</span>
+                <div name="value" class="">100</div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        Array.prototype.has = function(obj) {
+            return this.indexOf(obj) > -1
+        };
+
+
+        function openModalQuestion(questionId, srcElem) {
+            questionData = questions[questionId];
+            var modal = document.getElementById('questionModal');
+            modal.classList.toggle('solved', solves.has(questionData.id));
+
+            modal.querySelector("[name=flag]").value = questions[questionData.id].inputValue || "";
+            modal.querySelector('[name=title]').innerText = questionData.title;
+            modal.querySelector('[name=category]').innerText = categories[questionData.category] || "";
+            modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
+
+            modal.querySelector('form .button').onclick = () => {
+                modal.querySelector("[name=flag]").form.dispatchEvent(new Event('submit'))
+            };
+
+            // this.querySelector('form .button').onclick
+            function flagSubmissionDisable() {
+                modal.querySelector('form .input').disabled = true;
+                modal.querySelector('form .button').disabled = true;
+            }
+
+            function flagSubmissionEnable() {
+                modal.querySelector('form .input').disabled = false;
+                modal.querySelector('form .button').disabled = false;
+            }
+
+            const submitEvent = function(evt) {
+                evt.preventDefault();
+                if (!modal.querySelector("[name=flag]").value.trim()) return;
+                modal.querySelector('form .button').classList.add('is-loading');
+                modal.querySelector('form').removeEventListener('submit', submitEvent);
+
+                flagSubmissionDisable();
+                var flagValue = modal.querySelector("[name=flag]").value.trim();
+
+
+                modal.querySelector("[name=flag]").placeholder = "flag correct";
+                modal.querySelector("[name=flag]").value = "";
+                if (!solves.has(questionData.id)) {
+                    solves.push(questionData.id);
+                    modal.querySelector('[name=solves]').innerText = parseInt(modal.querySelector('[name=solves]').innerText) + 1
+                }
+                modal.querySelector('[name=value]').classList.add('solved');
+                srcElem.classList.add('solved');
+
+
+            }
+            modal.querySelector('form').addEventListener('submit', submitEvent);
+            modal.querySelector('[name=value]').innerText = questionData.value;
+
+
+            const closeModal = function() {
+                questions[questionData.id].inputValue = modal.querySelector("[name=flag]").value;
+                modal.querySelector('[name=value]').classList.remove('solved');
+                modal.classList.remove('solved');
+                flagSubmissionEnable();
+
+                modal.querySelector('form').removeEventListener('submit', submitEvent);
+                modal.querySelector('button.cancel').removeEventListener('click', cancelEvent);
+                modal.querySelector('.modal-background').removeEventListener('click', cancelEvent);
+                modal.classList.remove('is-active');
+            };
+
+            const cancelEvent = closeModal;
+
+
+            // modal.querySelector('button.confirm').addEventListener('click', confirmEvent)
+            modal.querySelector('button.cancel').addEventListener('click', cancelEvent);
+            modal.querySelector('.modal-background').addEventListener('click', cancelEvent);
+
+            modal.classList.add('is-active');
+        }
+    </script>
+
+    <div class="container">
+        <div class="tile is-ancestor is-unselectable">
+            <div class="tile is-parent">
+                <article class="tile is-child notification is-3 solved" onclick="openModalQuestion(1, this)">
+                    <h1 class="title">Parse the Parcel</h1>
+                    <h2>Crypto</h2>
+                    <h3>100</h3>
+                </article>
+                <article class="tile is-child notification is-3" onclick="openModalQuestion(2, this)">
+                    <h1 class="title">Hello world</h1>
+                    <h2>Impossible</h2>
+                    <h3>100</h3>
+                </article>
+                <article class="tile is-child notification is-3" onclick="openModalQuestion(3, this)">
+                    <h1 class="title">Example Question</h1>
+                    <h2>Misc</h2>
+                    <h3>100</h3>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        article h2:not(:empty)::before {
+            content: "category: ";
+            font-size: 0.75rem;
+        }
+
+        article h3:not(:empty)::before {
+            content: "points: ";
+            font-size: 0.75rem;
+        }
+    </style>
+    <script>
+        function dataToTile(dataId) {
+            data = questions[dataId];
+            let tile = document.createElement('article');
+            tile.classList.toggle('solved', solves.has(data.id));
+
+            tile.classList.add("tile", "is-child", "notification", "is-3");
+            tile.name = "question-" + data.id;
+
+            let title = document.createElement('h1');
+            title.classList.add("title");
+            title.innerText = data.title;
+            tile.appendChild(title);
+
+            let category = document.createElement('h2');
+            category.innerText = categories[data.category] || "";
+            tile.appendChild(category);
+
+            let points = document.createElement('h3');
+            points.innerText = data.value;
+            tile.appendChild(points);
+
+            tile.addEventListener('click', function() {
+                openModalQuestion(data, this)
+            });
+
+
+            return tile
+        }
+
+        let solves = [];
+        let categories = {
+            "1": "Misc",
+            "2": "Crypto",
+            "3": "Exploitation",
+            "4": "Impossible"
+        };
+    </script>
+
+
+    <style>
+        * {
+            cursor: pointer;
+        }
+
+        .modal {
+            opacity: 0;
+            transition: opacity 200ms;
+            display: flex;
+            pointer-events: none;
+        }
+
+        .modal.is-active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        body>div.container {
+            pointer-events: none;
+        }
+
+        article {
+            border: 1px #dbdbdb !important;
+            color: grey;
+        }
+
+        article.tile {
+            transition: all 0.3s;
+        }
+
+        div.tile.is-ancestor .is-parent {
+            flex-flow: wrap;
+        }
+
+        article.tile.is-child {
+            margin: 5px !important;
+            pointer-events: auto;
+        }
+
+        @media screen and (min-width: 769px) {
+            article.tile.is-child {
+                width: 24%;
+                min-height: 25vh;
+            }
+        }
+    </style>
+
+    <nav class="navbar is-fixed-bottom is-dark">
+        <div class="navbar-brand">
+            <a class="navbar-item">
+                <img src="/assets/img/compclub.logo.white.svg" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+
+
+            <div class="navbar-start">
+                <!-- navbar items -->
+            </div>
+
+            <div class="navbar-end">
+                <!-- navbar items -->
+                <div class="navbar-item" name="mouseCoordinates">
+                    <div name="mouseX"></div>
+                    <div name="mouseY"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script>
+        var questions = {
+            "1": {
+                "id": 1,
+                "title": "Parse the Parcel",
+                "description": "RkxBR3tCQVNFXzY0fQ==",
+                "value": 100,
+                "category": 2
+            },
+            "2": {
+                "id": 2,
+                "title": "Hello world",
+                "description": "Yeet?",
+                "value": 100,
+                "category": 4
+            },
+            "3": {
+                "id": 3,
+                "title": "Example Question",
+                "description": "blah blah blah",
+                "value": 100,
+                "category": 1
+            }
+        }
+    </script>
+    <script>
+        (() => {
+            let x = document.querySelector('.navbar [name=mouseCoordinates] [name=mouseX]');
+            let y = document.querySelector('.navbar [name=mouseCoordinates] [name=mouseY]');
+
+            document.body.addEventListener('mousemove', evt => {
+                // var elem = document.querySelector( ".regions g:hover .mouseArea");
+                // if (elem) console.log(elem.getAttribute('data-text'))
+                x.innerText = evt.clientX;
+                y.innerText = evt.clientY;
+            })
+        })()
+    </script>
+    <!-- Site by Andrew Wong -->
+    <!-- github.com/featherbear/UNSW-CompClub2019Summer-CTF -->
+    <div style="z-index:9999;position:fixed;width:100%;height:50px;bottom:0;text-align:center;background-color:rgba(212,200,15,0.7);pointer-events:none"><p>DEMO Site | Log on with username 'admin', and password 'password' </p></div>
+</body>
+
+</html>

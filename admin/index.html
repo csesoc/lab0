@@ -1,0 +1,468 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CompClub 2019 Summer CTF</title>
+
+    <link rel="stylesheet" href="/assets/css/normalize.min.css">
+    <link rel="stylesheet" href="/assets/font/hack-subset.css">
+    <link rel="stylesheet" href="/assets/css/bulma.min.css">
+    <link rel="stylesheet" href="/assets/css/site.css">
+
+
+    <link rel="stylesheet" href="/assets/css/bulma-slider.min.css">
+
+
+    <style>
+        #editModal .modal-card > * {
+        border: 2px solid rgba(22, 131, 155, 0.5);
+    }
+
+    #editModal .modal-card header, #editModal .modal-card footer {
+        background-color: rgba(22, 131, 155, 0.5);
+    }
+
+    #editModal .modal-card section {
+        background-color: rgba(11, 126, 152, 0.22);
+    }
+
+    #editModal textarea[name=description] {
+        resize: none;
+    }
+
+    #editModal .modal-card-title::before {
+        content: "Question"
+    }
+
+    #editModal.editQuestion .modal-card-title::after {
+        content: "\00a0 Edit"
+    }
+
+    #editModal .modal-card-title::after {
+        content: "\00a0 Create"
+    }
+
+    #editModal:not(.editQuestion) form p {
+        margin-right: 0;
+    }
+
+    #editModal:not(.editQuestion) form a.button {
+        display: none
+    }
+
+    #editModal .valueField {
+        flex-grow: 1;
+        margin-left: 10px;
+    }
+
+    #editModal [name=value] {
+        width: 100px;
+        margin-right: 10px;
+        text-align: center;
+    }
+
+    #editModal select {
+        background-color: #133945 !important;
+    }
+
+    #editModal.editQuestion .modal-card-foot button.confirm::before {
+        content: "Save"
+    }
+
+    #editModal .modal-card-foot button.confirm::before {
+        content: "Create"
+    }
+
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    table.table {
+        background-color: transparent;
+        color: #f5f5f5 !important;
+    }
+
+    table th {
+        color: #f5f5f5 !important;
+    }
+
+    .container {
+        height: 95vh;
+        overflow-y: scroll;
+    }
+
+    /* ? */
+    table td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        backgrouad: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: rgba(22, 131, 155, 0.22);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgba(11, 126, 152, 0.22);
+    }
+
+    button.button {
+        color: white !important;
+        background-color: transparent;
+        border-color: rgba(22, 131, 155, 0.6) !important;
+    }
+
+    button.button:hover {
+        background-color: rgba(22, 131, 155, 0.22) !important;
+        border-color: rgba(11, 126, 152, 0.22) !important;
+    }
+
+    body > .container {
+        max-width: 1152px !important;
+
+    }
+</style>
+</head>
+
+<body class="has-navbar-fixed-bottom vsc-initialized">
+    <div class="background scanlines">
+        <img class="svg" src="/assets/img/worldmap.background.svg" />
+    </div>
+
+    <link rel="stylesheet" href="/assets/css/scanlines.css">
+
+    <script>
+
+
+        Array.from(document.querySelectorAll('img.svg')).forEach(img => {
+        fetch(img.src).then(content => content.text()).then(data => {
+            img.classList.remove('svg');
+            var svg = new DOMParser().parseFromString(data, "image/svg+xml").querySelector('svg');
+            svg.classList = img.classList;
+
+            img.parentElement.replaceChild(svg, img)
+            //svgElem)
+        })
+    })
+</script>
+
+    <div class="slideout has-text-centered">
+        <div><span class="title" name="rank">-</span><span class="subtitle" name="places">3</span>
+        </div>
+        <h1 class="title" name="score">-</h1>
+
+    </div>
+
+
+    <div id="editModal" class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title has-text-light"></p>
+            </header>
+            <section class="modal-card-body">
+                <form>
+                    <div class="field">
+                        <label class="label has-text-light">Title</label>
+                        <div class="control">
+                            <input class="input blueBox has-text-light" name="title" type="text" spellcheck="true" placeholder="Question title" required="">
+                        </div>
+                    </div>
+
+
+                    <div class="field">
+                        <label class="label has-text-light">Flag</label>
+                        <div class="field is-grouped">
+                            <p class="control is-expanded">
+                                <input class="input blueBox has-text-light" name="flag" type="text" placeholder="FLAG{...}" spellcheck="false" pattern="^FLAG[{].+[}]$">
+                            </p>
+                            <p class="control">
+                                <a class="button" name="updateFlag">
+                                    UPDATE FLAG
+                                </a>
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="field is-grouped">
+                        <div class="field">
+                            <label class="label has-text-light">Category</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="category" class="blueBox has-text-light" required="">
+                                        <option value="1">Misc</option>
+                                        <option value="2">Crypto</option>
+                                        <option value="3">Exploitation</option>
+                                        <option value="4">Impossible</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field valueField">
+                            <label class="label has-text-light">Value</label>
+                            <div class="control">
+                                <div class="field is-grouped">
+                                    <input name="value" class="input blueBox has-text-light" type="number" step="10" min="0" value="100" required="">
+                                    <input class="slider is-fullwidth is-small is-circle" step="1" min="0" max="200" value="100" type="range">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label has-text-light">Description</label>
+                        <div class="control">
+                            <textarea class="textarea blueBox has-text-light" name="description" placeholder="Question description"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-success confirm"></button>
+                <button class="button cancel">Cancel</button>
+            </footer>
+        </div>
+    </div>
+
+    <div class="container">
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Flag</th>
+                    <th>Points</th>
+                    <th>Solves</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Flag</th>
+                    <th>Points</th>
+                    <th>Solves</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+
+            <tbody>
+
+
+                <tr>
+                    <td>Parse the Parcel</td>
+                    <td>RkxBR3tCQVNFXzY0fQ==</td>
+                    <td>Crypto</td>
+                    <td class="flag"><button class="button is-outlined is-info">click to reveal</button></td>
+                    <td>100</td>
+                    <td>0</td>
+                    <td><button class="button is-outlined is-info" onclick="openModalEdit(1, this.parentElement.parentElement)">edit</button></td>
+                </tr>
+                <tr>
+                    <td>Hello world</td>
+                    <td>Yeet?</td>
+                    <td>Impossible</td>
+                    <td class="flag">FLAG{...}</td>
+                    <td>100</td>
+                    <td>0</td>
+                    <td><button class="button is-outlined is-info" onclick="openModalEdit(2, this.parentElement.parentElement)">edit</button></td>
+                </tr>
+                <tr>
+                    <td>Example Question</td>
+                    <td>blah blah blah</td>
+                    <td>Misc</td>
+                    <td class="flag"><button class="button is-outlined is-info" onclick="this.parentElement.innerText='FLAG{BLAH}'">click to reveal</button></td>
+                    <td>100</td>
+                    <td>0</td>
+                    <td><button class="button is-outlined is-info" onclick="openModalEdit(3, this.parentElement.parentElement)">edit</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+        (function() {
+            var modal = document.getElementById('editModal');
+            modal.querySelector('input[type=range].slider').addEventListener('input', evt => {
+                modal.querySelector('[name=value]').value = evt.target.value
+            })
+            modal.querySelector('[name=value]').addEventListener('input', evt => {
+                modal.querySelector('input[type=range]').value = evt.target.value
+            })
+        })()
+
+        function openModalEdit(questionId, srcElem) {
+            var modal = document.getElementById('editModal');
+            let isNew = questionId == undefined;
+            modal.classList.toggle('editQuestion', !isNew);
+            modal.querySelector('[name=flag]').value = "";
+            modal.querySelector('[name=flag]').placeholder = "FLAG{...}";
+            modal.querySelector('[name=flag]').required = isNew;
+
+            if (isNew) {
+                modal.querySelector('[name=title]').value = ""
+                modal.querySelector('[name=category]').value = ""
+                modal.querySelector('[name=description]').value = ""
+            } else {
+                question = questions[questionId]
+                modal.querySelector('[name=title]').value = question.title;
+                modal.querySelector('[name=category]').value = question.category;
+                modal.querySelector('[name=description]').value = question.description;
+            }
+            const closeModal = function() {
+                modal.querySelector('button.confirm').removeEventListener('click', confirmEvent)
+                modal.querySelector('button.cancel').removeEventListener('click', cancelEvent)
+                modal.querySelector('.modal-background').removeEventListener('click', cancelEvent)
+                modal.classList.remove('is-active');
+            }
+
+            const updateFlagEvent = function(evt) {
+                let flagElem = modal.querySelector('[name=flag]');
+                flagElem.required = true;
+                if (flagElem.reportValidity()) {
+                    flagElem.required = false;
+                    var flagColumn = srcElem.querySelector('.flag');
+                    if (!flagColumn.children.length) {
+                        flagColumn.innerText = flagElem.value
+                    }
+                    flagElem.value = "";
+                }
+
+            }
+
+
+            const confirmEvent = function(evt) {
+                if (modal.querySelector('form').reportValidity()) {
+
+                    modal.querySelector('button.confirm').removeEventListener('click', confirmEvent)
+                    this.classList.add('is-loading');
+
+                    let endpoint = isNew ? "submit" : "edit";
+
+                    let data = {
+                        title: modal.querySelector('[name=title]').value,
+                        category: modal.querySelector('[name=category]').value,
+                        description: modal.querySelector('[name=description]').value,
+                        value: modal.querySelector('[name=value]').value,
+                    }
+                    if (isNew) {
+                        data.flag = modal.querySelector('[name=flag]').value
+                    } else {
+                        data.question = questionId;
+                    }
+
+                    fetch('/api/v1/ctf/question/' + endpoint, {
+                            method: 'post',
+                            body: JSON.stringify(data)
+                        })
+                        .then(response => response.json())
+                        .then(jsonData => {
+                            this.classList.remove('is-loading');
+                            modal.querySelector('button.confirm').addEventListener('click', confirmEvent)
+                            if (jsonData.status) {
+                                location.reload()
+                            } else if (jsonData.error == -1) {
+                                modal.querySelector('[name=flag]').placeholder = "Flag already used";
+                                modal.querySelector('[name=flag]').value = ""
+                            }
+                        })
+                }
+            }
+
+            const cancelEvent = function(evt) {
+                // onCancel && onCancel();
+                closeModal();
+            }
+
+            modal.querySelector('.button[name=updateFlag]').addEventListener('click', updateFlagEvent);
+            modal.querySelector('button.confirm').addEventListener('click', confirmEvent)
+            modal.querySelector('button.cancel').addEventListener('click', cancelEvent)
+            modal.querySelector('.modal-background').addEventListener('click', cancelEvent)
+
+            modal.classList.add('is-active');
+        }
+    </script>
+
+    <nav class="navbar is-fixed-bottom is-dark">
+        <div class="navbar-brand">
+            <a class="navbar-item">
+                <img src="/assets/img/compclub.logo.white.svg" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+            </a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <!-- navbar items -->
+            </div>
+
+            <div class="navbar-end">
+                <!-- navbar items -->
+                <div class="navbar-item" name="mouseCoordinates">
+                    <div name="mouseX">755</div>
+                    <div name="mouseY">49</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script>
+        var questions = {
+            "1": {
+                "id": 1,
+                "title": "Parse the Parcel",
+                "description": "RkxBR3tCQVNFXzY0fQ==",
+                "value": 100,
+                "category": 2
+            },
+            "2": {
+                "id": 2,
+                "title": "Hello world",
+                "description": "Yeet?",
+                "value": 100,
+                "category": 4
+            },
+            "3": {
+                "id": 3,
+                "title": "Example Question",
+                "description": "blah blah blah",
+                "value": 100,
+                "category": 1
+            }
+        }
+    </script>
+    <script>
+        (() => {
+            let x = document.querySelector('.navbar [name=mouseCoordinates] [name=mouseX]');
+            let y = document.querySelector('.navbar [name=mouseCoordinates] [name=mouseY]');
+
+            document.body.addEventListener('mousemove', evt => {
+                // var elem = document.querySelector( ".regions g:hover .mouseArea");
+                // if (elem) console.log(elem.getAttribute('data-text'))
+                x.innerText = evt.clientX;
+                y.innerText = evt.clientY;
+            })
+        })()
+    </script>
+    <!-- Site by Andrew Wong -->
+    <!-- github.com/featherbear/UNSW-CompClub2019Summer-CTF -->
+    <div style="z-index:9999;position:fixed;width:100%;height:50px;bottom:0;text-align:center;background-color:rgba(212,200,15,0.7);pointer-events:none"><p>DEMO Site | Log on with username 'admin', and password 'password' </p></div>
+</body>
+</html>

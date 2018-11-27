@@ -1,0 +1,158 @@
+html, body {
+    overflow-y: hidden;
+}
+
+div.background {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    /*background-image: url(../img/worldmap.background.svg);*/
+    background-color: black;
+}
+
+div.background * {
+    cursor: crosshair !important;
+}
+
+div.background:after {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 35, 88, 0.7);
+}
+
+div.background img, div.background svg {
+    height: 100%;
+    width: 100%;
+}
+
+/* Dot colour */
+div.background svg .points path {
+    fill: white;
+    stroke: transparent;
+    stroke-width: 5px;
+}
+
+/* Region tracer effect */
+div.background svg path:not(:hover) {
+    transition: fill 6.5s;
+}
+
+div.background svg path:hover {
+    fill: red
+}
+
+/* Region hover effect */
+/* Originally wanted to do a fill transition, but it conflicted with the tracer points */
+div.background svg g.points {
+    transition: opacity 1s;
+}
+
+div.background svg g.regions g:not(:hover) g.points, div.background svg > g.points path:not(:hover) {
+    opacity: 0.3;
+}
+
+/* Hide mouse area regions */
+div.background svg g.mouseArea {
+    opacity: 0;
+}
+
+div.background svg g.mouseArea path {
+    fill: #6ABD45;
+}
+
+.slideout {
+    position: absolute;
+    height: 100%;
+    width: 10vw;
+    right: 0;
+}
+
+.slideout {
+    /*border-left: 2px solid rgba(22, 131, 155, 0.5);*/
+    background-color: rgba(22, 131, 155, 0.2);
+    /*text-transform: uppercase;*/
+    transition: box-shadow 200ms;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.5);
+
+}
+
+.slideout:hover {
+    /*box-shadow: 0px 0px 15px 0px rgba(11, 126, 152, 0.5);*/
+}
+
+.slideout [name] {
+    color: white;
+}
+
+.slideout [name=rank]:not(:empty)::before {
+    content: "rank: "
+}
+
+.slideout [name=places]:not(:empty)::before {
+    content: "/"
+}
+
+.slideout [name=score]:not(:empty)::before {
+    content: "score: "
+}
+
+* {
+    font-family: Hack, monospace !important;
+    cursor: pointer;
+    user-select: none;
+}
+
+.navbar {
+    z-index: 40 !important;
+}
+
+.navbar [name=mouseCoordinates] {
+
+}
+
+.navbar [name=mouseCoordinates] [name=mouseX]:not(:empty)::before {
+    content: "x:"
+}
+
+.navbar [name=mouseCoordinates] [name=mouseX]:not(:empty)::after {
+    content: "\00a0 "
+}
+
+.navbar [name=mouseCoordinates] [name=mouseY]:not(:empty)::before {
+    content: "y:"
+}
+
+/*
+
+
+ */
+
+form .button {
+    color: white !important;
+    background-color: transparent;
+    border-color: rgba(22, 131, 155, 0.6) !important;
+}
+
+.blueBox, form .button:hover {
+    background-color: rgba(22, 131, 155, 0.22) !important;
+    border-color: rgba(11, 126, 152, 0.22) !important;
+    /*border-radius: 35px;*/
+}
+
+.blueBox:focus {
+    box-shadow: none;
+}
+
+.blueBox::placeholder {
+    color: #6c6c6c !important;
+    font-family: Hack, monospace !important;
+}
+
+.placeholder-center-text::placeholder {
+text-align: center;
+}
