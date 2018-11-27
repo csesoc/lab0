@@ -369,7 +369,7 @@
                 password2Elem.classList.remove('active');
 
                 if (password2Input.value === passwordInput.value) {
-                    location.href = '/game';
+                    location.href = 'game';
 
                 } else {
                     passwordInput.placeholder = "passwords didn't match";
@@ -395,7 +395,7 @@
 
             passwordInput.addEventListener('keypress', validateEnterEvent(function() {
                 if (usernameInput.value == "admin" && passwordInput.value == "password") {
-                    location.href = '/game';
+                    location.href = 'game';
                 } else {
                     usernameInput.value = '';
                     usernameInput.placeholder = 'sorry, try again';
