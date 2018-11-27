@@ -4,9 +4,9 @@ from ..config import config
 
 
 def authenticate(username, password):
-    if "ADMIN" in config:
-        if config["ADMIN"]["username"] == username and config["ADMIN"]["password"] == password:
-            return 0
+    print("authenticate |",username, password)
+    if config["ADMIN"]["username"] == username and config["ADMIN"]["password"] == password:
+        return (0, "Admin")
     else:
         if SQLMethod.checkPassword(username, password):
             return SQLMethod.getUser(username)

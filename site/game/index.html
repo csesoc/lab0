@@ -100,14 +100,12 @@
 <script>
     Array.prototype.has = function (obj) {
         return this.indexOf(obj) > -1
-    }
+    };
 
 
     function openModalQuestion(questionData, srcElem) {
         var modal = document.getElementById('questionModal');
-        console.log(questionData.id)
-        console.log(solves)
-        modal.classList.toggle('solved', solves.has(questionData.id))
+        modal.classList.toggle('solved', solves.has(questionData.id));
 
         fetch('/api/v1/ctf/questionSolves.json', {
             method: 'post',
@@ -120,16 +118,16 @@
                 if (jsonData.status) {
                     modal.querySelector('[name=solves]').innerText = jsonData.data;
                 }
-            })
+            });
 
         modal.querySelector("[name=flag]").value = questions[questionData.id].inputValue || "";
-        modal.querySelector('[name=title]').innerText = questionData.title
+        modal.querySelector('[name=title]').innerText = questionData.title;
         modal.querySelector('[name=category]').innerText = categories[questionData.category] || "";
         modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
 
         modal.querySelector('form .button').onclick = () => {
             modal.querySelector("[name=flag]").form.dispatchEvent(new Event('submit'))
-        }
+        };
 
         // this.querySelector('form .button').onclick
         function flagSubmissionDisable() {
@@ -142,14 +140,14 @@
             modal.querySelector('form .button').disabled = false;
         }
 
-        modal.querySelector('form').addEventListener('submit', function (evt) {
+        const submitEvent = function (evt) {
             evt.preventDefault();
             if (!modal.querySelector("[name=flag]").value.trim()) return;
+            modal.querySelector('form .button').classList.add('is-loading');
+            modal.querySelector('form').removeEventListener('submit', submitEvent);
 
-            modal.querySelector('form .button').classList.add('is-loading')
-
-            flagSubmissionDisable()
-            var flagValue = modal.querySelector("[name=flag]").value.trim()
+            flagSubmissionDisable();
+            var flagValue = modal.querySelector("[name=flag]").value.trim();
 
             fetch('/api/v1/ctf/solve', {
                 method: 'post',
@@ -160,19 +158,26 @@
             })
                 .then(response => response.json())
                 .then(jsonData => {
-                    flagSubmissionEnable()
                     modal.querySelector('form .button').classList.remove('is-loading');
+                    flagSubmissionEnable();
+                    modal.querySelector('form').addEventListener('submit', submitEvent);
                     if (jsonData.status) {
+                        modal.querySelector("[name=flag]").placeholder = "flag correct";
+                        modal.querySelector("[name=flag]").value = "";
                         if (!solves.has(questionData.id)) {
-                            solves.push(questionData.id)
+                            updateLeaderboard();
+                            solves.push(questionData.id);
                             modal.querySelector('[name=solves]').innerText = parseInt(modal.querySelector('[name=solves]').innerText) + 1
                         }
-                        modal.querySelector('[name=value]').classList.add('solved')
-                        srcElem.classList.add('solved')
+                        modal.querySelector('[name=value]').classList.add('solved');
+                        srcElem.classList.add('solved');
                     } else {
+                        modal.querySelector("[name=flag]").placeholder = flagValue + " was not right!";
+                        modal.querySelector("[name=flag]").value = "";
                     }
                 })
-        })
+        }
+        modal.querySelector('form').addEventListener('submit', submitEvent);
         modal.querySelector('[name=value]').innerText = questionData.value;
 
 
@@ -182,19 +187,18 @@
             modal.classList.remove('solved');
             flagSubmissionEnable();
 
-            modal.querySelector('button.cancel').removeEventListener('click', cancelEvent)
-            modal.querySelector('.modal-background').removeEventListener('click', cancelEvent)
+            modal.querySelector('form').removeEventListener('submit', submitEvent);
+            modal.querySelector('button.cancel').removeEventListener('click', cancelEvent);
+            modal.querySelector('.modal-background').removeEventListener('click', cancelEvent);
             modal.classList.remove('is-active');
-        }
+        };
 
-        const cancelEvent = function (evt) {
-            // onCancel && onCancel();
-            closeModal();
-        }
+        const cancelEvent = closeModal;
+
 
         // modal.querySelector('button.confirm').addEventListener('click', confirmEvent)
-        modal.querySelector('button.cancel').addEventListener('click', cancelEvent)
-        modal.querySelector('.modal-background').addEventListener('click', cancelEvent)
+        modal.querySelector('button.cancel').addEventListener('click', cancelEvent);
+        modal.querySelector('.modal-background').addEventListener('click', cancelEvent);
 
         modal.classList.add('is-active');
     }
@@ -208,33 +212,35 @@
 
 <style>
     article h2:not(:empty)::before {
-        content: "category: "
+        content: "category: ";
+        font-size: 0.75rem;
     }
 
     article h3:not(:empty)::before {
-        content: "points: "
+        content: "points: ";
+        font-size: 0.75rem;
     }
 </style>
 <script>
     function dataToTile(data) {
-        var tile = document.createElement('article');
-        tile.classList.toggle('solved', solves.has(data.id))
+        let tile = document.createElement('article');
+        tile.classList.toggle('solved', solves.has(data.id));
 
         tile.classList.add("tile", "is-child", "notification", "is-3");
         tile.name = "question-" + data.id;
 
-        var title = document.createElement('h1');
+        let title = document.createElement('h1');
         title.classList.add("title");
         title.innerText = data.title;
         tile.appendChild(title);
 
-        var category = document.createElement('h2')
-        category.innerText = categories[data.category] || ""
-        tile.appendChild(category)
+        let category = document.createElement('h2');
+        category.innerText = categories[data.category] || "";
+        tile.appendChild(category);
 
-        var points = document.createElement('h3')
-        points.innerText = data.value
-        tile.appendChild(points)
+        let points = document.createElement('h3');
+        points.innerText = data.value;
+        tile.appendChild(points);
 
         tile.addEventListener('click', function () {
             openModalQuestion(data, this)
@@ -249,7 +255,7 @@
         return fetch('/api/v1/ctf/questions.json', {
             method: 'post',
         })
-            .then(response => response.json())
+            .then(response => response.json());
 
     }
 
@@ -258,7 +264,7 @@
         return fetch('/api/v1/ctf/categories.json', {
             method: 'post',
         })
-            .then(response => response.json())
+            .then(response => response.json());
     }
 
 
@@ -266,34 +272,30 @@
         return fetch('/api/v1/ctf/userSolves.json', {
             method: 'post',
         })
-            .then(response => response.json())
+            .then(response => response.json());
     }
 
-    function getData() {
-        return Promise.all([getQuestions(), getCategories(), getSolves()])
-    }
+    const getData = () => Promise.all([getQuestions(), getCategories(), getSolves()]);
 
 
-    var questions = {};
-    var questionsByCategory = {};
-    var categories = {};
-    var solves = [];
+    let questions = {};
+    let questionsByCategory = {};
+    let categories = {};
+    let solves = [];
 
     getData().then(([questionsData, categoriesData, solvesData]) => {
-
         if (categoriesData.status) {
-            for (var data of categoriesData.data || []) {
-                categories[data[0]] = data[1]
+            for (let data of categoriesData.data || []) {
+                categories[data[0]] = data[1];
             }
         }
 
         if (solvesData.status && solvesData.data) {
-            solves = solvesData.data
-            console.log(solves)
+            solves = solvesData.data;
         }
 
         if (questionsData.status) {
-            for (var data of questionsData.data || []) {
+            for (let data of questionsData.data || []) {
                 questions[data[0]] = {
                     id: data[0],
                     title: data[1],
@@ -303,9 +305,10 @@
                 };
                 if (!questionsByCategory.hasOwnProperty(data[4])) {
                     questionsByCategory[data[4]] = [];
-                    questionsByCategory[data[4]].push(data[0])
+
+                    questionsByCategory[data[4]].push(data[0]);
                 }
-                document.querySelector('div.tile.is-ancestor .is-parent').appendChild(dataToTile(questions[data[0]]))
+                document.querySelector('div.tile.is-ancestor .is-parent').appendChild(dataToTile(questions[data[0]]));
             }
         }
 

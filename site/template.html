@@ -172,9 +172,9 @@ is-tab to add a bottom border on hover and show the bottom border using is-activ
                             break;
                         }
                     }
-                    document.querySelector('div.slideout [name=rank]').innerText = myRank;
-                    document.querySelector('div.slideout [name=places]').innerText = scoreData.length;
-                    document.querySelector('div.slideout [name=score]').innerText = myScore;
+                    document.querySelector('div.slideout [name=rank]').innerText = myRank || "-";
+                    document.querySelector('div.slideout [name=places]').innerText = scoreData.length || "-";
+                    document.querySelector('div.slideout [name=score]').innerText = myScore || "-";
 
                     // console.log("Ranked " + myRank + " out of " + scoreData.length + ".");
                     callbackTrue && callbackTrue(jsonData)

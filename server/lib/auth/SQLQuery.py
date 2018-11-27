@@ -30,7 +30,7 @@ class SQLQuery:
         SET _hash = ?, _salt = ?
         WHERE id = ?
         """
-    passwordCheck = "SELECT id FROM users WHERE username = ? AND hash = cHash(?, salt)"
+    passwordCheck = "SELECT id FROM users WHERE username = ? AND _hash = cHash(?, _salt)"
 
     getUserByUsername = "SELECT id, name FROM users WHERE username = ?"
     getUserById = "SELECT username, name FROM users WHERE id = ?"
