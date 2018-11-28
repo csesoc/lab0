@@ -51,7 +51,7 @@ def run(file: str = None, **kwargs):
         raise Exception("Cannot create the database connection.")
 
     server = tornado.httpserver.HTTPServer(app)
-    
+
     port = config["SERVER"].get("port", 8000)
     try:
         server.bind(port)
@@ -61,14 +61,15 @@ def run(file: str = None, **kwargs):
 
     print("TODO")
     print("- Concurrent SQLCursors")
-    print("- Session token cleanup")
-    
+
+    lib.authSession.cleanup()
+
     try:
-      from os import fork
-      server.start(0)
+        from os import fork
+        server.start(0)
     except:
-      print(":: os.fork not present on system (Windows) - Defaulting to single process")
-      server.start(1)
+        print(":: os.fork not present on system (Windows) - Defaulting to single process")
+        server.start(1)
 
     print("Server running on port %s\n" % port)
     SSE_messages.addMessage("The game server is online!")

@@ -19,3 +19,7 @@ def getSession(token: str):
     if not token:
         return False
     return SQLMethod.getSession(token)
+
+
+def cleanup():
+    return SQLMethod.cleanup()

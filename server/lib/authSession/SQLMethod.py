@@ -1,5 +1,6 @@
 from .SQLQuery import SQLQuery
 from .. import database
+from time import time
 
 
 class SQLMethod:
@@ -23,3 +24,7 @@ class SQLMethod:
     @staticmethod
     def getSession(token: str):
         return database.fetchOne(SQLQuery.getSessionByToken, (token,))
+
+    @staticmethod
+    def cleanup():
+        return database.update(SQLQuery.deleteByExpiry, (int(time()) - 60 * 60,))

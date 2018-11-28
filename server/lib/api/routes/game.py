@@ -52,7 +52,6 @@ def userSolves(self: RequestHandler, args: dict):
 @routing.POST("/ctf/questionSolves.json")
 @authenticated
 def questionSolves(self: RequestHandler, args: dict):
-    print("qs")
     return self.finish(JSON.data(len(ctfSQLMethod.questions.getSolves(question = args["question"]))))
 
 
