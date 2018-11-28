@@ -39,7 +39,6 @@
 
 <script>
 
-
     Array.from(document.querySelectorAll('img.svg')).forEach(img => {
         fetch(img.src).then(content => content.text()).then(data => {
             img.classList.remove('svg');
@@ -57,20 +56,10 @@
     </div>
     <h1 class="title" name="score"></h1>
 
+    <h1 class="title">Leaderboard</h1>
+    <span name="leaderboard"></span>
 </div>
 {% block content %}{% endblock %}
-<!--<section class="hero is-primary">-->
-<!--<div class="hero-body">-->
-<!--<div class="container">-->
-<!--<h1 class="title">-->
-<!--Primary title-->
-<!--</h1>-->
-<!--<h2 class="subtitle">-->
-<!--Primary subtitle-->
-<!--</h2>-->
-<!--</div>-->
-<!--</div>-->
-<!--</section>-->
 
 <nav class="navbar is-fixed-bottom is-dark">
     <div class="navbar-brand">
@@ -155,9 +144,6 @@ is-tab to add a bottom border on hover and show the bottom border using is-activ
                     var myScore;
                     for (var dataId in jsonData.data) {
                         var data = jsonData.data[dataId];
-                        if (me.id == dataId) {
-                            myScore = data.points;
-                        }
                         scoreData.push({
                             id: dataId,
                             name: data.name,
@@ -166,12 +152,27 @@ is-tab to add a bottom border on hover and show the bottom border using is-activ
                     }
                     scoreData.sort((next, prev) => prev.points - next.points);
                     var myRank;
+                    var leaderboard = [];
+                    var lastRank = lastScore = 0;
                     for (var i = 0; i < scoreData.length; i++) {
-                        if (myScore === scoreData[i].points) {
-                            myRank = i + 1;
-                            break;
+                        var rank;
+
+                        if (lastScore === scoreData[i].points) {
+                            rank = lastRank;
+                        } else {
+                            rank = lastRank = i + 1;
+                            lastScore = scoreData[i].points;
                         }
+
+                        if (me.id == scoreData[i].id) {
+                            myScore = scoreData[i].points;
+                            myRank = rank;
+                        }
+
+                        leaderboard.push(rank + ". " + scoreData[i].name)
                     }
+
+                    document.querySelector('div.slideout [name=leaderboard]').innerText = leaderboard.join("\n");
                     document.querySelector('div.slideout [name=rank]').innerText = myRank || "-";
                     document.querySelector('div.slideout [name=places]').innerText = scoreData.length || "-";
                     document.querySelector('div.slideout [name=score]').innerText = myScore || "-";
