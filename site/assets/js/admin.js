@@ -29,6 +29,8 @@ function openModalEdit(questionId, srcElem) {
         modal.querySelector('[name=title]').value = question.title;
         modal.querySelector('[name=category]').value = question.category;
         modal.querySelector('[name=description]').value = question.description;
+        modal.querySelector('[name=value]').value = question.value;
+        modal.querySelector('input[type=range]').value = question.value;
     }
 
     const updateFlagEvent = function (evt) {
