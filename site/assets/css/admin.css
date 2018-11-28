@@ -1,0 +1,95 @@
+#editModal .modal-card > * {
+    border: 2px solid rgba(22, 131, 155, 0.5);
+}
+
+#editModal .modal-card header, #editModal .modal-card footer {
+    background-color: rgba(22, 131, 155, 0.5);
+}
+
+#editModal .modal-card section {
+    background-color: rgba(11, 126, 152, 0.22);
+}
+
+#editModal textarea[name=description] {
+    resize: none;
+}
+
+#editModal .modal-card-title::before {
+    content: "Question"
+}
+
+#editModal.editQuestion .modal-card-title::after {
+    content: "\00a0 Edit"
+}
+
+#editModal .modal-card-title::after {
+    content: "\00a0 Create"
+}
+
+#editModal:not(.editQuestion) form p {
+    margin-right: 0;
+}
+
+#editModal:not(.editQuestion) form a.button {
+    display: none
+}
+
+#editModal .valueField {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+#editModal [name=value] {
+    width: 100px;
+    margin-right: 10px;
+    text-align: center;
+}
+
+#editModal select {
+    background-color: #133945 !important;
+}
+
+#editModal.editQuestion .modal-card-foot button.confirm::before {
+    content: "Save"
+}
+
+#editModal .modal-card-foot button.confirm::before {
+    content: "Create"
+}
+
+#editModal input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+body > div.container {
+    max-width: 1152px !important;
+    height: 95vh;
+    overflow-y: scroll;
+}
+
+table.table {
+    background-color: transparent;
+    color: #f5f5f5 !important;
+}
+
+table th {
+    color: #f5f5f5 !important;
+}
+
+table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+button.button {
+    color: white !important;
+    background-color: transparent;
+    border-color: rgba(22, 131, 155, 0.6) !important;
+}
+
+button.button:hover {
+    background-color: rgba(22, 131, 155, 0.22) !important;
+    border-color: rgba(11, 126, 152, 0.22) !important;
+}

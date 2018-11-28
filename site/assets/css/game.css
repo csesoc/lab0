@@ -1,0 +1,107 @@
+#questionModal {
+    opacity: 0;
+    transition: opacity 200ms;
+    display: flex;
+    pointer-events: none;
+}
+
+#questionModal.is-active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#questionModal .modal-card > * {
+    border: 2px solid rgba(22, 131, 155, 0.5);
+}
+
+#questionModal .modal-card header, #questionModal .modal-card footer {
+    background-color: rgba(22, 131, 155, 0.5);
+}
+
+#questionModal .modal-card section {
+    background-color: rgba(11, 126, 152, 0.22);
+}
+
+#questionModal.solved [name=title]::before {
+    content: "[solved] ";
+    color: hsl(0, 0%, 71%);
+}
+
+#questionModal [name=solves]:not(:empty)::before {
+    content: "solves: ";
+}
+
+#questionModal [name=solves] {
+    flex-grow: 1;
+}
+
+#questionModal [name=category]:not(:empty)::before {
+    content: ": "
+}
+
+#questionModal [name=value]::after {
+    content: " pts";
+}
+
+#questionModal:not(.solved) [name=value] {
+    transition: color 0.5s;
+}
+
+#questionModal [name=value].solved, #questionModal.solved [name=value] {
+    color: green;
+}
+
+#questionModal iframe {
+    width: 100%;
+}
+
+
+body > div.container {
+    pointer-events: none;
+}
+
+div.tile.is-ancestor .is-parent {
+    flex-flow: wrap;
+}
+
+article {
+    transition: box-shadow 250ms;
+    background-color: rgba(22, 131, 155, 0.3) !important;
+    border: 1px #dbdbdb !important;
+    color: grey;
+}
+
+article:hover {
+    box-shadow: inset 0 0 60px rgba(11, 126, 152, 0.5);
+    color: white;
+}
+
+article.solved {
+    filter: saturate(0);
+}
+
+article h2:not(:empty)::before {
+    content: "category: ";
+    font-size: 0.75rem;
+}
+
+article h3:not(:empty)::before {
+    content: "points: ";
+    font-size: 0.75rem;
+}
+
+article.tile {
+    transition: all 0.3s;
+}
+
+article.tile.is-child {
+    margin: 5px !important;
+    pointer-events: auto;
+}
+
+@media screen and (min-width: 769px) {
+    article.tile.is-child {
+        width: 24%;
+        min-height: 25vh;
+    }
+}

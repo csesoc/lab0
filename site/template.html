@@ -6,53 +6,43 @@
     <!------
 
     F
-    A
-    V
-    I
-    C
-    O
+        A
+            V
+                I
+            C
+         O
     N
 
     --------->
     <link rel='stylesheet' href='/assets/css/normalize.min.css'/>
-    <link rel='stylesheet' href='/assets/font/hack-subset.css'>
     <link rel='stylesheet' href='/assets/css/bulma.min.css'/>
+    <link rel='stylesheet' href='/assets/font/hack-subset.css'>
     <link rel='stylesheet' href='/assets/css/site.css'/>
-
+    <link rel='stylesheet' href='/assets/css/scanlines.css'/>
+    <script src="/assets/js/ctf.js"></script>
     {% block head %}{% endblock %}
-    <script>
-        let me = {}
-        fetch("/api/v1/auth/me", {method: "POST"}).then(response => response.json())
-            .then(jsonData => {
-                if (jsonData.status) {
-                    me = jsonData.data
-                }
-            })
-    </script>
 </head>
 <body class="has-navbar-fixed-bottom">
 <div class="background scanlines">
     <img class="svg" src="/assets/img/worldmap.background.svg"/>
+    <script>
+        (() => {
+            let backgroundImg = document.querySelector('img.svg');
+            fetch(backgroundImg.src)
+                .then(content => content.text())
+                .then(data => {
+                    backgroundImg.classList.remove('svg');
+                    var backgroundSvg = new DOMParser().parseFromString(data, "image/svg+xml").querySelector('svg');
+                    backgroundSvg.classList = backgroundImg.classList;
+                    backgroundImg.parentElement.replaceChild(backgroundSvg, backgroundImg);
+                })
+        })();
+    </script>
 </div>
 
-<link rel='stylesheet' href='/assets/css/scanlines.css'/>
-
-<script>
-
-    Array.from(document.querySelectorAll('img.svg')).forEach(img => {
-        fetch(img.src).then(content => content.text()).then(data => {
-            img.classList.remove('svg');
-            var svg = new DOMParser().parseFromString(data, "image/svg+xml").querySelector('svg');
-            svg.classList = img.classList;
-
-            img.parentElement.replaceChild(svg, img)
-            //svgElem)
-        })
-    })
-</script>
-
 <div class="slideout has-text-centered">
-    <div><span class="title" name="rank"></span><span class="subtitle" name="places"></span>
+    <div>
+        <span class="title" name="rank"></span><span class="subtitle" name="places"></span>
     </div>
     <h1 class="title" name="score"></h1>
 
@@ -63,11 +53,9 @@
 
 <nav class="navbar is-fixed-bottom is-dark">
     <div class="navbar-brand">
-        <a class="navbar-item">
-            <img src="/assets/img/compclub.logo.white.svg" alt="Bulma: a modern CSS framework based on Flexbox"
-                 width="112" height="28">
+        <a class="navbar-item" href="//summer.compclub.com.au">
+            <img src="/assets/img/compclub.logo.white.svg" width="112" height="28">
         </a>
-
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
             <span aria-hidden="true"></span>
             <span aria-hidden="true"></span>
@@ -75,20 +63,10 @@
         </a>
     </div>
     <div class="navbar-menu">
-        <!--
-        You can add the following modifier classes:
-
-is-expanded to turn it into a full-width element
-is-tab to add a bottom border on hover and show the bottom border using is-active
-
-        -->
-
         <div class="navbar-start">
-            <!-- navbar items -->
+            <!-- Add some links here -->
         </div>
-
         <div class="navbar-end">
-            <!-- navbar items -->
             <div class="navbar-item" name="mouseCoordinates">
                 <div name="mouseX"></div>
                 <div name="mouseY"></div>
@@ -97,29 +75,18 @@ is-tab to add a bottom border on hover and show the bottom border using is-activ
     </div>
 </nav>
 
-<script>
-    (() => {
-        let x = document.querySelector('.navbar [name=mouseCoordinates] [name=mouseX]');
-        let y = document.querySelector('.navbar [name=mouseCoordinates] [name=mouseY]');
+<script src="/assets/js/fun.js" defer></script>
 
-        document.body.addEventListener('mousemove', evt => {
-            // var elem = document.querySelector( ".regions g:hover .mouseArea");
-            // if (elem) console.log(elem.getAttribute('data-text'))
-            x.innerText = evt.clientX;
-            y.innerText = evt.clientY;
-        })
-    })()
-</script>
 <script>
     (() => {
-            var lastSC;
-            var lastId = -1;
+            let lastSC;
+            let lastId = -1;
             if (EventSource) {
                 let source = new EventSource("/orchestrator");
                 source.onmessage = function (event) {
-                    var id_data = event.lastEventId.split(":");
-                    var _sc = id_data[0];
-                    var _id = parseInt(id_data[1]);
+                    let id_data = event.lastEventId.split(":");
+                    let _sc = id_data[0];
+                    let _id = parseInt(id_data[1]);
 
                     if (_sc !== lastSC) {
                         lastSC = _sc;
@@ -127,81 +94,17 @@ is-tab to add a bottom border on hover and show the bottom border using is-activ
                     }
 
                     if (_id > lastId) {
-                        console.log(event.data)
                         lastId = _id;
                     }
-
                 };
             }
         }
     )();
-
-    (updateLeaderboard = (callbackTrue, callbackFalse) => {
-        fetch("/api/v1/ctf/leaderboard.json", {method: "POST"}).then(response => response.json())
-            .then(jsonData => {
-                if (jsonData.status) {
-                    var scoreData = [];
-                    var myScore;
-                    for (var dataId in jsonData.data) {
-                        var data = jsonData.data[dataId];
-                        scoreData.push({
-                            id: dataId,
-                            name: data.name,
-                            points: data.points
-                        })
-                    }
-                    scoreData.sort((next, prev) => prev.points - next.points);
-                    var myRank;
-                    var leaderboard = [];
-                    var lastRank = lastScore = 0;
-                    for (var i = 0; i < scoreData.length; i++) {
-                        var rank;
-
-                        if (lastScore === scoreData[i].points) {
-                            rank = lastRank;
-                        } else {
-                            rank = lastRank = i + 1;
-                            lastScore = scoreData[i].points;
-                        }
-
-                        if (me.id == scoreData[i].id) {
-                            myScore = scoreData[i].points;
-                            myRank = rank;
-                        }
-
-                        leaderboard.push(rank + ". " + scoreData[i].name)
-                    }
-
-                    document.querySelector('div.slideout [name=leaderboard]').innerText = leaderboard.join("\n");
-                    document.querySelector('div.slideout [name=rank]').innerText = myRank || "-";
-                    document.querySelector('div.slideout [name=places]').innerText = scoreData.length || "-";
-                    document.querySelector('div.slideout [name=score]').innerText = myScore || "-";
-
-                    // console.log("Ranked " + myRank + " out of " + scoreData.length + ".");
-                    callbackTrue && callbackTrue(jsonData)
-                } else {
-                    callbackFalse && callbackFalse()
-
-                }
-            })
-    })();
-
-    (() => {
-        var updateReady = true;
-        let leaderboardLoop = () => {
-            if (updateReady) {
-                updateReady = false;
-                updateLeaderboard(() => {
-                    updateReady = true
-                })
-            }
-        }
-        setInterval(leaderboardLoop, 10 * 1000)
-
-    })()
 </script>
+
+<script type="text/javascript" src="/assets/js/leaderboard.js" defer></script>
 </body>
 
-<!-- Site by Andrew Wong -->
+<!-- Site by Andrew Wong (z5206677) -->
 <!-- github.com/featherbear/UNSW-CompClub2019Summer-CTF -->
 </html>

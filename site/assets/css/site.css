@@ -2,18 +2,19 @@ html, body {
     overflow-y: hidden;
 }
 
+* {
+    font-family: Hack, monospace !important;
+    cursor: pointer;
+    user-select: none;
+}
+
 div.background {
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    /*background-image: url(../img/worldmap.background.svg);*/
     background-color: black;
-}
-
-div.background * {
-    cursor: crosshair !important;
 }
 
 div.background:after {
@@ -24,6 +25,11 @@ div.background:after {
     left: 0;
     background-color: rgba(0, 35, 88, 0.7);
 }
+
+div.background * {
+    cursor: crosshair !important;
+}
+
 
 div.background img, div.background svg {
     height: 100%;
@@ -65,6 +71,7 @@ div.background svg g.mouseArea path {
     fill: #6ABD45;
 }
 
+
 .slideout {
     position: absolute;
     height: 100%;
@@ -101,11 +108,6 @@ div.background svg g.mouseArea path {
     content: "score: "
 }
 
-* {
-    font-family: Hack, monospace !important;
-    cursor: pointer;
-    user-select: none;
-}
 
 .navbar {
     z-index: 40 !important;
@@ -127,10 +129,6 @@ div.background svg g.mouseArea path {
     content: "y:"
 }
 
-/*
-
-
- */
 
 form .button {
     color: white !important;
@@ -138,7 +136,7 @@ form .button {
     border-color: rgba(22, 131, 155, 0.6) !important;
 }
 
-.blueBox, form .button:hover {
+form .button:hover, .blueBox {
     background-color: rgba(22, 131, 155, 0.22) !important;
     border-color: rgba(11, 126, 152, 0.22) !important;
     /*border-radius: 35px;*/
@@ -154,5 +152,17 @@ form .button {
 }
 
 .placeholder-center-text::placeholder {
-text-align: center;
+    text-align: center;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(22, 131, 155, 0.22);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(11, 126, 152, 0.22);
 }
