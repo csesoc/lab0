@@ -6,14 +6,17 @@ from tornado.web import authenticated
 @routing.GET('/')
 @authenticated
 def gameHome(self: BaseHandler):
+    if self.current_user.id == 0:
+        return self.redirect("/admin", True)
     return self.render_jinja2("game/index.html")
 
 
 @routing.GET('/admin/?')
 @authenticated
 def gameAdmin(self: BaseHandler):
-    if self.current_user.id == 0:
-        return self.render_jinja2("admin/index.html")
+    if not self.current_user.isAdmin:
+        return self.finish("You don't have access to this page!<br><i>and i should really make an error page</i>")
+    return self.render_jinja2("admin/index.html")
 
 @routing.GET('/login/?')
 def loginRedirect(self: BaseHandler):

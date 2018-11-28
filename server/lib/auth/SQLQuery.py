@@ -6,6 +6,7 @@ class SQLQuery:
             name TEXT,
             _hash TEXT NOT NULL,
             _salt TEXT NOT NULL,
+            _isAdmin INTEGER DEFAULT 0,
             
             UNIQUE (username)
         )
@@ -32,6 +33,6 @@ class SQLQuery:
         """
     passwordCheck = "SELECT id FROM users WHERE username = ? AND _hash = cHash(?, _salt)"
 
-    getUserByUsername = "SELECT id, name FROM users WHERE username = ?"
-    getUserById = "SELECT username, name FROM users WHERE id = ?"
-    getUsers = "SELECT id, username, name FROM users"
+    getUserByUsername = "SELECT id, name, _isAdmin FROM users WHERE username = ?"
+    getUserById = "SELECT username, name, _isAdmin FROM users WHERE id = ?"
+    getUsers = "SELECT id, username, name, _isAdmin FROM users"
