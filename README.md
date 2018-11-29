@@ -31,6 +31,10 @@ username = admin        # Superuser username
 password = password     # Superuser password
 ```
 
+## Admin users
+There is no user account management interface (_yet_).  
+Edit the SQLite entry for the user in the `users` table.  
+
 ---
 ## Credits
 
