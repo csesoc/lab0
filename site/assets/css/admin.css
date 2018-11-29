@@ -83,6 +83,16 @@ table td {
     text-overflow: ellipsis;
 }
 
+table tbody tr:first-child td {
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+table tbody tr:first-child:hover {
+    background-color: hsla(0, 0%, 100%, 0.3);
+}
+
+
 button.button {
     color: white !important;
     background-color: transparent;
