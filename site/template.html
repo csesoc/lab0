@@ -46,7 +46,7 @@
     </div>
     <h1 class="title" name="score"></h1>
 
-    <h1 class="title">Leaderboard</h1>
+    <h1 class="title has-text-light">Leaderboard</h1>
     <span name="leaderboard"></span>
 </div>
 {% block content %}{% endblock %}
@@ -63,8 +63,8 @@
         </a>
     </div>
     <div class="navbar-menu">
-        <div class="navbar-start">
-            <!-- Add some links here -->
+        <div class="navbar-item is-expanded">
+            <div class="orchestrator has-text-centered"></div>
         </div>
         <div class="navbar-end">
             <div class="navbar-item" name="mouseCoordinates">
@@ -74,34 +74,8 @@
         </div>
     </div>
 </nav>
-
 <script src="/assets/js/fun.js" defer></script>
-
-<script>
-    (() => {
-            let lastSC;
-            let lastId = -1;
-            if (EventSource) {
-                let source = new EventSource("/orchestrator");
-                source.onmessage = function (event) {
-                    let id_data = event.lastEventId.split(":");
-                    let _sc = id_data[0];
-                    let _id = parseInt(id_data[1]);
-
-                    if (_sc !== lastSC) {
-                        lastSC = _sc;
-                        lastId = -1;
-                    }
-
-                    if (_id > lastId) {
-                        lastId = _id;
-                    }
-                };
-            }
-        }
-    )();
-</script>
-
+<script src="/assets/js/orchestrator.js" defer></script>
 <script type="text/javascript" src="/assets/js/leaderboard.js" defer></script>
 </body>
 

@@ -11,6 +11,7 @@ class SSE_messages:
         self.idPrefix = uuid.uuid4().hex[:4]
 
     def addMessage(self, data: str, event: str = None):
+        print("Orchestrator:", data)
         self.messageQueue.append(dict(
             id = ":".join([self.idPrefix, str(self.nextId)]),
             data = data,

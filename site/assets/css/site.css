@@ -155,6 +155,20 @@ form .button:hover, .blueBox {
     text-align: center;
 }
 
+.orchestrator {
+    opacity: 0;
+    transition: opacity 1s;
+    width: 100%;
+}
+
+.orchestrator.active {
+    opacity: 1;
+}
+
+div[name=mouseCoordinates] {
+    width: 150px;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }
