@@ -29,8 +29,14 @@ function getCategories() {
         .then(response => response.json())
 }
 
+function getSolvesAdmin() {
+    return fetch('/api/v1/ctf/adminSolves.json', {
+        method: 'post',
+    })
+        .then(response => response.json())
+}
 
-function getSolves(questionId) {
+function getSolves(questionId, getAll) {
     if (questionId !== undefined) {
         return fetch('/api/v1/ctf/questionSolves.json', {
             method: 'post',
@@ -41,14 +47,10 @@ function getSolves(questionId) {
             .then(response => response.json())
     }
 
-    return fetch('/api/v1/ctf/solves.json', {
+    return fetch('/api/v1/ctf/userSolves.json', {
         method: 'post',
     })
         .then(response => response.json())
-}
-
-function getData() {
-    return Promise.all([getQuestions(), getCategories(), getSolves()])
 }
 
 function getLeaderboard() {

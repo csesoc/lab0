@@ -43,6 +43,12 @@ def leaderboard(self: RequestHandler, args: dict):
     return self.finish(JSON.data(leaderboard))
 
 
+@routing.POST("/ctf/adminSolves.json")
+@authenticated
+def userSolves(self: RequestHandler, args: dict):
+    return self.finish(JSON.data(ctfSQLMethod.questions.getSolves()))
+
+
 @routing.POST("/ctf/userSolves.json")
 @authenticated
 def userSolves(self: RequestHandler, args: dict):
