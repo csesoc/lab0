@@ -56,7 +56,7 @@ function openModalEdit(questionId, srcElem) {
                             flagColumn.innerText = flagInput.value
                         }
                         flagInput.value = "";
-                    } else if (jsonData.error === -1) {
+                    } else if (parseInt(jsonData.error) === -1) {
                         flagInput.placeholder = "Flag already used";
                         flagInput.value = "";
                     }
@@ -64,7 +64,7 @@ function openModalEdit(questionId, srcElem) {
         }
     };
 
-    const confirmEvent = function (evt) {
+        const confirmEvent = function (evt) {
         if (modal.querySelector('form').reportValidity()) {
             modal.querySelector('button.confirm').removeEventListener('click', confirmEvent);
             this.classList.add('is-loading');
@@ -93,7 +93,7 @@ function openModalEdit(questionId, srcElem) {
                     modal.querySelector('button.confirm').addEventListener('click', confirmEvent);
                     if (jsonData.status) {
                         location.reload()
-                    } else if (jsonData.error === -1) {
+                    } else if (parseInt(jsonData.error) === -1) {
                         flagInput.placeholder = "Flag already used";
                         flagInput.value = "";
                     }
@@ -158,7 +158,7 @@ function dataToRow(data) {
     edit.appendChild(editBtn);
     row.appendChild(edit);
 
-    const flagRevealClickEvent = () => {
+    const flagRevealClickEvent = function () {
         flagReveal.removeEventListener('click', flagRevealClickEvent);
         this.classList.add('is-loading');
         fetch('/api/v1/ctf/question/getFlag', {
