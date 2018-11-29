@@ -64,7 +64,7 @@ function openModalEdit(questionId, srcElem) {
         }
     };
 
-        const confirmEvent = function (evt) {
+    const confirmEvent = function (evt) {
         if (modal.querySelector('form').reportValidity()) {
             modal.querySelector('button.confirm').removeEventListener('click', confirmEvent);
             this.classList.add('is-loading');
@@ -147,9 +147,9 @@ function dataToRow(data) {
     points.innerText = data.value;
     row.appendChild(points);
 
-    let solves = document.createElement('td');
-    solves.innerText = solves[data.id] || 0;
-    row.appendChild(solves);
+    let solveCount = document.createElement('td')
+    solveCount.innerText = (solves[data.id] || []).length;
+    row.appendChild(solveCount);
 
     let edit = document.createElement('td');
     let editBtn = document.createElement('button');
@@ -184,40 +184,41 @@ function dataToRow(data) {
     return row;
 }
 
+Promise.all([getQuestions(), getCategories(), getSolvesAdmin()])
+    .then(([questionsData, categoriesData, solvesData]) => {
+        let modal = document.getElementById('editModal');
+        let categoryElem = modal.querySelector('select');
 
-getData().then(([questionsData, categoriesData, solvesData]) => {
-    let modal = document.getElementById('editModal');
-    let categoryElem = modal.querySelector('select');
+        if (categoriesData.status) {
+            for (let data of categoriesData.data || []) {
+                categories[data[0]] = data[1];
 
-    if (categoriesData.status) {
-        for (let data of categoriesData.data || []) {
-            categories[data[0]] = data[1];
-
-            let option = document.createElement('option');
-            option.value = data[0];
-            option.innerText = data[1];
-            categoryElem.appendChild(option);
-        }
-    }
-
-    if (solvesData.status && solvesData.data) {
-        solves = solvesData.data
-    }
-
-    if (questionsData.status) {
-        for (let data of questionsData.data || []) {
-            questions[data[0]] = {
-                id: data[0],
-                title: data[1],
-                description: data[2],
-                value: data[3],
-                category: data[4]
-            };
-            if (!questionsByCategory.hasOwnProperty(data[4])) {
-                questionsByCategory[data[4]] = [];
-                questionsByCategory[data[4]].push(data[0]);
+                let option = document.createElement('option');
+                option.value = data[0];
+                option.innerText = data[1];
+                categoryElem.appendChild(option);
             }
-            document.querySelector('table tbody').appendChild(dataToRow(questions[data[0]]));
         }
-    }
-});
+
+        console.log(solvesData);
+        if (solvesData.status && solvesData.data) {
+            solves = solvesData.data
+        }
+
+        if (questionsData.status) {
+            for (let data of questionsData.data || []) {
+                questions[data[0]] = {
+                    id: data[0],
+                    title: data[1],
+                    description: data[2],
+                    value: data[3],
+                    category: data[4]
+                };
+                if (!questionsByCategory.hasOwnProperty(data[4])) {
+                    questionsByCategory[data[4]] = [];
+                    questionsByCategory[data[4]].push(data[0]);
+                }
+                document.querySelector('table tbody').appendChild(dataToRow(questions[data[0]]));
+            }
+        }
+    });
