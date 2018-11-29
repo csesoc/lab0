@@ -7,7 +7,8 @@ from tornado.web import authenticated
 @authenticated
 def gameHome(self: BaseHandler):
     if self.current_user.id == 0:
-        return self.redirect("/admin", True)
+        # redirect super user to admin page
+        return self.render_jinja2("admin/index.html")
     return self.render_jinja2("game/index.html")
 
 
