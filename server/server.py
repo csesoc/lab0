@@ -1,15 +1,48 @@
-__VERSION = "0.0.1"
-
-
+__VERSION = "0.0.2"
 # github.com/featherbear/UNSW-CompClub2019Summer-CTF
+
+print("TODO")
+print("- Concurrent SQLCursors")
+
+import tornado.ioloop
+import tornado.web
+
+from lib import database
+from lib.api import APIHandler
+from lib.site import SSEHandler, SSE_messages, SiteHandler
+
+app = tornado.web.Application([
+    ("/api/v1/(.*)", APIHandler),
+    ("/orchestrator", SSEHandler),
+    ("/(.*)", SiteHandler),
+],
+    cookie_secret = "5206677",
+    login_url = "/invite"
+)
+
+if database.conn is not None:
+    import lib.auth
+
+    lib.auth.initDatabase()
+
+    import lib.authSession
+
+    lib.authSession.initDatabase()
+    lib.authSession.cleanup()
+
+    import lib.ctf
+
+    lib.ctf.initDatabase()
+
+else:
+    raise Exception("Cannot create the database connection.")
+
 
 def run(file: str = None, **kwargs):
     print("UNSW CSE CompClub 2019 Summer CTF Server")
     print("                      [ by Andrew Wong ]")
     print("----------------------------------------")
     print("Server version:", __VERSION)
-
-    from lib import database
 
     if file:
         print("Loading config file:", file)
@@ -24,32 +57,6 @@ def run(file: str = None, **kwargs):
         config.update(kwargs)
     print("----------------------------------------")
 
-    import tornado.web
-    import tornado.ioloop
-
-    from lib.site import SiteHandler, SSEHandler, SSE_messages
-    from lib.api import APIHandler
-
-    app = tornado.web.Application([
-        ("/api/v1/(.*)", APIHandler),
-        ("/orchestrator", SSEHandler),
-        ("/(.*)", SiteHandler),
-    ],
-        cookie_secret = "5206677",
-        login_url = "/invite"
-    )
-
-    if database.conn is not None:
-        import lib.auth
-        lib.auth.initDatabase()
-        import lib.authSession
-        lib.authSession.initDatabase()
-        import lib.ctf
-        lib.ctf.initDatabase()
-
-    else:
-        raise Exception("Cannot create the database connection.")
-
     server = tornado.httpserver.HTTPServer(app)
 
     port = config["SERVER"].get("port", 8000)
@@ -58,11 +65,6 @@ def run(file: str = None, **kwargs):
     except OSError:
         print("Port", port, "is in use!\nAborting...")
         return
-
-    print("TODO")
-    print("- Concurrent SQLCursors")
-
-    lib.authSession.cleanup()
 
     try:
         from os import fork
@@ -79,3 +81,10 @@ def run(file: str = None, **kwargs):
 
 if __name__ == "__main__":
     run()
+else:
+    import asyncio
+    from tornado.platform.asyncio import AnyThreadEventLoopPolicy
+    asyncio.set_event_loop_policy(AnyThreadEventLoopPolicy())
+
+    import tornado.wsgi
+    application = tornado.wsgi.WSGIAdapter(app)

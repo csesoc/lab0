@@ -6,7 +6,7 @@ from .config import config
 
 def create_connection(db_file):
     try:
-        conn = sqlite3.connect(db_file)
+        conn = sqlite3.connect(db_file, check_same_thread = False)
         return conn
     except sqlite3.Error as e:
         print(e)
@@ -53,5 +53,3 @@ def update(*args, commit = True, **kwargs):
 
 
 conn = create_connection(config["SERVER"].get("database", "database.sqlite3"))
-
-# TODO Concurrent cursors?
