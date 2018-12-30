@@ -92,6 +92,9 @@ table tbody tr:first-child:hover {
     background-color: hsla(0, 0%, 100%, 0.3);
 }
 
+table tbody tr td:nth-child(2) {
+    max-width: 20vw;
+}
 
 button.button {
     color: white !important;
