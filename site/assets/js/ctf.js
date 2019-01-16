@@ -61,7 +61,7 @@ function getSolves(questionId, getAll) {
 
 function getLeaderboard() {
     return fetch("/api/v1/ctf/leaderboard.json", {
-        method: "post"
+        method: "post",
         credentials: 'include',
     })
         .then(response => response.json())
