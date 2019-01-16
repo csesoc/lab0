@@ -6,7 +6,8 @@ let solves = [];
 let me = {};
 
 fetch("/api/v1/auth/me", {
-    method: "POST"
+    method: "POST",
+    credentials: 'include',
 })
     .then(response => response.json())
     .then(jsonData => {
@@ -18,6 +19,7 @@ fetch("/api/v1/auth/me", {
 function getQuestions() {
     return fetch('/api/v1/ctf/questions.json', {
         method: 'post',
+        credentials: 'include',
     })
         .then(response => response.json())
 }
@@ -25,6 +27,7 @@ function getQuestions() {
 function getCategories() {
     return fetch('/api/v1/ctf/categories.json', {
         method: 'post',
+        credentials: 'include',
     })
         .then(response => response.json())
 }
@@ -32,6 +35,7 @@ function getCategories() {
 function getSolvesAdmin() {
     return fetch('/api/v1/ctf/adminSolves.json', {
         method: 'post',
+        credentials: 'include',
     })
         .then(response => response.json())
 }
@@ -40,6 +44,7 @@ function getSolves(questionId, getAll) {
     if (questionId !== undefined) {
         return fetch('/api/v1/ctf/questionSolves.json', {
             method: 'post',
+            credentials: 'include',
             body: JSON.stringify({
                 question: questionId
             })
@@ -49,13 +54,15 @@ function getSolves(questionId, getAll) {
 
     return fetch('/api/v1/ctf/userSolves.json', {
         method: 'post',
+        credentials: 'include',
     })
         .then(response => response.json())
 }
 
 function getLeaderboard() {
     return fetch("/api/v1/ctf/leaderboard.json", {
-        method: "POST"
+        method: "post"
+        credentials: 'include',
     })
         .then(response => response.json())
 }
@@ -63,6 +70,7 @@ function getLeaderboard() {
 function trySolve(questionId, flag) {
     return fetch('/api/v1/ctf/solve', {
         method: 'post',
+        credentials: 'include',
         body: JSON.stringify({
             question: questionId,
             flag: flag

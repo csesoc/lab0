@@ -383,6 +383,7 @@
             // Check if username used
             fetch('/api/v1/auth/usernameAvailable', {
                 method: 'post',
+                credentials: 'include',
                 body: JSON.stringify({
                     username: usernameInput.value,
                 })
@@ -417,6 +418,7 @@
             if (password2Input.value === passwordInput.value) {
                 fetch('/api/v1/auth/register', {
                     method: 'post',
+                    credentials: 'include',
                     body: JSON.stringify({
                         name: nameInput.value.trim(),
                         username: usernameInput.value.trim(),
@@ -457,6 +459,7 @@
             // Logon
             fetch('/api/v1/auth/login', {
                 method: 'post',
+                credentials: 'include',
                 body: JSON.stringify({
                     username: usernameInput.value,
                     password: passwordInput.value

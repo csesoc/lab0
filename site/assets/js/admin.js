@@ -41,6 +41,7 @@ function openModalEdit(questionId, srcElem) {
             this.classList.add('is-loading');
             fetch("/api/v1/ctf/question/editFlag", {
                 method: 'post',
+                credentials: 'include',
                 body: JSON.stringify({
                     question: questionId,
                     flag: flagInput.value
@@ -85,6 +86,7 @@ function openModalEdit(questionId, srcElem) {
 
             fetch('/api/v1/ctf/question/' + endpoint, {
                 method: 'post',
+                credentials: 'include',
                 body: JSON.stringify(data)
             })
                 .then(response => response.json())
@@ -163,6 +165,7 @@ function dataToRow(data) {
         this.classList.add('is-loading');
         fetch('/api/v1/ctf/question/getFlag', {
             method: 'post',
+            credentials: 'include',
             body: JSON.stringify({
                 question: data.id
             })
