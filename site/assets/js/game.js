@@ -17,7 +17,8 @@ function openModalQuestion(questionData, srcElem) {
     modal.querySelector("[name=flag]").placeholder = "FLAG{...}";
     modal.querySelector('[name=title]').innerText = questionData.title;
     modal.querySelector('[name=category]').innerText = categories[questionData.category] || "";
-    modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
+    modal.querySelector('[name=description]').innerHTML = questionData.description
+    // modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
 
     const flagSubmissionDisable = function () {
         modal.querySelector('form .input').disabled = true;
