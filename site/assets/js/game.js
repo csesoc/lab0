@@ -19,10 +19,6 @@ function openModalQuestion(questionData, srcElem) {
     modal.querySelector('[name=category]').innerText = categories[questionData.category] || "";
     modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
 
-    modal.querySelector('form .button').onclick = () => {
-        modal.querySelector("[name=flag]").form.dispatchEvent(new Event('submit'))
-    };
-
     const flagSubmissionDisable = function () {
         modal.querySelector('form .input').disabled = true;
         modal.querySelector('form .button').disabled = true;
@@ -66,6 +62,8 @@ function openModalQuestion(questionData, srcElem) {
             })
     };
 
+    modal.querySelector('form .button').onclick = submitEvent;
+    
     const closeModal = function () {
         questions[questionData.id].inputValue = modal.querySelector("[name=flag]").value;
         modal.querySelector('[name=value]').classList.remove('solved');
