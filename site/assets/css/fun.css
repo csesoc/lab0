@@ -1,0 +1,6 @@
+body > div.container {
+    transition: height 0.6s;
+}
+body > div.container.is-hidden {
+    height: 0;
+}

@@ -9,3 +9,12 @@
         y.innerText = evt.clientY;
     })
 })()
+
+(() => {
+    var nm = document.querySelector('.navbar-menu');
+    var it = document.createElement('a');
+    it.classList.add('navbar-item', 'has-text-grey');
+    it.innerText = "toggle questions";
+    it.onclick = () => document.querySelector('body > div.container').classList.toggle('is-hidden');
+    nm.insertBefore(it, nm.firstChild);
+})()
