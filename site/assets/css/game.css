@@ -74,10 +74,11 @@
 }
 
 body > div.container {
-    /* pointer-events: none; */
-    height: 96vh;
+    pointer-events: none; /* Allow background hover 
+                             BUG: breaks scrolling  */ 
+    height: 95vh;
     overflow-y: auto;
-    overflow-x: inherit;
+    overflow-x: hidden;
 }
 
 div.tile.is-ancestor .is-parent {
