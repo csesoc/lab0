@@ -74,7 +74,10 @@
 }
 
 body > div.container {
-    pointer-events: none;
+    /* pointer-events: none; */
+    height: 96vh;
+    overflow-y: auto;
+    overflow-x: inherit;
 }
 
 div.tile.is-ancestor .is-parent {
