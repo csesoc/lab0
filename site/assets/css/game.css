@@ -74,7 +74,7 @@
 }
 
 body > div.container {
-    pointer-events: none; /* Allow background hover 
+    /* pointer-events: none; *//* Allow background hover 
                              BUG: breaks scrolling  */ 
     height: 95vh;
     overflow-y: auto;

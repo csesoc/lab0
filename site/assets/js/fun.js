@@ -15,6 +15,6 @@
     var it = document.createElement('a');
     it.classList.add('navbar-item', 'has-text-grey');
     it.innerText = "toggle questions";
-    it.onclick = () => document.querySelector('body > div.container').classList.toggle('is-hidden');
+    it.onclick = () => document.querySelector('body > div.container').classList.toggle('hide');
     nm.insertBefore(it, nm.firstChild);
 })();
