@@ -61,7 +61,7 @@
 #questionModal [name=description] {
     width: 100%;
     flex-grow: 1;
-
+    
     font-family: Hack, monospace;
     cursor: pointer;
     color: white;
@@ -71,6 +71,10 @@
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word;   
+}
+
+#questionModal [name=description], #questionModal [name=description] * {
+    user-select: text;
 }
 
 body > div.container {
