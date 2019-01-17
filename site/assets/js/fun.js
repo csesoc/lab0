@@ -8,7 +8,7 @@
         x.innerText = evt.clientX;
         y.innerText = evt.clientY;
     })
-})()
+})();
 
 (() => {
     var nm = document.querySelector('.navbar-menu');
@@ -17,4 +17,4 @@
     it.innerText = "toggle questions";
     it.onclick = () => document.querySelector('body > div.container').classList.toggle('is-hidden');
     nm.insertBefore(it, nm.firstChild);
-})()
+})();
