@@ -133,6 +133,7 @@ Promise.all([getQuestions(), getCategories(), getSolves()])
         }
 
         if (questionsData.status) {
+            questionsData.data.sort((o1,o2)=>o1[4]-o2[4]);
             for (let data of questionsData.data || []) {
                 questions[data[0]] = {
                     id: data[0],
@@ -143,7 +144,6 @@ Promise.all([getQuestions(), getCategories(), getSolves()])
                 };
                 if (!questionsByCategory.hasOwnProperty(data[4])) {
                     questionsByCategory[data[4]] = [];
-
                     questionsByCategory[data[4]].push(data[0]);
                 }
                 document.querySelector('div.tile.is-ancestor .is-parent').appendChild(dataToTile(questions[data[0]]));
