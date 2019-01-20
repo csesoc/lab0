@@ -203,9 +203,10 @@ Promise.all([getQuestions(), getCategories(), getSolvesAdmin()])
             }
         }
 
-        console.log(solvesData);
         if (solvesData.status && solvesData.data) {
-            solves = solvesData.data
+            for ([user, question] of solvesData.data) {
+                solves[question] = (solves[question] || []).concat(user);
+            };
         }
 
         if (questionsData.status) {
