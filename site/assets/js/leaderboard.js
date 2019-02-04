@@ -37,7 +37,7 @@
                         myRank = rank;
                     }
 
-                    leaderboard.push(rank + ". " + scoreData[i].name);
+                    if (rank != 0) leaderboard.push(rank + ". " + scoreData[i].name);
                 }
 
                 document.querySelector('div.slideout [name=leaderboard]').innerText = leaderboard.join("\n");
