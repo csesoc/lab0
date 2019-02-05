@@ -94,6 +94,16 @@ function openModalQuestion(questionData, srcElem) {
     modal.classList.add('is-active');
 }
 
+function reloadListener() {
+    let modal = document.getElementById('questionModal');
+    if (modal.classList.contains('active')) {
+        modal.querySelector('button.cancel').addEventListener('click', location.reload);
+        modal.querySelector('.modal-background').addEventListener('click', location.reload);
+    } else {
+        location.reload()
+    }
+}
+
 
 function dataToTile(data) {
     let tile = document.createElement('article');

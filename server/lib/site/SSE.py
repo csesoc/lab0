@@ -10,13 +10,16 @@ class SSE_messages:
         self.nextId = 0
         self.idPrefix = uuid.uuid4().hex[:4]
 
+        self.__registerDo__()       
+
     def addMessage(self, data: str, event: str = None):
         print("Orchestrator:", data)
+        cTime = time()
         self.messageQueue.append(dict(
-            id = ":".join([self.idPrefix, str(self.nextId)]),
+            id = ":".join([self.idPrefix, str(self.nextId), str(cTime)]),
             data = data,
             event = event,
-            added = time())
+            added = cTime)
         )
         self.nextId += 1
         return self.nextId
@@ -25,6 +28,11 @@ class SSE_messages:
         minimumScope = time() - 10
         self.messageQueue = list(filter(lambda message: message["added"] > minimumScope, self.messageQueue))
         return self.messageQueue
+
+    class do:
+        pass
+    def __registerDo__(self):
+        self.do.reloadSite = lambda: self.addMessage("reload", "gm")
 
 
 SSE_messages = SSE_messages()
