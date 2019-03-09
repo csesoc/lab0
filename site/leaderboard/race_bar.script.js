@@ -64,7 +64,7 @@ leaderboardProvider(function scoreRunner(data, ready) {
 		
 		// Update point value
 		users[uid].points = user.points;
-		users[uid].scoreElem.style.width = `${user.points / maxScore * 100}%`;
+		users[uid].scoreElem.style.width = `${user.points / maxScore * 100 * (user.points == maxScore ? 1 : 0.85)}%`;
 	}
 
   // Reorder users
