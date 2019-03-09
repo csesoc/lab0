@@ -20,7 +20,6 @@ def categories(self: RequestHandler, args: dict):
 
 
 @routing.POST("/ctf/leaderboard.json")
-@authenticated
 def leaderboard(self: RequestHandler, args: dict):
     questionsSQL = ctfSQLMethod.questions.getQuestions()
     solvesSQL = ctfSQLMethod.questions.getSolves()
