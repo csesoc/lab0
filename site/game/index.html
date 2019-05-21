@@ -36,16 +36,17 @@
 <div class="container">
   <div name="scope">
     <div name="filter">
-      <input type="checkbox" id="filterComplete" />
+      <input type="checkbox" id="filterComplete" value="false" />
       <label for="filterComplete">Show only incomplete challenges</label>
     </div>
     <div name="sort">
       Sort:
-      <select name="sort" class="sort-order" autocomplete="off">
-        <option value="pointsAsc">Points (Ascending)</option>
-        <option value="pointsDesc">Points (Ascending)</option>
-        <option value="priceAsc">Category (Ascending)</option>
-        <option value="priceDesc">Category (Descending)</option>
+      <select id="sort" name="sort" class="sorat-order" autocomplete="off">
+        <option value="">(Original Order)</option>
+        <option value="points_asc">Points (Ascending)</option>
+        <option value="points_desc">Points (Descending)</option>
+        <option value="category_asc">Category (Ascending)</option>
+        <option value="category_desc">Category (Descending)</option>
       </select>
     </div>
   </div>

@@ -168,19 +168,20 @@ Promise.all([getQuestions(), getCategories(), getSolves()]).then(
             points: elem => elem.points,
             category: elem => elem.category
           },
-          sortAscending: {
-            category: true,
-            points: false
-          }
+          stagger: 10
         }
       );
 
-      iso.updateSortData();
       document
         .getElementById("filterComplete")
         .addEventListener("change", function() {
           iso.arrange({ filter: this.checked ? ":not(.solved)" : "*" });
         });
+
+      document.getElementById("sort").addEventListener("change", function() {
+        let [key, sortAsc] = this.value.split("_");
+        iso.arrange({ sortBy: key, sortAscending: sortAsc == "asc" });
+      });
     }
   }
 );
