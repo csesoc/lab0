@@ -1,9 +1,8 @@
-{% extends "template.html" %}
-{% block head %}
-<link rel='stylesheet' href='/assets/css/game.css'/>
-<link rel='stylesheet' href='/assets/css/fun.css'/>
-{% endblock %}
-{% block content %}
+{% extends "template.html" %} {% block head %}
+<link rel="stylesheet" href="/assets/css/game.css" />
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js" defer></script>
+<link rel="stylesheet" href="/assets/css/fun.css" />
+{% endblock %} {% block content %}
 <div id="questionModal" class="modal">
     <div class="modal-background"></div>
     <div class="modal-card">
@@ -35,9 +34,25 @@
     </div>
 </div>
 <div class="container">
-    <div class="tile is-ancestor is-unselectable">
-        <div class="tile is-parent"></div>
+  <div name="scope">
+    <div name="filter">
+      <input type="checkbox" id="filterComplete" value="false" />
+      <label for="filterComplete">Show only incomplete challenges</label>
     </div>
+    <div name="sort">
+      Sort:
+      <select id="sort" name="sort" class="sorat-order" autocomplete="off">
+        <option value="">(Original Order)</option>
+        <option value="points_asc">Points (Ascending)</option>
+        <option value="points_desc">Points (Descending)</option>
+        <option value="category_asc">Category (Ascending)</option>
+        <option value="category_desc">Category (Descending)</option>
+      </select>
+    </div>
+  </div>
+  <div class="tile is-ancestor is-unselectable">
+    <div class="tile is-parent"></div>
+  </div>
 </div>
 <script src="/assets/js/orchestrator.js" defer></script>
 <script src="/assets/js/fun.js" defer></script>
