@@ -85,6 +85,28 @@ body > div.container {
     overflow-x: hidden;
 }
 
+/**/
+div[name="scope"] * {
+  display: inline-block;
+  color: white;
+}
+#filterComplete {
+    display: none;
+}
+
+label[for=filterComplete] {
+    border: 2px solid;
+    border-radius: 2px;
+    border-color: white;
+    padding: 5px;
+}
+
+#filterComplete:checked + label[for=filterComplete] {
+    color: rgba(22, 131, 155, 0.6);
+    border-color: rgba(22, 131, 155, 0.6);
+}
+/**/
+
 div.tile.is-ancestor .is-parent {
     flex-flow: wrap;
 }

@@ -106,57 +106,81 @@ function reloadListener() {
 
 
 function dataToTile(data) {
-    let tile = document.createElement('article');
-    tile.classList.toggle('solved', solves.has(data.id));
-    tile.classList.add("tile", "is-child", "notification", "is-3");
+  let tile = document.createElement("article");
+  tile.classList.toggle("solved", solves.has(data.id));
+  tile.classList.add("tile", "is-child", "notification", "is-3");
 
-    let title = document.createElement('h1');
-    title.classList.add("title");
-    title.innerText = data.title;
-    tile.appendChild(title);
+  let title = document.createElement("h1");
+  title.classList.add("title");
+  title.innerText = data.title;
+  tile.appendChild(title);
 
-    let category = document.createElement('h2');
-    category.innerText = categories[data.category] || "";
-    tile.appendChild(category);
+  let category = document.createElement("h2");
+  tile.category = category.innerText = categories[data.category] || "";
+  tile.appendChild(category);
 
-    let points = document.createElement('h3');
-    points.innerText = data.value;
-    tile.appendChild(points);
+  let points = document.createElement("h3");
+  tile.points = points.innerText = data.value;
+  tile.appendChild(points);
 
-    tile.addEventListener('click', function () {
-        openModalQuestion(data, this)
-    });
+  tile.addEventListener("click", function() {
+    openModalQuestion(data, this);
+  });
 
-    return tile
+  return tile;
 }
 
-Promise.all([getQuestions(), getCategories(), getSolves()])
-    .then(([questionsData, categoriesData, solvesData]) => {
-        if (categoriesData.status) {
-            for (let data of categoriesData.data || []) {
-                categories[data[0]] = data[1];
-            }
-        }
+Promise.all([getQuestions(), getCategories(), getSolves()]).then(
+  ([questionsData, categoriesData, solvesData]) => {
+    if (categoriesData.status) {
+      for (let data of categoriesData.data || []) {
+        categories[data[0]] = data[1];
+      }
+    }
 
-        if (solvesData.status && solvesData.data) {
-            solves = solvesData.data;
-        }
+    if (solvesData.status && solvesData.data) {
+      solves = solvesData.data;
+    }
 
-        if (questionsData.status) {
-            questionsData.data.sort((o1,o2)=>o1[4]-o2[4]);
-            for (let data of questionsData.data || []) {
-                questions[data[0]] = {
-                    id: data[0],
-                    title: data[1],
-                    description: data[2],
-                    value: data[3],
-                    category: data[4],
-                };
-                if (!questionsByCategory.hasOwnProperty(data[4])) {
-                    questionsByCategory[data[4]] = [];
-                    questionsByCategory[data[4]].push(data[0]);
-                }
-                document.querySelector('div.tile.is-ancestor .is-parent').appendChild(dataToTile(questions[data[0]]));
-            }
+    if (questionsData.status) {
+      questionsData.data.sort((o1, o2) => o1[4] - o2[4]);
+      for (let data of questionsData.data || []) {
+        questions[data[0]] = {
+          id: data[0],
+          title: data[1],
+          description: data[2],
+          value: data[3],
+          category: data[4]
+        };
+        if (!questionsByCategory.hasOwnProperty(data[4])) {
+          questionsByCategory[data[4]] = [];
+          questionsByCategory[data[4]].push(data[0]);
         }
-    });
+        document
+          .querySelector("div.tile.is-ancestor .is-parent")
+          .appendChild(dataToTile(questions[data[0]]));
+      }
+
+      iso = new Isotope(
+        document.querySelector("div.tile.is-ancestor .is-parent"),
+        {
+          getSortData: {
+            points: elem => elem.points,
+            category: elem => elem.category
+          },
+          sortAscending: {
+            category: true,
+            points: false
+          }
+        }
+      );
+
+      iso.updateSortData();
+      document
+        .getElementById("filterComplete")
+        .addEventListener("change", function() {
+          iso.arrange({ filter: this.checked ? ":not(.solved)" : "*" });
+        });
+    }
+  }
+);
