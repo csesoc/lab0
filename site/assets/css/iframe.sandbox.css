@@ -1,22 +1,22 @@
 body {
-    font-family: Hack, monospace;
-    cursor: pointer;
-    white-space: pre;
-    color: white;
+  font-family: Hack, monospace;
+  cursor: pointer;
+  white-space: pre;
+  color: white;
 }
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    backgrouad: #f1f1f1;
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(22, 131, 155, 0.22);
+  background: rgba(22, 131, 155, 0.22);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(11, 126, 152, 0.22);
+  background: rgba(11, 126, 152, 0.22);
 }

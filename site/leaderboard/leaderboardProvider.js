@@ -3,8 +3,7 @@ const __updateDelay = 3;
 (fetchLeaderboard = (cb_object, cb_array) => {
   fetch("/api/v1/ctf/leaderboard.json", {
     method: "post",
-    credentials: 'include',
-
+    credentials: "include"
   })
     .then(response => response.json())
     .then(jsonData => {
@@ -18,14 +17,13 @@ const __updateDelay = 3;
             name: data.name,
             points: data.points,
             rank: "?"
-          })
+          });
         }
         scoreData.sort((next, prev) => prev.points - next.points);
 
         let lastRank = 0;
         let lastScore = 0;
         for (let i = 0; i < scoreData.length; i++) {
-
           if (lastScore === scoreData[i].points) {
             scoreData[i].rank = lastRank;
           } else {
@@ -39,26 +37,29 @@ const __updateDelay = 3;
         cb_object && cb_object(jsonData.data);
         cb_array && cb_array(scoreData);
       }
-    })
+    });
 })();
 
 function leaderboardProvider(cb_object, cb_array) {
   var updateReady = true;
 
-  const cb_object_wrapper = cb_object ? data => {
-    cb_object(data, () => updateReady = true);
-  } : undefined;
+  const cb_object_wrapper = cb_object
+    ? data => {
+        cb_object(data, () => (updateReady = true));
+      }
+    : undefined;
 
-  const cb_array_wrapper = cb_array ? data => {
-    cb_array(data, () => updateReady = true);
-  } : undefined;
-
+  const cb_array_wrapper = cb_array
+    ? data => {
+        cb_array(data, () => (updateReady = true));
+      }
+    : undefined;
 
   function leaderboardLoop() {
     if (!updateReady) return;
     updateReady = false;
     fetchLeaderboard(cb_object_wrapper, cb_array_wrapper);
-  };
+  }
 
   leaderboardLoop();
   return setInterval(leaderboardLoop, __updateDelay * 1000);

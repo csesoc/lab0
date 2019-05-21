@@ -1,83 +1,134 @@
 {% extends "template.html" %}
 {% block head %}
-<link rel='stylesheet' href='/assets/css/bulma-slider.min.css'/>
-<link rel='stylesheet' href='/assets/css/admin.css'/>
+<link rel="stylesheet" href="/assets/css/bulma-slider.min.css" />
+<link rel="stylesheet" href="/assets/css/admin.css" />
 {% endblock %}
 {% block content %}
 <div id="editModal" class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head">
-            <p class="modal-card-title has-text-light"></p>
-        </header>
-        <section class="modal-card-body">
-            <form>
-                <div class="field">
-                    <label class="label has-text-light">Title</label>
-                    <div class="control">
-                        <input class="input blueBox has-text-light" name="title" type="text" spellcheck="true" placeholder="Question title" required>
-                    </div>
-                </div>
-                <div class="field">
-                    <label class="label has-text-light">Flag</label>
-                    <div class="field is-grouped">
-                        <p class="control is-expanded">
-                            <input class="input blueBox has-text-light" name="flag" type="text" placeholder="FLAG{...}" spellcheck="false" pattern="^FLAG[{].+[}]$">
-                        </p>
-                        <p class="control">
-                            <a class="button" name="updateFlag">UPDATE FLAG</a>
-                        </p></div>
-                </div>
-                <div class="field is-grouped">
-                    <div class="field">
-                        <label class="label has-text-light">Category</label>
-                        <div class="control">
-                            <div class="select">
-                                <select name="category" class="blueBox has-text-light" required></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="field valueField">
-                        <label class="label has-text-light">Value</label>
-                        <div class="control">
-                            <div class="field is-grouped">
-                                <input name="value" class="input blueBox has-text-light" type="number" min="0" value="100">
-                                <input class="slider is-fullwidth is-small is-circle" step="1" min="0" max="200" value="100" type="range">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title has-text-light"></p>
+    </header>
+    <section class="modal-card-body">
+      <form>
+        <div class="field">
+          <label class="label has-text-light">Title</label>
+          <div class="control">
+            <input
+              class="input blueBox has-text-light"
+              name="title"
+              type="text"
+              spellcheck="true"
+              placeholder="Question title"
+              required
+            />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label has-text-light">Flag</label>
+          <div class="field is-grouped">
+            <p class="control is-expanded">
+              <input
+                class="input blueBox has-text-light"
+                name="flag"
+                type="text"
+                placeholder="FLAG{...}"
+                spellcheck="false"
+                pattern="^FLAG[{].+[}]$"
+              />
+            </p>
+            <p class="control">
+              <a class="button" name="updateFlag">UPDATE FLAG</a>
+            </p>
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <div class="field">
+            <label class="label has-text-light">Category</label>
+            <div class="control">
+              <div class="select">
+                <select
+                  name="category"
+                  class="blueBox has-text-light"
+                  required
+                ></select>
+              </div>
+            </div>
+          </div>
+          <div class="field valueField">
+            <label class="label has-text-light">Value</label>
+            <div class="control">
+              <div class="field is-grouped">
+                <input
+                  name="value"
+                  class="input blueBox has-text-light"
+                  type="number"
+                  min="0"
+                  value="100"
+                />
+                <input
+                  class="slider is-fullwidth is-small is-circle"
+                  step="1"
+                  min="0"
+                  max="200"
+                  value="100"
+                  type="range"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
-                <div class="field">
-                    <label class="label has-text-light">Description</label>
-                    <div class="control">
-                    <textarea class="textarea blueBox has-text-light" name="description" placeholder="Question description"></textarea>
-                    </div>
-                </div>
-            </form>
-        </section>
-        <footer class="modal-card-foot">
-            <button class="button is-success confirm"></button>
-            <button class="button cancel">Cancel</button>
-        </footer>
-    </div>
+        <div class="field">
+          <label class="label has-text-light">Description</label>
+          <div class="control">
+            <textarea
+              class="textarea blueBox has-text-light"
+              name="description"
+              placeholder="Question description"
+            ></textarea>
+          </div>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success confirm"></button>
+      <button class="button cancel">Cancel</button>
+    </footer>
+  </div>
 </div>
 <div class="container">
-    <table class="table is-fullwidth">
-        <thead>
-            <tr>
-                <th>Title</th><th>Description</th><th>Category</th><th>Flag</th><th>Points</th><th>Solves</th><th></th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th>Title</th><th>Description</th><th>Category</th><th>Flag</th><th>Points</th><th>Solves</th><th></th>
-            </tr>
-        </tfoot>
-        <tbody>
-        <tr onclick="openModalEdit()"><td colspan="6">Add new question</td><td></td></tr>
-        </tbody>
-    </table>
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Flag</th>
+        <th>Points</th>
+        <th>Solves</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Flag</th>
+        <th>Points</th>
+        <th>Solves</th>
+        <th></th>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr onclick="openModalEdit()">
+        <td colspan="6">Add new question</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 <script src="/assets/js/admin.js"></script>
 {% endblock %}

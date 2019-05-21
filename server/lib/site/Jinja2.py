@@ -15,7 +15,8 @@ class BaseHandler(RequestHandler):
         self.write(content)
 
     def render_template(self, template_name, **kwargs):
-        env = Environment(loader = FileSystemLoader(config["SITE"].get("templatesdir", "../site")))
+        env = Environment(loader=FileSystemLoader(
+            config["SITE"].get("templatesdir", "../site")))
 
         try:
             template = env.get_template(template_name)

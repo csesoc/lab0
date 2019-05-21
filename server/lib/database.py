@@ -6,7 +6,7 @@ from .config import config
 
 def create_connection(db_file):
     try:
-        conn = sqlite3.connect(db_file, check_same_thread = False)
+        conn = sqlite3.connect(db_file, check_same_thread=False)
         return conn
     except sqlite3.Error as e:
         print(e)
@@ -38,17 +38,19 @@ def fetchAll(*args, **kwargs):
     return result
 
 
-def insert(*args, commit = True, **kwargs):
+def insert(*args, commit=True, **kwargs):
     c = conn.cursor()
     c.execute(*args)
-    if commit: conn.commit()
+    if commit:
+        conn.commit()
     return c.lastrowid
 
 
-def update(*args, commit = True, **kwargs):
+def update(*args, commit=True, **kwargs):
     c = conn.cursor()
     c.execute(*args)
-    if commit: conn.commit()
+    if commit:
+        conn.commit()
     return c.rowcount
 
 

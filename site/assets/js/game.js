@@ -1,109 +1,124 @@
-Array.prototype.has = function (obj) {
-    return this.indexOf(obj) > -1
+Array.prototype.has = function(obj) {
+  return this.indexOf(obj) > -1;
 };
 
 function openModalQuestion(questionData, srcElem) {
-    let modal = document.getElementById('questionModal');
-    modal.classList.toggle('solved', solves.has(questionData.id));
+  let modal = document.getElementById("questionModal");
+  modal.classList.toggle("solved", solves.has(questionData.id));
 
-    getSolves(questionData.id)
-        .then(jsonData => {
-            if (jsonData.status) {
-                modal.querySelector('[name=solves]').innerText = jsonData.data;
-            }
-        });
-
-    modal.querySelector("[name=flag]").value = questions[questionData.id].inputValue || "";
-    modal.querySelector("[name=flag]").placeholder = "FLAG{...}";
-    modal.querySelector('[name=title]').innerText = questionData.title;
-    modal.querySelector('[name=category]').innerText = categories[questionData.category] || "";
-    modal.querySelector('[name=description]').innerHTML = questionData.description;
-    
-    // Open links in a new window/tab
-    for (elem of modal.querySelector('[name=description]').getElementsByTagName('a')) {
-        if (!elem.target) elem.target = "_blank";
+  getSolves(questionData.id).then(jsonData => {
+    if (jsonData.status) {
+      modal.querySelector("[name=solves]").innerText = jsonData.data;
     }
-    
-    // modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
+  });
 
-    const flagSubmissionDisable = function () {
-        modal.querySelector('form .input').disabled = true;
-        modal.querySelector('form .button').disabled = true;
-    };
+  modal.querySelector("[name=flag]").value =
+    questions[questionData.id].inputValue || "";
+  modal.querySelector("[name=flag]").placeholder = "FLAG{...}";
+  modal.querySelector("[name=title]").innerText = questionData.title;
+  modal.querySelector("[name=category]").innerText =
+    categories[questionData.category] || "";
+  modal.querySelector("[name=description]").innerHTML =
+    questionData.description;
 
-    const flagSubmissionEnable = function () {
-        modal.querySelector('form .input').disabled = false;
-        modal.querySelector('form .button').disabled = false;
-    };
+  // Open links in a new window/tab
+  for (elem of modal
+    .querySelector("[name=description]")
+    .getElementsByTagName("a")) {
+    if (!elem.target) elem.target = "_blank";
+  }
 
-    const submitEvent = function (evt) {
-        evt.preventDefault();
+  // modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
 
-        if (!modal.querySelector("[name=flag]").value.trim()) return;
+  const flagSubmissionDisable = function() {
+    modal.querySelector("form .input").disabled = true;
+    modal.querySelector("form .button").disabled = true;
+  };
 
-        modal.querySelector('form').removeEventListener('submit', submitEvent);
-        flagSubmissionDisable();
-        modal.querySelector('form .button').classList.add('is-loading');
+  const flagSubmissionEnable = function() {
+    modal.querySelector("form .input").disabled = false;
+    modal.querySelector("form .button").disabled = false;
+  };
 
-        let flagValue = modal.querySelector("[name=flag]").value.trim();
-        trySolve(questionData.id, flagValue)
-            .then(jsonData => {
-                modal.querySelector('form .button').classList.remove('is-loading');
-                flagSubmissionEnable();
-                modal.querySelector('form').addEventListener('submit', submitEvent);
+  const submitEvent = function(evt) {
+    evt.preventDefault();
 
-                if (jsonData.status) {
-                    modal.querySelector("[name=flag]").placeholder = "flag correct";
-                    modal.querySelector("[name=flag]").value = "";
-                    if (!solves.has(questionData.id)) {
-                        solves.push(questionData.id);
-                        modal.querySelector('[name=solves]').innerText = parseInt(modal.querySelector('[name=solves]').innerText) + 1;
-                        updateLeaderboard();
-                    }
-                    modal.querySelector('[name=value]').classList.add('solved');
-                    srcElem.classList.add('solved');
-                } else {
-                    modal.querySelector("[name=flag]").placeholder = flagValue + " was not right!";
-                    modal.querySelector("[name=flag]").value = "";
-                }
-            })
-    };
+    if (!modal.querySelector("[name=flag]").value.trim()) return;
 
-    modal.querySelector('form .button').onclick = submitEvent;
-    
-    const closeModal = function () {
-        questions[questionData.id].inputValue = modal.querySelector("[name=flag]").value;
-        modal.querySelector('[name=value]').classList.remove('solved');
-        modal.classList.remove('solved');
-        flagSubmissionEnable();
+    modal.querySelector("form").removeEventListener("submit", submitEvent);
+    flagSubmissionDisable();
+    modal.querySelector("form .button").classList.add("is-loading");
 
-        modal.querySelector('form').removeEventListener('submit', submitEvent);
-        modal.querySelector('button.cancel').removeEventListener('click', cancelEvent);
-        modal.querySelector('.modal-background').removeEventListener('click', cancelEvent);
-        modal.classList.remove('is-active');
-    };
+    let flagValue = modal.querySelector("[name=flag]").value.trim();
+    trySolve(questionData.id, flagValue).then(jsonData => {
+      modal.querySelector("form .button").classList.remove("is-loading");
+      flagSubmissionEnable();
+      modal.querySelector("form").addEventListener("submit", submitEvent);
 
-    const cancelEvent = closeModal;
+      if (jsonData.status) {
+        modal.querySelector("[name=flag]").placeholder = "flag correct";
+        modal.querySelector("[name=flag]").value = "";
+        if (!solves.has(questionData.id)) {
+          solves.push(questionData.id);
+          modal.querySelector("[name=solves]").innerText =
+            parseInt(modal.querySelector("[name=solves]").innerText) + 1;
+          updateLeaderboard();
+        }
+        modal.querySelector("[name=value]").classList.add("solved");
+        srcElem.classList.add("solved");
+      } else {
+        modal.querySelector("[name=flag]").placeholder =
+          flagValue + " was not right!";
+        modal.querySelector("[name=flag]").value = "";
+      }
+    });
+  };
 
+  modal.querySelector("form .button").onclick = submitEvent;
 
-    modal.querySelector('[name=value]').innerText = questionData.value;
+  const closeModal = function() {
+    questions[questionData.id].inputValue = modal.querySelector(
+      "[name=flag]"
+    ).value;
+    modal.querySelector("[name=value]").classList.remove("solved");
+    modal.classList.remove("solved");
+    flagSubmissionEnable();
 
-    modal.querySelector('form').addEventListener('submit', submitEvent);
-    modal.querySelector('button.cancel').addEventListener('click', cancelEvent);
-    modal.querySelector('.modal-background').addEventListener('click', cancelEvent);
-    modal.classList.add('is-active');
+    modal.querySelector("form").removeEventListener("submit", submitEvent);
+    modal
+      .querySelector("button.cancel")
+      .removeEventListener("click", cancelEvent);
+    modal
+      .querySelector(".modal-background")
+      .removeEventListener("click", cancelEvent);
+    modal.classList.remove("is-active");
+  };
+
+  const cancelEvent = closeModal;
+
+  modal.querySelector("[name=value]").innerText = questionData.value;
+
+  modal.querySelector("form").addEventListener("submit", submitEvent);
+  modal.querySelector("button.cancel").addEventListener("click", cancelEvent);
+  modal
+    .querySelector(".modal-background")
+    .addEventListener("click", cancelEvent);
+  modal.classList.add("is-active");
 }
 
 function reloadListener() {
-    let modal = document.getElementById('questionModal');
-    if (modal.classList.contains('active')) {
-        modal.querySelector('button.cancel').addEventListener('click', location.reload);
-        modal.querySelector('.modal-background').addEventListener('click', location.reload);
-    } else {
-        location.reload()
-    }
+  let modal = document.getElementById("questionModal");
+  if (modal.classList.contains("active")) {
+    modal
+      .querySelector("button.cancel")
+      .addEventListener("click", location.reload);
+    modal
+      .querySelector(".modal-background")
+      .addEventListener("click", location.reload);
+  } else {
+    location.reload();
+  }
 }
-
 
 function dataToTile(data) {
   let tile = document.createElement("article");

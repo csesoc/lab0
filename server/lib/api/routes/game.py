@@ -31,8 +31,8 @@ def leaderboard(self: RequestHandler, args: dict):
 
     leaderboard = {}
     for user in usersSQL:
-        leaderboard[user[0]] = dict(name = user[2] or user[1],  # user might not have a display name?
-                                    points = 0)
+        leaderboard[user[0]] = dict(name=user[2] or user[1],  # user might not have a display name?
+                                    points=0)
 
     for solve in solvesSQL:
         try:
@@ -51,13 +51,13 @@ def userSolves(self: RequestHandler, args: dict):
 @routing.POST("/ctf/userSolves.json")
 @authenticated
 def userSolves(self: RequestHandler, args: dict):
-    return self.finish(JSON.data(ctfSQLMethod.questions.getSolves(user = self.current_user.id)))
+    return self.finish(JSON.data(ctfSQLMethod.questions.getSolves(user=self.current_user.id)))
 
 
 @routing.POST("/ctf/questionSolves.json")
 @authenticated
 def questionSolves(self: RequestHandler, args: dict):
-    return self.finish(JSON.data(len(ctfSQLMethod.questions.getSolves(question = args["question"]))))
+    return self.finish(JSON.data(len(ctfSQLMethod.questions.getSolves(question=args["question"]))))
 
 
 @routing.POST("/ctf/solve")
@@ -65,8 +65,10 @@ def questionSolves(self: RequestHandler, args: dict):
 def trySolve(self: RequestHandler, args: dict):
     if args["flag"] == ctfSQLMethod.questions.getFlag(args["question"]):
         try:
-            ctfSQLMethod.questions.solveQuestion(self.current_user.id, args["question"])
-            SSE_messages.addMessage(self.current_user.name + " has found a flag!")
+            ctfSQLMethod.questions.solveQuestion(
+                self.current_user.id, args["question"])
+            SSE_messages.addMessage(
+                self.current_user.name + " has found a flag!")
         except IntegrityError:
             pass
         return self.finish(JSON.YES())

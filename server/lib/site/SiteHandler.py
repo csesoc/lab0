@@ -7,7 +7,6 @@ from time import time
 from .Jinja2 import BaseHandler
 from ..config import config
 
-
 class routing:
     _routesPOST = {}
     _routesGET = {}
@@ -32,14 +31,13 @@ class routing:
 
         return wrapper
 
-
 from ..authSession import updateSession, getSession
 from ..auth import UserSession
 
-
 class SiteHandler(tornado.web.StaticFileHandler, BaseHandler):
     def initialize(self, **kwargs):
-        super().initialize(config["SITE"].get("staticdir", "../site"), default_filename = "index.html")
+        super().initialize(config["SITE"].get(
+            "staticdir", "../site"), default_filename="index.html")
 
     def get_current_user(self):
         try:

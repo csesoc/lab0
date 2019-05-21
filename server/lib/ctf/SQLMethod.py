@@ -38,8 +38,10 @@ class SQLMethod:
         @staticmethod
         def deleteQuestion(question: int):
             result = []
-            result.append(database.update(SQLQuery.questions.delete, (question,), commit = False))
-            result.append(database.update(SQLQuery.solves.deleteQuestion, (question,), commit = False))
+            result.append(database.update(
+                SQLQuery.questions.delete, (question,), commit=False))
+            result.append(database.update(
+                SQLQuery.solves.deleteQuestion, (question,), commit=False))
 
             return assertSQLResult(result)
 

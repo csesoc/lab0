@@ -1,6 +1,6 @@
 body > div.container {
-    transition: height 0.6s;
+  transition: height 0.6s;
 }
 body > div.container.hide {
-    height: 0;
+  height: 0;
 }

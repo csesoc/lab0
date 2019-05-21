@@ -13,7 +13,8 @@ def authenticate(username, password):
 
 
 def passwordHash(password: str, salt: str = None):
-    import hashlib, os
+    import hashlib
+    import os
     _salt = salt if salt else os.urandom(16)
     hash = hashlib.pbkdf2_hmac('sha256', password.encode(), _salt, 1)
     return hash if salt else (hash, _salt)

@@ -16,8 +16,8 @@ app = tornado.web.Application([
     ("/orchestrator", SSEHandler),
     ("/(.*)", SiteHandler),
 ],
-    cookie_secret = "5206677",
-    login_url = "/invite"
+    cookie_secret="5206677",
+    login_url="/invite"
 )
 
 if database.conn is not None:
@@ -76,7 +76,7 @@ def run(file: str = None, **kwargs):
     print("Server running on port %s\n" % port)
     SSE_messages.addMessage("The game server is online!")
     SSE_messages.do.reloadSite()
-    
+
     tornado.ioloop.IOLoop.current().start()
 
 

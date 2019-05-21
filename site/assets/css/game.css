@@ -1,88 +1,91 @@
 #questionModal {
-    opacity: 0;
-    transition: opacity 200ms;
-    display: flex;
-    pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms;
+  display: flex;
+  pointer-events: none;
 }
 
 #questionModal.is-active {
-    opacity: 1;
-    pointer-events: all;
+  opacity: 1;
+  pointer-events: all;
 }
 
 #questionModal .modal-card {
-    height: 75%;
+  height: 75%;
 }
 
 #questionModal .modal-card > * {
-    border: 2px solid rgba(22, 131, 155, 0.5);
+  border: 2px solid rgba(22, 131, 155, 0.5);
 }
 
-#questionModal .modal-card header, #questionModal .modal-card footer {
-    background-color: rgba(22, 131, 155, 0.5);
+#questionModal .modal-card header,
+#questionModal .modal-card footer {
+  background-color: rgba(22, 131, 155, 0.5);
 }
 
 #questionModal .modal-card section {
-    background-color: rgba(11, 126, 152, 0.22);
-    display: flex;
-    flex-direction: column;
+  background-color: rgba(11, 126, 152, 0.22);
+  display: flex;
+  flex-direction: column;
 }
 
-#questionModal.solved [name=title]::before {
-    content: "[solved] ";
-    color: hsl(0, 0%, 71%);
+#questionModal.solved [name="title"]::before {
+  content: "[solved] ";
+  color: hsl(0, 0%, 71%);
 }
 
-#questionModal [name=solves]:not(:empty)::before {
-    content: "solves: ";
+#questionModal [name="solves"]:not(:empty)::before {
+  content: "solves: ";
 }
 
-#questionModal [name=solves] {
-    flex-grow: 1;
+#questionModal [name="solves"] {
+  flex-grow: 1;
 }
 
-#questionModal [name=category]:not(:empty)::before {
-    content: ": "
+#questionModal [name="category"]:not(:empty)::before {
+  content: ": ";
 }
 
-#questionModal [name=value]::after {
-    content: " pts";
+#questionModal [name="value"]::after {
+  content: " pts";
 }
 
-#questionModal:not(.solved) [name=value] {
-    transition: color 0.5s;
+#questionModal:not(.solved) [name="value"] {
+  transition: color 0.5s;
 }
 
-#questionModal [name=value].solved, #questionModal.solved [name=value] {
-    color: green;
+#questionModal [name="value"].solved,
+#questionModal.solved [name="value"] {
+  color: green;
 }
 
 /* #questionModal iframe  */
-#questionModal [name=description] {
-    width: 100%;
-    flex-grow: 1;
-    
-    font-family: Hack, monospace;
-    cursor: pointer;
-    color: white;
+#questionModal [name="description"] {
+  width: 100%;
+  flex-grow: 1;
 
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;   
+  font-family: Hack, monospace;
+  cursor: pointer;
+  color: white;
+
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
 }
 
-#questionModal [name=description], #questionModal [name=description] * {
-    user-select: text;
+#questionModal [name="description"],
+#questionModal [name="description"] * {
+  user-select: text;
 }
 
 body > div.container {
-    /* pointer-events: none; *//* Allow background hover 
-                             BUG: breaks scrolling  */ 
-    height: 95vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+  /* pointer-events: none; */ /* Allow background hover 
+                             BUG: breaks scrolling  */
+  height: 95vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /**/
@@ -98,50 +101,50 @@ div[name="scope"] > * {
   display: inline-block;
 }
 #filterComplete {
-    display: none;
+  display: none;
 }
 
-label[for=filterComplete] {
-    border: 2px solid;
-    border-radius: 2px;
-    border-color: white;
-    padding: 5px;
+label[for="filterComplete"] {
+  border: 2px solid;
+  border-radius: 2px;
+  border-color: white;
+  padding: 5px;
 }
 
-#filterComplete:checked + label[for=filterComplete] {
-    color: rgba(22, 131, 155, 0.6);
-    border-color: rgba(22, 131, 155, 0.6);
+#filterComplete:checked + label[for="filterComplete"] {
+  color: rgba(22, 131, 155, 0.6);
+  border-color: rgba(22, 131, 155, 0.6);
 }
 /**/
 
 div.tile.is-ancestor .is-parent {
-    flex-flow: wrap;
+  flex-flow: wrap;
 }
 
 article {
-    transition: box-shadow 250ms;
-    background-color: rgba(22, 131, 155, 0.3) !important;
-    border: 1px #dbdbdb !important;
-    color: grey;
+  transition: box-shadow 250ms;
+  background-color: rgba(22, 131, 155, 0.3) !important;
+  border: 1px #dbdbdb !important;
+  color: grey;
 }
 
 article:hover {
-    box-shadow: inset 0 0 60px rgba(11, 126, 152, 0.5);
-    color: white;
+  box-shadow: inset 0 0 60px rgba(11, 126, 152, 0.5);
+  color: white;
 }
 
 article.solved {
-    filter: saturate(0);
+  filter: saturate(0);
 }
 
 article h2:not(:empty)::before {
-    content: "category: ";
-    font-size: 0.75rem;
+  content: "category: ";
+  font-size: 0.75rem;
 }
 
 article h3:not(:empty)::before {
-    content: "points: ";
-    font-size: 0.75rem;
+  content: "points: ";
+  font-size: 0.75rem;
 }
 
 article.tile {
@@ -149,8 +152,8 @@ article.tile {
 }
 
 article.tile.is-child {
-    margin: 5px !important;
-    pointer-events: auto;
+  margin: 5px !important;
+  pointer-events: auto;
 }
 
 @media screen and (min-width: 769px) {

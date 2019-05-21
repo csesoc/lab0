@@ -10,21 +10,21 @@ from ..authSession import getSession, updateSession
 class JSON:
     @staticmethod
     def error(error: str):
-        return json_encode(dict(status = False, error = error))
+        return json_encode(dict(status=False, error=error))
 
     @staticmethod
     def data(data):
-        return json_encode(dict(status = True, data = data))
+        return json_encode(dict(status=True, data=data))
 
     @staticmethod
     def TRUE():
-        return json_encode(dict(status = True))
+        return json_encode(dict(status=True))
 
     YES = OK = TRUE
 
     @staticmethod
     def FALSE():
-        return json_encode(dict(status = False))
+        return json_encode(dict(status=False))
 
     NO = FALSE
 
@@ -72,7 +72,7 @@ class APIHandler(tornado.web.RequestHandler):
         for urlRegex, function in routing._routesGET.items():
             urlRoute = re.fullmatch(urlRegex, "/" + path)
             if urlRoute:
-                return function(self, *urlRoute.groups(), args = args, **kwargs)
+                return function(self, *urlRoute.groups(), args=args, **kwargs)
         return self.finish(JSON.error("no route here"))
 
     def post(self, path, **kwargs):
@@ -84,5 +84,5 @@ class APIHandler(tornado.web.RequestHandler):
         for urlRegex, function in routing._routesPOST.items():
             urlRoute = re.fullmatch(urlRegex, "/" + path)
             if urlRoute:
-                return function(self, *urlRoute.groups(), args = args, **kwargs)
+                return function(self, *urlRoute.groups(), args=args, **kwargs)
         return self.finish(JSON.error("no route here"))

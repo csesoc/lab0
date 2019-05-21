@@ -1,77 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/meta/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/meta/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/meta/favicon-16x16.png">
-    <link rel="manifest" href="/assets/meta/site.webmanifest">
-    <link rel="mask-icon" href="/assets/meta/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="/assets/meta/favicon.ico">
-    <meta name="msapplication-TileColor" content="#2b5797">
-    <meta name="msapplication-config" content="/assets/meta/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-        
+  <head>
+    <meta charset="UTF-8" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/meta/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/meta/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/meta/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/assets/meta/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="/assets/meta/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <link rel="shortcut icon" href="/assets/meta/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#2b5797" />
+    <meta
+      name="msapplication-config"
+      content="/assets/meta/browserconfig.xml"
+    />
+    <meta name="theme-color" content="#ffffff" />
+
     <title>CompClub 2019 Summer CTF</title>
-    <link rel='stylesheet' href='/assets/css/normalize.min.css'/>
-    <link rel='stylesheet' href='/assets/css/bulma.min.css'/>
-    <link rel='stylesheet' href='/assets/font/hack-subset.css'>
-    <link rel='stylesheet' href='/assets/css/site.css'/>
-    <link rel='stylesheet' href='/assets/css/scanlines.css'/>
+    <link rel="stylesheet" href="/assets/css/normalize.min.css" />
+    <link rel="stylesheet" href="/assets/css/bulma.min.css" />
+    <link rel="stylesheet" href="/assets/font/hack-subset.css" />
+    <link rel="stylesheet" href="/assets/css/site.css" />
+    <link rel="stylesheet" href="/assets/css/scanlines.css" />
     <script src="/assets/js/ctf.js"></script>
     {% block head %}{% endblock %}
-</head>
-<body class="has-navbar-fixed-bottom">
-<div class="background scanlines">
-    <img class="svg" src="/assets/img/worldmap.background.svg"/>
-    <script>
+  </head>
+  <body class="has-navbar-fixed-bottom">
+    <div class="background scanlines">
+      <img class="svg" src="/assets/img/worldmap.background.svg" />
+      <script>
         (() => {
-            let backgroundImg = document.querySelector('img.svg');
-            fetch(backgroundImg.src)
-                .then(content => content.text())
-                .then(data => {
-                    backgroundImg.classList.remove('svg');
-                    var backgroundSvg = new DOMParser().parseFromString(data, "image/svg+xml").querySelector('svg');
-                    backgroundSvg.classList = backgroundImg.classList;
-                    backgroundImg.parentElement.replaceChild(backgroundSvg, backgroundImg);
-                })
+          let backgroundImg = document.querySelector("img.svg");
+          fetch(backgroundImg.src)
+            .then(content => content.text())
+            .then(data => {
+              backgroundImg.classList.remove("svg");
+              var backgroundSvg = new DOMParser()
+                .parseFromString(data, "image/svg+xml")
+                .querySelector("svg");
+              backgroundSvg.classList = backgroundImg.classList;
+              backgroundImg.parentElement.replaceChild(
+                backgroundSvg,
+                backgroundImg
+              );
+            });
         })();
-    </script>
-</div>
-
-<div class="slideout has-text-centered">
-    <div>
-        <span class="subtitle" name="rank"></span><span class="subtitle" name="places"></span>
+      </script>
     </div>
-    <h1 class="subtitle" name="score"></h1>
 
-    <h1 class="subtitle has-text-light">Leaderboard</h1>
-    <span name="leaderboard"></span>
-</div>
-{% block content %}{% endblock %}
+    <div class="slideout has-text-centered">
+      <div>
+        <span class="subtitle" name="rank"></span
+        ><span class="subtitle" name="places"></span>
+      </div>
+      <h1 class="subtitle" name="score"></h1>
 
-<nav class="navbar is-fixed-bottom is-dark">
-    <div class="navbar-brand">
+      <h1 class="subtitle has-text-light">Leaderboard</h1>
+      <span name="leaderboard"></span>
+    </div>
+    {% block content %}{% endblock %}
+
+    <nav class="navbar is-fixed-bottom is-dark">
+      <div class="navbar-brand">
         <a class="navbar-item" href="//summer2019.compclub.com.au">
-            <img src="/assets/img/compclub.logo.white.svg" width="112" height="28">
+          <img
+            src="/assets/img/compclub.logo.white.svg"
+            width="112"
+            height="28"
+          />
         </a>
-    </div>
-    <div class="navbar-menu">
+      </div>
+      <div class="navbar-menu">
         <div class="navbar-item is-expanded">
-            <div class="orchestrator has-text-centered has-text-light"></div>
+          <div class="orchestrator has-text-centered has-text-light"></div>
         </div>
         <div class="navbar-end">
-            <div class="navbar-item" name="mouseCoordinates">
-                <div name="mouseX"></div>
-                <div name="mouseY"></div>
-            </div>
+          <div class="navbar-item" name="mouseCoordinates">
+            <div name="mouseX"></div>
+            <div name="mouseY"></div>
+          </div>
         </div>
-    </div>
-</nav>
-<script type="text/javascript" src="/assets/js/leaderboard.js" defer></script>
-</body>
+      </div>
+    </nav>
+    <script
+      type="text/javascript"
+      src="/assets/js/leaderboard.js"
+      defer
+    ></script>
+  </body>
 
-<!-- Site by Andrew Wong (z5206677) -->
-<!-- github.com/featherbear/UNSW-CompClub2019Summer-CTF -->
+  <!-- Site by Andrew Wong (z5206677) -->
+  <!-- github.com/featherbear/UNSW-CompClub2019Summer-CTF -->
 </html>

@@ -1,10 +1,9 @@
 @import url(/assets/font/hack-subset.css);
 * {
-    font-family: Hack, monospace !important;
-    cursor: pointer;
-    user-select: none;
+  font-family: Hack, monospace !important;
+  cursor: pointer;
+  user-select: none;
 }
-
 
 #contents > div {
   display: flex;
@@ -13,7 +12,7 @@
 }
 
 #contents > div > .name {
-  background-color: rgba(200,0,0,0.5);
+  background-color: rgba(200, 0, 0, 0.5);
   width: 100%;
   max-width: 10em;
   text-align: right;
@@ -21,12 +20,11 @@
 }
 
 #contents > div > .score {
-  background-color: rgba(0, 200, 0,0.5);
+  background-color: rgba(0, 200, 0, 0.5);
   height: 100%;
   text-align: right;
   transition: width 1.5s;
 }
-
 
 @media screen and (max-width: 600px) {
   #contents > div {
@@ -35,5 +33,5 @@
 
   #contents > div > .name {
     text-align: left;
-  }  
+  }
 }
