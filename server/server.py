@@ -1,8 +1,8 @@
-__VERSION = "0.0.2"
+__VERSION = "0.0.3"
 # github.com/featherbear/UNSW-CompClub2019Summer-CTF
 
-print("TODO")
-print("- Concurrent SQLCursors")
+# print("TODO")
+# print("- Concurrent SQLCursors")
 
 import tornado.ioloop
 import tornado.web
