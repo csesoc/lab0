@@ -77,14 +77,14 @@
         margin-bottom: 20px;
       }
 
+      input {
+        box-shadow: none;
+      }
+
       input.blueBox {
         background-color: rgba(22, 131, 155, 0.22);
         border-color: rgba(11, 126, 152, 0.22);
         border-radius: 35px;
-      }
-
-      input.blueBox:focus {
-        box-shadow: none;
       }
 
       input.blueBox::placeholder {
@@ -262,7 +262,7 @@
         </section>
 
         <section class="section hide" name="login">
-          <form>
+          <form autocomplete="off">
             <input
               type="text"
               name="username"

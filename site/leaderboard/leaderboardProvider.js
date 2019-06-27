@@ -10,7 +10,7 @@ const __updateDelay = 3;
       if (jsonData.status) {
         let scoreData = [];
         for (let dataId in jsonData.data) {
-          jsonData.data[dataId].points = Math.ceil(Math.random() * 1000);
+          // jsonData.data[dataId].points = Math.ceil(Math.random() * 1000);
           let data = jsonData.data[dataId];
           scoreData.push({
             id: dataId,
