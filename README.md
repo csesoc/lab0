@@ -39,7 +39,7 @@ Edit the SQLite entry for the user in the `users` table.
 ## Credits
 
 ### Server (Python)
-[`Jinja2`](http://jinja.pocoo.org) - _Version 2.10_  
+[`Jinja2`](http://jinja.pocoo.org) - _Version 2.10.1_  
 [`tornado`](//www.tornadoweb.org) - _Version 5.1.1_
 
 ### Website
