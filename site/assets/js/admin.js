@@ -189,7 +189,7 @@ function dataToRow(data) {
       .then(jsonData => {
         if (jsonData.status) {
           this.classList.remove("is-loading");
-          this.outerText = jsonData.data;
+          this.innerText = jsonData.data;
         }
       });
   };
