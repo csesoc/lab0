@@ -17,6 +17,9 @@ python server.py
 ```
 
 ## Configuration File
+
+When the server first runs, a `settings.ini` file will be automatically created from the `settings.example.ini` skeleton.
+
 ```ini
 [SERVER]
 port = 8000              # Port to listen on
