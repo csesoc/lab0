@@ -22,10 +22,9 @@ class BackgroundImage {
     this.obj
   }
 
-  init (callback) {
+  init (resource, callback) {
     const loader = new THREE.TextureLoader()
-    loader.load('invite/background.jpg', tex => {
-      console.log('loaded')
+    loader.load(resource, tex => {
       this.uniforms.texture.value = tex
       this.obj = this.createObj()
       callback()

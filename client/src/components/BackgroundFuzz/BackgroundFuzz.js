@@ -19,7 +19,7 @@ const normalizeVector2 = function (vector) {
   vector.y = -(vector.y / window.innerHeight) * 2 + 1
 }
 
-export default function (container) {
+export default function (resource, container) {
   const canvas = container
   const renderer = new THREE.WebGLRenderer({
     antialias: false,
@@ -134,7 +134,7 @@ export default function (container) {
     cameraBack.position.set(1000, 1000, 1000)
     cameraBack.lookAt(new THREE.Vector3())
 
-    bgImg.init(() => {
+    bgImg.init(resource, () => {
       sceneBack.add(bgImg.obj)
       scene.add(postEffect.obj)
     })
