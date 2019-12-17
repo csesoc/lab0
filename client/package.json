@@ -12,8 +12,10 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
+    "bulma": "^0.8.0",
     "compression": "^1.7.1",
     "polka": "next",
+    "rollup-plugin-sass": "^1.2.2",
     "rollup-plugin-string": "^3.0.0",
     "sirv": "^0.4.0",
     "three": "^0.98.0"
