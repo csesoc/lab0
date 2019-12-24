@@ -1,11 +1,24 @@
 
 <script>
-export let title;
-export let category;
-export let points;
-export let active;
+export let data;
+
+let title;
+let description;
+let category;
+let points;
+let active;
+
+$: {
+    title = data[1]
+    description = data[2]
+    points = data[3]
+    category = data[4]
+}
+
 
 let card;
+
+import QuestionModal from "./QuestionModal.svelte";
 
 function openModal() {
     // Stub
