@@ -24,7 +24,7 @@
       <div class="orchestrator has-text-centered has-text-light" />
     </div>
     <div class="navbar-end">
-      <div class="navbar-item">
+      <div class="navbar-item is-paddingless">
        <MouseCoords />
       </div>
     </div>
