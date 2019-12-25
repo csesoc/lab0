@@ -11,7 +11,15 @@
 
 <style>
   .questionModal {
-    display: flex;
+    /* display: flex; */
+    display: table-cell;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    vertical-align: middle;
+    
     /* pointer-events: none; */
   }
 
