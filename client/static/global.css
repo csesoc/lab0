@@ -1,3 +1,5 @@
+@import "assets/hack-subset.css";
+
 /* body {
 	margin: 0;
 	font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -34,3 +36,52 @@ code {
 		font-size: 16px;
 	}
 } */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(22, 131, 155, 0.22);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(11, 126, 152, 0.22);
+}
+
+html,
+body {
+  overflow-y: hidden;
+}
+
+* {
+  font-family: Hack, monospace !important;
+  cursor: pointer;
+  user-select: none;
+}
+
+form .button {
+  color: white !important;
+  background-color: transparent;
+  border-color: rgba(22, 131, 155, 0.6) !important;
+}
+
+form .button:hover,
+.blueBox {
+  background-color: rgba(22, 131, 155, 0.22) !important;
+  border-color: rgba(11, 126, 152, 0.22) !important;
+  /*border-radius: 35px;*/
+}
+
+.blueBox:focus {
+  box-shadow: none;
+}
+
+.blueBox::placeholder {
+  color: #6c6c6c !important;
+  font-family: Hack, monospace !important;
+}
+
+.placeholder-center-text::placeholder {
+  text-align: center;
+}
