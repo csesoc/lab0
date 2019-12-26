@@ -1,4 +1,4 @@
-import QuestionModal from './_QuestionModal.svelte';
+import QuestionModal from './QuestionModal.svelte';
 
 function createModal (props) {
   // if (typeof props === 'string') props = { title: props }
