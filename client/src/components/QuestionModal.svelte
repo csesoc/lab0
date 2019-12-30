@@ -55,20 +55,21 @@
     /* pointer-events: none; */
   }
 
-  .questionModal .modal-card {
+  .modal-card {
     height: 75%;
+    margin: 0 auto;
   }
 
-  .questionModal .modal-card > * {
+  .modal-card > * {
     border: 2px solid rgba(22, 131, 155, 0.5);
   }
 
-  .questionModal .modal-card header,
-  .questionModal .modal-card footer {
+ .modal-card header,
+  .modal-card footer {
     background-color: rgba(22, 131, 155, 0.5);
   }
 
-  .questionModal .modal-card section {
+.modal-card section {
     background-color: rgba(11, 126, 152, 0.22);
     display: flex;
     flex-direction: column;
