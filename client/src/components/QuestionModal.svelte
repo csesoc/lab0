@@ -6,15 +6,15 @@
   }
   import { fade } from "svelte/transition";
 
-  export let data;
+  export let id;
+  export let title;
+  export let description;
+  export let points;
+  export let solved;
+  export let categoryName;
+  export let categoryID;
 
-  let title;
-  let description;
-  let category;
-  let points;
-  let solved;
-
-  let flagValue;
+  let flagValue = "";
   let submissionEnabled = true;
 
   function submitFlag() {
@@ -37,13 +37,8 @@
       flagValue = "";
     }
   }
-  
-  $: {
-    title = data[1];
-    description = data[2];
-    points = data[3];
-    category = data[4];
-  }
+
+ 
 </script>
 
 <style>
@@ -137,7 +132,7 @@
     <header class="modal-card-head">
       <p class="modal-card-title has-text-light">
         <span name="title">{title}</span>
-        <span class="has-text-grey-light" name="category">{category}</span>
+        <span class="has-text-grey-light" name="category">{categoryName}</span>
       </p>
       <button class="delete cancel" aria-label="close" on:click={close} />
     </header>

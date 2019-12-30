@@ -1,26 +1,18 @@
 <script>
-  export let data;
-
-  let title;
-  let description;
-  let category;
-  let points;
-  let solved;
-
-  $: {
-    title = data[1];
-    description = data[2];
-    points = data[3];
-    category = data[4];
-  }
+  export let id;
+  export let title;
+  export let description;
+  export let points;
+  export let solved;
+  export let categoryName;
+  export let categoryID;
 
   let card;
 
   import QuestionModal from "./QuestionModal.js";
 
   function openModal() {
-    console.log("modal");
-    QuestionModal.createModal()
+    QuestionModal.createModal({ ...$$props });
     // Stub
   }
 </script>
@@ -76,6 +68,6 @@
   bind:this={card}
   on:click={openModal}>
   <h1 class="title">{title}</h1>
-  <h2>{category}</h2>
+  <h2>{categoryName}</h2>
   <h3>{points}</h3>
 </article>
