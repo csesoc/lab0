@@ -20,4 +20,4 @@
   });
 </script>
 
-<img bind:this={imgElem} />
+<img bind:this={imgElem} alt="" />

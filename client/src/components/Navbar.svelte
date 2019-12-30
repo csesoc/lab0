@@ -20,6 +20,7 @@
     </a>
   </div>
   <div class="navbar-menu">
+  <a class="navbar-item has-text-grey">toggle questions</a>
     <div class="navbar-item is-expanded">
       <div class="orchestrator has-text-centered has-text-light" />
     </div>
@@ -30,3 +31,7 @@
     </div>
   </div>
 </nav>
+
+
+ <!-- () =>
+    document.querySelector("body > div.container").classList.toggle("hide"); -->
