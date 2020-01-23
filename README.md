@@ -1,7 +1,7 @@
 # UNSW CompClub 2019 Summer CTF Server
 ---
 
-[UNSW CSESoc Logo](site/assets/img/csesocwhiteblue.png)
+![UNSW CSESoc Logo](site/assets/img/csesocwhiteblue.png)
 Original repo at: [Original repo](https://github.com/featherbear/UNSW-CompClub2019Summer-CTF)
 [Demo](//featherbear.github.io/UNSW-CompClub2019Summer-CTF)
 
