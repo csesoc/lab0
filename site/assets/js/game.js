@@ -14,7 +14,7 @@ function openModalQuestion(questionData, srcElem) {
 
   modal.querySelector("[name=flag]").value =
     questions[questionData.id].inputValue || "";
-  modal.querySelector("[name=flag]").placeholder = "FLAG{...}";
+  modal.querySelector("[name=flag]").placeholder = "noice";
   modal.querySelector("[name=title]").innerText = questionData.title;
   modal.querySelector("[name=category]").innerText =
     categories[questionData.category] || "";
