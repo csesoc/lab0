@@ -43,13 +43,13 @@ function openModalQuestion(questionData, srcElem) {
   const submitEvent = function(evt) {
     evt.preventDefault();
 
-    if (!modal.querySelector("[name=flag]").value.trim()) return;
+    if (!modal.querySelector("[name=flag]").value.trim().toLowerCase()) return;
 
     modal.querySelector("form").removeEventListener("submit", submitEvent);
     flagSubmissionDisable();
     modal.querySelector("form .button").classList.add("is-loading");
 
-    let flagValue = modal.querySelector("[name=flag]").value.trim();
+    let flagValue = modal.querySelector("[name=flag]").value.trim().toLowerCase();
     trySolve(questionData.id, flagValue).then(jsonData => {
       modal.querySelector("form .button").classList.remove("is-loading");
       flagSubmissionEnable();
@@ -79,7 +79,7 @@ function openModalQuestion(questionData, srcElem) {
   const closeModal = function() {
     questions[questionData.id].inputValue = modal.querySelector(
       "[name=flag]"
-    ).value;
+    ).value.toLowerCase();
     modal.querySelector("[name=value]").classList.remove("solved");
     modal.classList.remove("solved");
     flagSubmissionEnable();
@@ -96,7 +96,7 @@ function openModalQuestion(questionData, srcElem) {
 
   const cancelEvent = closeModal;
 
-  modal.querySelector("[name=value]").innerText = questionData.value;
+  modal.querySelector("[name=value]").innerText = questionData.value.toLowerCase();
 
   modal.querySelector("form").addEventListener("submit", submitEvent);
   modal.querySelector("button.cancel").addEventListener("click", cancelEvent);

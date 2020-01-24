@@ -46,7 +46,7 @@ function openModalEdit(questionId, srcElem) {
         credentials: "include",
         body: JSON.stringify({
           question: questionId,
-          flag: flagInput.value
+          flag: flagInput.value.toLowerCase()
         })
       })
         .then(response => response.json())
@@ -56,7 +56,7 @@ function openModalEdit(questionId, srcElem) {
           if (jsonData.status) {
             let flagColumn = srcElem.querySelector(".flag");
             if (!flagColumn.children.length) {
-              flagColumn.innerText = flagInput.value;
+              flagColumn.innerText = flagInput.value.toLowerCase();
             }
             flagInput.value = "";
           } else if (parseInt(jsonData.error) === -1) {
@@ -83,7 +83,7 @@ function openModalEdit(questionId, srcElem) {
       };
 
       if (isNew) {
-        data.flag = flagInput.value;
+        data.flag = flagInput.value.toLowerCase();
       } else {
         data.question = questionId;
       }
