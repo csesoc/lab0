@@ -39,8 +39,6 @@ else:
 
 
 def run(file: str = None, **kwargs):
-    print("UNSW CSE CompClub 2019 Summer CTF Server")
-    print("                      [ by Andrew Wong ]")
     print("----------------------------------------")
     print("Server version:", __VERSION)
 
