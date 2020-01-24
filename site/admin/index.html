@@ -26,20 +26,32 @@
           </div>
         </div>
         <div class="field">
-          <label class="label has-text-light">Flag</label>
+          <label class="label has-text-light">Answer</label>
           <div class="field is-grouped">
             <p class="control is-expanded">
               <input
                 class="input blueBox has-text-light"
                 name="flag"
                 type="text"
-                placeholder="FLAG{...}"
+                placeholder="Answer"
                 spellcheck="false"
               />
             </p>
             <p class="control">
-              <a class="button" name="updateFlag">UPDATE FLAG</a>
+              <a class="button" name="updateFlag">UPDATE ANSWER</a>
             </p>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label has-text-light">Category</label>
+          <div class="control">
+            <div class="select">
+              <select
+                name="category"
+                class="blueBox has-text-light"
+                required
+              ></select>
+            </div>
           </div>
         </div>
         <div class="field is-grouped">
@@ -92,7 +104,7 @@
         <th>Title</th>
         <th>Description</th>
         <th>Category</th>
-        <th>Flag</th>
+        <th>Answer</th>
         <th>Points</th>
         <th>Solves</th>
         <th></th>
@@ -103,7 +115,7 @@
         <th>Title</th>
         <th>Description</th>
         <th>Category</th>
-        <th>Flag</th>
+        <th>Answer</th>
         <th>Points</th>
         <th>Solves</th>
         <th></th>

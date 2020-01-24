@@ -1,9 +1,8 @@
 # UNSW CompClub 2019 Summer CTF Server
 ---
 
-![UNSW CSESoc Logo](site/assets/img/csesocwhiteblue.png)
-Original repo at: [Original repo](https://github.com/featherbear/UNSW-CompClub2019Summer-CTF)
-[Demo](//featherbear.github.io/UNSW-CompClub2019Summer-CTF)
+![UNSW CSESoc Logo](site/assets/img/csesocgreyblue.png)
+[Original repo](https://github.com/featherbear/UNSW-CompClub2019Summer-CTF)
 
 ---
 ## Installation
@@ -12,8 +11,9 @@ A [_requirements.txt_](server/requirements.txt) file is located in the _server_ 
 
 ## Run
 ```bash
+python3 -m pip install -r requirements.txt
 cd server
-python server.py
+python3 server.py
 ```
 
 ## Configuration File
@@ -21,7 +21,7 @@ When the server first runs, a `settings.ini` file will be automatically created 
 
 ```ini
 [SERVER]
-port = 8000              # Port to listen on
+port = 80              # Port to listen on
 database = data.sqlite3  # SQLite database file 
 
 [SITE]
@@ -46,6 +46,8 @@ Edit the SQLite entry for the user in the `users` table.
 
 ## Credits
 
+This was originally created by Andrew Wong for the CSESoc Compclub 2019 Summer CTF.
+
 ### Server (Python)
 [`Jinja2`](http://jinja.pocoo.org) - _Version 2.10.1_  
 [`tornado`](//www.tornadoweb.org) - _Version 5.1.1_
@@ -67,9 +69,5 @@ Edit the SQLite entry for the user in the `users` table.
 
 ---
 ## License
-Copyright � 2018 - 2019 Andrew Wong  
-
 This software is licensed under the MIT License.  
 You are free to redistribute it and/or modify it under the terms of the license.  
-
-For more details see the _LICENSE_ file

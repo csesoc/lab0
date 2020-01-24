@@ -19,7 +19,7 @@ function openModalEdit(questionId, srcElem) {
   modal.classList.toggle("editQuestion", !isNew);
 
   flagInput.value = "";
-  flagInput.placeholder = "FLAG{...}";
+  flagInput.placeholder = "answer";
   flagInput.required = isNew;
 
   if (isNew) {
@@ -60,7 +60,7 @@ function openModalEdit(questionId, srcElem) {
             }
             flagInput.value = "";
           } else if (parseInt(jsonData.error) === -1) {
-            flagInput.placeholder = "Flag already used";
+            flagInput.placeholder = "Answer already used";
             flagInput.value = "";
           }
         });
@@ -102,7 +102,7 @@ function openModalEdit(questionId, srcElem) {
           if (jsonData.status) {
             location.reload();
           } else if (parseInt(jsonData.error) === -1) {
-            flagInput.placeholder = "Flag already used";
+            flagInput.placeholder = "Answer already used";
             flagInput.value = "";
           }
         });
