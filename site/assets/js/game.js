@@ -79,7 +79,7 @@ function openModalQuestion(questionData, srcElem) {
   const closeModal = function() {
     questions[questionData.id].inputValue = modal.querySelector(
       "[name=flag]"
-    ).value.toLowerCase();
+    ).value.toString().toLowerCase();
     modal.querySelector("[name=value]").classList.remove("solved");
     modal.classList.remove("solved");
     flagSubmissionEnable();
@@ -96,7 +96,7 @@ function openModalQuestion(questionData, srcElem) {
 
   const cancelEvent = closeModal;
 
-  modal.querySelector("[name=value]").innerText = questionData.value.toLowerCase();
+  modal.querySelector("[name=value]").innerText = questionData.value.toString().toLowerCase();
 
   modal.querySelector("form").addEventListener("submit", submitEvent);
   modal.querySelector("button.cancel").addEventListener("click", cancelEvent);
