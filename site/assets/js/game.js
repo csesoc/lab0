@@ -56,7 +56,7 @@ function openModalQuestion(questionData, srcElem) {
       modal.querySelector("form").addEventListener("submit", submitEvent);
 
       if (jsonData.status) {
-        modal.querySelector("[name=flag]").placeholder = "flag correct";
+        modal.querySelector("[name=flag]").placeholder = "answer correct";
         modal.querySelector("[name=flag]").value = "";
         if (!solves.has(questionData.id)) {
           solves.push(questionData.id);
