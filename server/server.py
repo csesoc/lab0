@@ -57,7 +57,7 @@ def run(file: str = None, **kwargs):
 
     server = tornado.httpserver.HTTPServer(app)
 
-    port = config["SERVER"].get("port", 8000)
+    port = config["SERVER"].get("port", 80)
     try:
         server.bind(port)
     except OSError:
