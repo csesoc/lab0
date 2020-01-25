@@ -1,4 +1,4 @@
-# UNSW CompClub 2019 Summer CTF Server
+# UNSW CSESoc Lab 0 2020
 ---
 
 ![UNSW CSESoc Logo](site/assets/img/csesocgreyblue.png)
@@ -7,7 +7,7 @@
 ---
 ## Installation
 A [_requirements.txt_](server/requirements.txt) file is located in the _server_ folder  
-`pip install -r requirements.txt`
+`python3 -m pip install -r requirements.txt`
 
 ## Run
 ```bash
@@ -16,13 +16,20 @@ cd server
 python3 server.py
 ```
 
+## Run on Server
+```bash
+cd server
+sudo lsof -t -i tcp:80 -s tcp:listen | sudo xargs kill
+sudo python3 server.py &
+```
+
 ## Configuration File
 When the server first runs, a `settings.ini` file will be automatically created from the `settings.example.ini` skeleton.
 
 ```ini
 [SERVER]
-port = 80              # Port to listen on
-database = data.sqlite3  # SQLite database file 
+port = 80               # Port to listen on
+database = data.sqlite3 # SQLite database file 
 
 [SITE]
 templatesDir = ../site  # Jinja template base path
@@ -34,16 +41,12 @@ password = password     # Superuser password
 ```
 
 ## Admin users
-There is no user account management interface (_yet_).  
 Edit the SQLite entry for the user in the `users` table.  
 
-## Customisation
-
-* To modify the invite page background, replace `site/invite/background.jpg`  
-* For most other page modifications, edit `site/template.html`
+## CTF question categorise
+Edit the SQLite entry for the user in the `ctf_question_categories` table.  
 
 ---
-
 ## Credits
 
 This was originally created by Andrew Wong for the CSESoc Compclub 2019 Summer CTF.
