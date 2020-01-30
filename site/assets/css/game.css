@@ -134,7 +134,8 @@ article:hover {
 }
 
 article.solved {
-  filter: saturate(0);
+  color: black;
+  background-color: hsl(141, 71%, 48%) !important;
 }
 
 article h2:not(:empty)::before {

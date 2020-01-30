@@ -1,6 +1,6 @@
 body {
   font-family: Hack, monospace;
-  cursor: pointer;
+  cursor: crosshair;
   white-space: pre;
   color: white;
 }

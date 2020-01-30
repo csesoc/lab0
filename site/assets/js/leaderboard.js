@@ -14,38 +14,23 @@
       }
       scoreData.sort((next, prev) => prev.points - next.points);
 
-      let myRank;
       let myScore;
 
       let leaderboard = [];
 
-      let lastRank = 0;
-      let lastScore = 0;
       for (let i = 0; i < scoreData.length; i++) {
-        let rank;
-
-        if (lastScore === scoreData[i].points) {
-          rank = lastRank;
-        } else {
-          rank = lastRank = i + 1;
-          lastScore = scoreData[i].points;
-        }
 
         if (me.id === parseInt(scoreData[i].id)) {
           myScore = scoreData[i].points;
-          myRank = rank;
+          myName = scoreData[i].name;
         }
-
-        if (rank != 0) leaderboard.push(rank + ". " + scoreData[i].name);
       }
 
       document.querySelector(
         "div.slideout [name=leaderboard]"
       ).innerText = leaderboard.join("\n");
       document.querySelector("div.slideout [name=rank]").innerText =
-        myRank || "-";
-      document.querySelector("div.slideout [name=places]").innerText =
-        scoreData.length || "-";
+        myName || "-";
       document.querySelector("div.slideout [name=score]").innerText =
         myScore || "-";
 

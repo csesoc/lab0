@@ -5,7 +5,7 @@ body {
 
 * {
   font-family: Hack, monospace !important;
-  cursor: pointer;
+  cursor: crosshair;
   user-select: none;
 }
 
@@ -100,10 +100,6 @@ div.background svg g.mouseArea path {
 
 .slideout [name] {
   color: white;
-}
-
-.slideout [name="rank"]:not(:empty)::before {
-  content: "rank: ";
 }
 
 .slideout [name="places"]:not(:empty)::before {
