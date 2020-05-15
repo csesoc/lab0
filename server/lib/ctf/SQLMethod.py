@@ -24,16 +24,16 @@ class SQLMethod:
             return database.update(SQLQuery.solves.deleteSpecific, (user, question))
 
         @staticmethod
-        def createQuestion(title: str, description: str, flag: str, value: int, category: int):
-            return database.insert(SQLQuery.questions.add, (title, description, flag, value, category))
+        def createQuestion(title: str, description: str, answer: str, value: int, category: int):
+            return database.insert(SQLQuery.questions.add, (title, description, answer, value, category))
 
         @staticmethod
         def editQuestion(question: int, title: str, description: str, value: int, category: int):
             return database.update(SQLQuery.questions.edit, (title, description, value, category, question))
 
         @staticmethod
-        def editQuestionFlag(question: int, flag: str):
-            return database.update(SQLQuery.questions.editFlag, (flag, question))
+        def editQuestionAnswer(question: int, answer: str):
+            return database.update(SQLQuery.questions.editAnswer, (answer, question))
 
         @staticmethod
         def deleteQuestion(question: int):
@@ -56,8 +56,8 @@ class SQLMethod:
 
         # Helper functions
         @staticmethod
-        def getFlag(question: int):
-            return database.fetchOne(SQLQuery.questions.getFlag, (question,))[0]
+        def getAnswer(question: int):
+            return database.fetchOne(SQLQuery.questions.getAnswer, (question,))[0]
 
         @staticmethod
         def getSolves(*, user: int = None, question: int = None):
@@ -69,15 +69,15 @@ class SQLMethod:
                 return list(map(lambda result: result[0], database.fetchAll(SQLQuery.solves.getQuestion, (question,))))
 
         @staticmethod
-        def getQuestions(*, question: int = None, flag: bool = False):
+        def getQuestions(*, question: int = None, answer: bool = False):
             if question:
-                if flag:
-                    return database.fetchOne(SQLQuery.questions.getOneWithFlag, (question,))
+                if answer:
+                    return database.fetchOne(SQLQuery.questions.getOneWithAnswer, (question,))
                 else:
                     return database.fetchOne(SQLQuery.questions.getOne, (question,))
             else:  # get all
-                if flag:
-                    return database.fetchAll(SQLQuery.questions.getAllWithFlag)
+                if answer:
+                    return database.fetchAll(SQLQuery.questions.getAllWithAnswer)
                 else:
                     return database.fetchAll(SQLQuery.questions.getAll)
 

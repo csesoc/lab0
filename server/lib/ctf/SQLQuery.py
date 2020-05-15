@@ -1,86 +1,145 @@
 class SQLQuery:
     class solves:
         createTable = """
-            CREATE TABLE IF NOT EXISTS ctf_solves (
+            CREATE TABLE IF NOT EXISTS solves (
                 user INTEGER NOT NULL,
                 question INTEGER NOT NULL,
-            
                 FOREIGN KEY (user) REFERENCES users (id),
                 FOREIGN KEY (question) REFERENCES ctf_questions (id),
-                
                 UNIQUE (user, question)
             )
             """
 
         add = """
             INSERT
-            INTO ctf_solves (user, question)
+            INTO solves (user, question)
             VALUES (?, ?)
             """
 
-        deleteQuestion = "DELETE FROM ctf_solves WHERE question = ?"
-        deleteUser = "DELETE FROM ctf_solves WHERE user = ?"
-        deleteSpecific = "DELETE FROM ctf_solves WHERE user = ? AND question = ?"
+        deleteQuestion = """
+            DELETE FROM solves
+            WHERE question = ?
+            """
 
-        getAll = "SELECT * FROM ctf_solves"
-        getUser = "SELECT question FROM ctf_solves WHERE user = ?"
-        getQuestion = "SELECT user FROM ctf_solves WHERE question = ?"
+        deleteUser = """
+            DELETE FROM solves
+            WHERE user = ?
+            """
 
+        deleteSpecific = """
+            DELETE FROM solves
+            WHERE user = ? AND question = ?
+            """
+
+        getAll = """
+            SELECT *
+            FROM solves
+            """
+
+        getUser = """
+            SELECT question
+            FROM solves
+            WHERE user = ?
+            """
+
+        getQuestion = """
+            SELECT user
+            FROM solves
+            WHERE question = ?
+            """
+    
     class questions:
         createTable = """
-            CREATE TABLE IF NOT EXISTS ctf_questions (
+            CREATE TABLE IF NOT EXISTS questions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
                 description TEXT,
-                flag TEXT NOT NULL,
+                answer TEXT NOT NULL,
                 value INTEGER NOT NULL,
                 category INTEGER NOT NULL,
             
-                UNIQUE (flag)
+                UNIQUE (answer)
             )
             """
 
         add = """
             INSERT
-            INTO ctf_questions (title, description, flag, value, category)
+            INTO questions (title, description, answer, value, category)
             VALUES (?, ?, ?, ?, ?)
             """
 
-        delete = "DELETE FROM ctf_questions WHERE id = ?"
+        delete = """
+            DELETE FROM questions
+            WHERE id = ?
+            """
+
         edit = """
-            UPDATE ctf_questions
+            UPDATE questions
             SET title = ?, description = ?, value = ?, category = ?
             WHERE id = ?
             """
-        editFlag = """
-            UPDATE ctf_questions
-            SET flag = ?
+        
+        editAnswer = """
+            UPDATE questions
+            SET answer = ?
             WHERE id = ?
             """
 
-        getAll = "SELECT id, title, description, value, category FROM ctf_questions"
-        getOne = "SELECT id, title, description, value, category FROM ctf_questions WHERE id = ?"
-        getAllWithFlag = "SELECT id, title, description, flag, value, category FROM ctf_questions"
-        getOneWithFlag = "SELECT id, title, description, flag, value, category FROM ctf_questions WHERE id = ?"
-        getFlag = "SELECT flag FROM ctf_questions WHERE id = ?"
+        getAll = """
+            SELECT id, title, description, value, category
+            FROM questions
+            """
+        
+        getOne = """
+            SELECT id, title, description, value, category
+            FROM questions
+            WHERE id = ?
+            """
+        
+        getAllWithAnswer = """
+            SELECT id, title, description, answer, value, category
+            FROM questions
+            """
+        
+        getOneWithAnswer = """
+            SELECT id, title, description, answer, value, category
+            FROM questions
+            WHERE id = ?
+            """
+        
+        getAnswer = """
+            SELECT answer
+            FROM questions
+            WHERE id = ?
+            """
 
     class categories:
         createTable = """
-            CREATE TABLE IF NOT EXISTS ctf_question_categories (
+            CREATE TABLE IF NOT EXISTS categories (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 UNIQUE (name)
             )
             """
+        
         add = """
-              INSERT
-              INTO ctf_question_categories (name)
-              VALUES (?)
-              """,
-        delete = "DELETE FROM ctf_question_categories WHERE id = ?"
+            INSERT
+            INTO categories (name)
+            VALUES (?)
+            """
+        
+        delete = """
+            DELETE FROM categories
+            WHERE id = ?
+            """
+
         edit = """
-            UPDATE ctf_question_categories
+            UPDATE categories
             SET name = ?
             WHERE id = ?
             """
-        getAll = "SELECT id, name FROM ctf_question_categories"
+        
+        getAll = """
+            SELECT id, name
+            FROM categories
+            """
