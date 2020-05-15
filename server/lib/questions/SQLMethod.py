@@ -76,7 +76,6 @@ class SQLMethod:
                 else:
                     return database.fetchAll(SQLQuery.questions.getAll)
 
-        getQuestion = getQuestions
 
     class categories:
         @staticmethod

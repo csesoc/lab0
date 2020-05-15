@@ -2,9 +2,9 @@ from .. import routing, JSON
 from tornado.web import authenticated, RequestHandler
 from sqlite3 import IntegrityError
 
-from server.lib.questions import SQLMethod as questionsSQLMethod
-from server.lib.auth import SQLMethod as authSQLMethod
-from server.lib.site import SSE_messages
+from lib.questions import SQLMethod as questionsSQLMethod
+from lib.auth import SQLMethod as authSQLMethod
+from lib.site import SSE_messages
 
 
 @routing.POST("/questions/questions.json")
@@ -29,17 +29,17 @@ def leaderboard(self: RequestHandler, args: dict):
     for question in questionsSQL:
         pointsMap[question[0]] = question[3]
 
-    leaderboard = {}
+    board = {}
     for user in usersSQL:
-        leaderboard[user[0]] = dict(name=user[2] or user[1],  # user might not have a display name?
+        board[user[0]] = dict(name=user[2] or user[1],  # user might not have a display name?
                                     points=0)
 
     for solve in solvesSQL:
         try:
-            leaderboard[solve[0]]["points"] += pointsMap[solve[1]]
-        except:
+            board[solve[0]]["points"] += pointsMap[solve[1]]
+        except Exception:
             pass
-    return self.finish(JSON.data(leaderboard))
+    return self.finish(JSON.data(board))
 
 
 @routing.POST("/questions/adminSolves.json")
@@ -65,10 +65,8 @@ def questionSolves(self: RequestHandler, args: dict):
 def trySolve(self: RequestHandler, args: dict):
     if args["answer"] == questionsSQLMethod.questions.getAnswer(args["question"]):
         try:
-            questionsSQLMethod.questions.solveQuestion(
-                self.current_user.id, args["answer"])
-            SSE_messages.addMessage(
-                self.current_user.name + " has found an answer!")
+            questionsSQLMethod.questions.solveQuestion(self.current_user.id, args["answer"])
+            SSE_messages.addMessage(self.current_user.name + " has found an answer!")
         except IntegrityError:
             pass
         return self.finish(JSON.YES())

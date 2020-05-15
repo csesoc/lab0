@@ -1,8 +1,8 @@
 from .. import routing, JSON
 from tornado.web import authenticated, RequestHandler
 
-from server.lib.questions import SQLMethod as questionsSQLMethod
-from server.lib.auth import SQLMethod as authSQLMethod
+from lib.questions import SQLMethod as questionsSQLMethod
+from lib.auth import SQLMethod as authSQLMethod
 
 
 @routing.POST("/questions/question/submit")
