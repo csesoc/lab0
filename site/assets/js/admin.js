@@ -41,7 +41,7 @@ function openModalEdit(questionId, srcElem) {
       flagInput.required = false;
       this.removeEventListener("click", updateFlagEvent);
       this.classList.add("is-loading");
-      fetch("/api/v1/ctf/question/editFlag", {
+      fetch("/api/v1/questions/question/editFlag", {
         method: "post",
         credentials: "include",
         body: JSON.stringify({
@@ -88,7 +88,7 @@ function openModalEdit(questionId, srcElem) {
         data.question = questionId;
       }
 
-      fetch("/api/v1/ctf/question/" + endpoint, {
+      fetch("/api/v1/questions/question/" + endpoint, {
         method: "post",
         credentials: "include",
         body: JSON.stringify(data)
@@ -178,7 +178,7 @@ function dataToRow(data) {
   const flagRevealClickEvent = function() {
     flagReveal.removeEventListener("click", flagRevealClickEvent);
     this.classList.add("is-loading");
-    fetch("/api/v1/ctf/question/getFlag", {
+    fetch("/api/v1/questions/question/getFlag", {
       method: "post",
       credentials: "include",
       body: JSON.stringify({

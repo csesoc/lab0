@@ -1,5 +1,5 @@
 from .SQLQuery import SQLQuery
-from .. import database
+from ...site import database
 
 
 def assertSQLResult(result):
@@ -48,11 +48,6 @@ class SQLMethod:
         @staticmethod
         def deleteUser(user: int):
             return database.update(SQLQuery.solves.deleteUser, (user,))
-
-        # result = []
-        # result.append(database.update(UserSQL.delete, (user,), commit=False))
-        # result.append(database.update(SQLQuery.solves.deleteUser, (user,), commit=False))
-        # return assertSQLResult(result)
 
         # Helper functions
         @staticmethod

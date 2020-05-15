@@ -5,7 +5,7 @@ class SQLQuery:
                 user INTEGER NOT NULL,
                 question INTEGER NOT NULL,
                 FOREIGN KEY (user) REFERENCES users (id),
-                FOREIGN KEY (question) REFERENCES ctf_questions (id),
+                FOREIGN KEY (question) REFERENCES questions (id),
                 UNIQUE (user, question)
             )
             """

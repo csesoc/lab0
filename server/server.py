@@ -1,8 +1,4 @@
-__VERSION = "0.0.3"
-# github.com/featherbear/UNSW-CompClub2019Summer-CTF
-
-# print("TODO")
-# print("- Concurrent SQLCursors")
+__VERSION = "1.0.0"
 
 import tornado.ioloop
 import tornado.web
@@ -30,9 +26,9 @@ if database.conn is not None:
     lib.authSession.initDatabase()
     lib.authSession.cleanup()
 
-    import lib.ctf
+    import lib.questions
 
-    lib.ctf.initDatabase()
+    lib.questions.initDatabase()
 
 else:
     raise Exception("Cannot create the database connection.")
