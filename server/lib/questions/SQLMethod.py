@@ -1,5 +1,5 @@
 from .SQLQuery import SQLQuery
-from server.lib import database
+from .. import database
 
 
 def assertSQLResult(result):

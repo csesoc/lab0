@@ -16,7 +16,7 @@ def questionSubmit(self: RequestHandler, args: dict):
         if result:
             return self.finish(JSON.OK())
         return self.finish(JSON.FALSE())
-    except Exception as e:
+    except Exception:
         return self.finish(JSON.error("-1"))
 
 

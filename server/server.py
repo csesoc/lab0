@@ -8,10 +8,10 @@ from lib.api import APIHandler
 from lib.site import SSEHandler, SSE_messages, SiteHandler
 
 app = tornado.web.Application([
-    ("/api/(.*)", APIHandler),
-    ("/orchestrator", SSEHandler),
-    ("/(.*)", SiteHandler),
-],
+        ("/api/(.*)", APIHandler),
+        ("/orchestrator", SSEHandler),
+        ("/(.*)", SiteHandler),
+    ],
     cookie_secret="5206688",
     login_url="/invite"
 )
