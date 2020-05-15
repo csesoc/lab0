@@ -7,7 +7,7 @@ let oldState;
 
 new Typed("#title", {
   strings: [
-    "><span id='blinky'>_</span> CTF Leaderboard<br>========================="
+    "><span id='blinky'>_</span> Leaderboard<br>========================="
   ],
   cursorChar: "",
   onComplete: function() {

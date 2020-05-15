@@ -12,9 +12,9 @@ function openModalQuestion(questionData, srcElem) {
     }
   });
 
-  modal.querySelector("[name=flag]").value =
+  modal.querySelector("[name=answer]").value =
     questions[questionData.id].inputValue || "";
-  modal.querySelector("[name=flag]").placeholder = "noice";
+  modal.querySelector("[name=answer]").placeholder = "noice";
   modal.querySelector("[name=title]").innerText = questionData.title;
   modal.querySelector("[name=category]").innerText =
     categories[questionData.category] || "";
@@ -30,12 +30,12 @@ function openModalQuestion(questionData, srcElem) {
 
   // modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
 
-  const flagSubmissionDisable = function() {
+  const answerSubmissionDisable = function() {
     modal.querySelector("form .input").disabled = true;
     modal.querySelector("form .button").disabled = true;
   };
 
-  const flagSubmissionEnable = function() {
+  const answerSubmissionEnable = function() {
     modal.querySelector("form .input").disabled = false;
     modal.querySelector("form .button").disabled = false;
   };
@@ -43,21 +43,21 @@ function openModalQuestion(questionData, srcElem) {
   const submitEvent = function(evt) {
     evt.preventDefault();
 
-    if (!modal.querySelector("[name=flag]").value.trim().toLowerCase()) return;
+    if (!modal.querySelector("[name=answer]").value.trim().toLowerCase()) return;
 
     modal.querySelector("form").removeEventListener("submit", submitEvent);
-    flagSubmissionDisable();
+    answerSubmissionDisable();
     modal.querySelector("form .button").classList.add("is-loading");
 
-    let flagValue = modal.querySelector("[name=flag]").value.trim().toLowerCase();
-    trySolve(questionData.id, flagValue).then(jsonData => {
+    let answerValue = modal.querySelector("[name=answer]").value.trim().toLowerCase();
+    trySolve(questionData.id, answerValue).then(jsonData => {
       modal.querySelector("form .button").classList.remove("is-loading");
-      flagSubmissionEnable();
+      answerSubmissionEnable();
       modal.querySelector("form").addEventListener("submit", submitEvent);
 
       if (jsonData.status) {
-        modal.querySelector("[name=flag]").placeholder = "answer correct";
-        modal.querySelector("[name=flag]").value = "";
+        modal.querySelector("[name=answer]").placeholder = "answer correct";
+        modal.querySelector("[name=answer]").value = "";
         if (!solves.has(questionData.id)) {
           solves.push(questionData.id);
           modal.querySelector("[name=solves]").innerText =
@@ -67,9 +67,9 @@ function openModalQuestion(questionData, srcElem) {
         modal.querySelector("[name=value]").classList.add("solved");
         srcElem.classList.add("solved");
       } else {
-        modal.querySelector("[name=flag]").placeholder =
-          flagValue + " was not right!";
-        modal.querySelector("[name=flag]").value = "";
+        modal.querySelector("[name=answer]").placeholder =
+          answerValue + " was not right!";
+        modal.querySelector("[name=answer]").value = "";
       }
     });
   };
@@ -78,11 +78,11 @@ function openModalQuestion(questionData, srcElem) {
 
   const closeModal = function() {
     questions[questionData.id].inputValue = modal.querySelector(
-      "[name=flag]"
+      "[name=answer]"
     ).value.toString().toLowerCase();
     modal.querySelector("[name=value]").classList.remove("solved");
     modal.classList.remove("solved");
-    flagSubmissionEnable();
+    answerSubmissionEnable();
 
     modal.querySelector("form").removeEventListener("submit", submitEvent);
     modal

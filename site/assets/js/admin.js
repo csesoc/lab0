@@ -13,14 +13,14 @@
 
 function openModalEdit(questionId, srcElem) {
   let modal = document.getElementById("editModal");
-  let flagInput = modal.querySelector("[name=flag]");
+  let answerInput = modal.querySelector("[name=answer]");
 
   let isNew = questionId === undefined;
   modal.classList.toggle("editQuestion", !isNew);
 
-  flagInput.value = "";
-  flagInput.placeholder = "answer";
-  flagInput.required = isNew;
+  answerInput.value = "";
+  answerInput.placeholder = "answer";
+  answerInput.required = isNew;
 
   if (isNew) {
     modal.querySelector("[name=title]").value = "";
@@ -35,33 +35,33 @@ function openModalEdit(questionId, srcElem) {
     modal.querySelector("input[type=range]").value = question.value;
   }
 
-  const updateFlagEvent = function(evt) {
-    flagInput.required = true;
-    if (flagInput.reportValidity()) {
-      flagInput.required = false;
-      this.removeEventListener("click", updateFlagEvent);
+  const updateAnswerEvent = function(evt) {
+    answerInput.required = true;
+    if (answerInput.reportValidity()) {
+      answerInput.required = false;
+      this.removeEventListener("click", updateAnswerEvent);
       this.classList.add("is-loading");
-      fetch("/api/v1/questions/question/editFlag", {
+      fetch("/api/v1/questions/question/editAnswer", {
         method: "post",
         credentials: "include",
         body: JSON.stringify({
           question: questionId,
-          flag: flagInput.value.toLowerCase()
+          answer: answerInput.value.toLowerCase()
         })
       })
         .then(response => response.json())
         .then(jsonData => {
-          this.addEventListener("click", updateFlagEvent);
+          this.addEventListener("click", updateAnswerEvent);
           this.classList.remove("is-loading");
           if (jsonData.status) {
-            let flagColumn = srcElem.querySelector(".flag");
-            if (!flagColumn.children.length) {
-              flagColumn.innerText = flagInput.value.toLowerCase();
+            let answerColumn = srcElem.querySelector(".answer");
+            if (!answerColumn.children.length) {
+              answerColumn.innerText = answerInput.value.toLowerCase();
             }
-            flagInput.value = "";
+            answerInput.value = "";
           } else if (parseInt(jsonData.error) === -1) {
-            flagInput.placeholder = "Answer already used";
-            flagInput.value = "";
+            answerInput.placeholder = "Answer already used";
+            answerInput.value = "";
           }
         });
     }
@@ -83,7 +83,7 @@ function openModalEdit(questionId, srcElem) {
       };
 
       if (isNew) {
-        data.flag = flagInput.value.toLowerCase();
+        data.answer = answerInput.value.toLowerCase();
       } else {
         data.question = questionId;
       }
@@ -102,8 +102,8 @@ function openModalEdit(questionId, srcElem) {
           if (jsonData.status) {
             location.reload();
           } else if (parseInt(jsonData.error) === -1) {
-            flagInput.placeholder = "Answer already used";
-            flagInput.value = "";
+            answerInput.placeholder = "Answer already used";
+            answerInput.value = "";
           }
         });
     }
@@ -124,8 +124,8 @@ function openModalEdit(questionId, srcElem) {
   const cancelEvent = closeModal;
 
   modal
-    .querySelector(".button[name=updateFlag]")
-    .addEventListener("click", updateFlagEvent);
+    .querySelector(".button[name=updateAnswer]")
+    .addEventListener("click", updateAnswerEvent);
   modal.querySelector("button.confirm").addEventListener("click", confirmEvent);
   modal.querySelector("button.cancel").addEventListener("click", cancelEvent);
   modal
@@ -151,14 +151,14 @@ function dataToRow(data) {
   category.innerText = categories[data.category] || "";
   row.appendChild(category);
 
-  let flag = document.createElement("td");
-  flag.classList.add("flag");
+  let answer = document.createElement("td");
+  answer.classList.add("answer");
 
-  let flagReveal = document.createElement("button");
-  flagReveal.classList.add("button", "is-outlined", "is-info");
-  flagReveal.innerText = "click to reveal";
-  flag.appendChild(flagReveal);
-  row.appendChild(flag);
+  let answerReveal = document.createElement("button");
+  answerReveal.classList.add("button", "is-outlined", "is-info");
+  answerReveal.innerText = "click to reveal";
+  answer.appendChild(answerReveal);
+  row.appendChild(answer);
 
   let points = document.createElement("td");
   points.innerText = data.value;
@@ -175,10 +175,10 @@ function dataToRow(data) {
   edit.appendChild(editBtn);
   row.appendChild(edit);
 
-  const flagRevealClickEvent = function() {
-    flagReveal.removeEventListener("click", flagRevealClickEvent);
+  const answerRevealClickEvent = function() {
+    answerReveal.removeEventListener("click", answerRevealClickEvent);
     this.classList.add("is-loading");
-    fetch("/api/v1/questions/question/getFlag", {
+    fetch("/api/v1/questions/question/getAnswer", {
       method: "post",
       credentials: "include",
       body: JSON.stringify({
@@ -194,7 +194,7 @@ function dataToRow(data) {
       });
   };
 
-  flagReveal.addEventListener("click", flagRevealClickEvent);
+  answerReveal.addEventListener("click", answerRevealClickEvent);
   editBtn.addEventListener("click", function(evt) {
     openModalEdit(data.id, this.parentElement.parentElement);
   });

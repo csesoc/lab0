@@ -17,21 +17,21 @@ fetch("/api/v1/auth/me", {
   });
 
 function getQuestions() {
-  return fetch("/api/v1/ctf/questions.json", {
+  return fetch("/api/v1/questions/questions.json", {
     method: "post",
     credentials: "include"
   }).then(response => response.json());
 }
 
 function getCategories() {
-  return fetch("/api/v1/ctf/categories.json", {
+  return fetch("/api/v1/questions/categories.json", {
     method: "post",
     credentials: "include"
   }).then(response => response.json());
 }
 
 function getSolvesAdmin() {
-  return fetch("/api/v1/ctf/adminSolves.json", {
+  return fetch("/api/v1/questions/adminSolves.json", {
     method: "post",
     credentials: "include"
   }).then(response => response.json());
@@ -39,7 +39,7 @@ function getSolvesAdmin() {
 
 function getSolves(questionId, getAll) {
   if (questionId !== undefined) {
-    return fetch("/api/v1/ctf/questionSolves.json", {
+    return fetch("/api/v1/questions/questionSolves.json", {
       method: "post",
       credentials: "include",
       body: JSON.stringify({
@@ -48,26 +48,26 @@ function getSolves(questionId, getAll) {
     }).then(response => response.json());
   }
 
-  return fetch("/api/v1/ctf/userSolves.json", {
+  return fetch("/api/v1/questions/userSolves.json", {
     method: "post",
     credentials: "include"
   }).then(response => response.json());
 }
 
 function getLeaderboard() {
-  return fetch("/api/v1/ctf/leaderboard.json", {
+  return fetch("/api/v1/questions/leaderboard.json", {
     method: "post",
     credentials: "include"
   }).then(response => response.json());
 }
 
-function trySolve(questionId, flag) {
-  return fetch("/api/v1/ctf/solve", {
+function trySolve(questionId, answer) {
+  return fetch("/api/v1/questions/solve", {
     method: "post",
     credentials: "include",
     body: JSON.stringify({
       question: questionId,
-      flag: flag
+      answer: answer
     })
   }).then(response => response.json());
 }

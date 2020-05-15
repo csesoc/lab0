@@ -1,5 +1,0 @@
-Hi human!
-This project can be found at github.com/featherbear/UNSW-CompClub2019Summer-CTF
-
-Byebye!
-Andrew
