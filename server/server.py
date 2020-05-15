@@ -8,25 +8,21 @@ from lib.api import APIHandler
 from lib.site import SSEHandler, SSE_messages, SiteHandler
 
 app = tornado.web.Application([
-    ("/api/v1/(.*)", APIHandler),
+    ("/api/(.*)", APIHandler),
     ("/orchestrator", SSEHandler),
     ("/(.*)", SiteHandler),
 ],
-    cookie_secret="5206677",
+    cookie_secret="5206688",
     login_url="/invite"
 )
 
 if database.conn is not None:
-    import lib.auth
+    import lib
 
     lib.auth.initDatabase()
 
-    import lib.authSession
-
     lib.authSession.initDatabase()
     lib.authSession.cleanup()
-
-    import lib.questions
 
     lib.questions.initDatabase()
 

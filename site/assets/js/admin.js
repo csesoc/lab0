@@ -41,7 +41,7 @@ function openModalEdit(questionId, srcElem) {
       answerInput.required = false;
       this.removeEventListener("click", updateAnswerEvent);
       this.classList.add("is-loading");
-      fetch("/api/v1/questions/question/editAnswer", {
+      fetch("/api/questions/question/editAnswer", {
         method: "post",
         credentials: "include",
         body: JSON.stringify({
@@ -88,7 +88,7 @@ function openModalEdit(questionId, srcElem) {
         data.question = questionId;
       }
 
-      fetch("/api/v1/questions/question/" + endpoint, {
+      fetch("/api/questions/question/" + endpoint, {
         method: "post",
         credentials: "include",
         body: JSON.stringify(data)
@@ -178,7 +178,7 @@ function dataToRow(data) {
   const answerRevealClickEvent = function() {
     answerReveal.removeEventListener("click", answerRevealClickEvent);
     this.classList.add("is-loading");
-    fetch("/api/v1/questions/question/getAnswer", {
+    fetch("/api/questions/question/getAnswer", {
       method: "post",
       credentials: "include",
       body: JSON.stringify({

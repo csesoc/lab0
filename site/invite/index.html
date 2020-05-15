@@ -428,7 +428,7 @@
           "keypress",
           validateEnterEvent(function() {
             // Check if username used
-            fetch("/api/v1/auth/usernameAvailable", {
+            fetch("/api/auth/usernameAvailable", {
               method: "post",
               credentials: "include",
               body: JSON.stringify({
@@ -468,7 +468,7 @@
             password2Elem.classList.remove("active");
 
             if (password2Input.value === passwordInput.value) {
-              fetch("/api/v1/auth/register", {
+              fetch("/api/auth/register", {
                 method: "post",
                 credentials: "include",
                 body: JSON.stringify({
@@ -513,7 +513,7 @@
           "keypress",
           validateEnterEvent(function() {
             // Logon
-            fetch("/api/v1/auth/login", {
+            fetch("/api/auth/login", {
               method: "post",
               credentials: "include",
               body: JSON.stringify({

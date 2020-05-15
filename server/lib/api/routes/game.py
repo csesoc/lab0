@@ -1,10 +1,10 @@
 from .. import routing, JSON
 from tornado.web import authenticated, RequestHandler
-
-from ...questions import SQLMethod as questionsSQLMethod
-from ...auth import SQLMethod as authSQLMethod
 from sqlite3 import IntegrityError
-from ...site import SSE_messages
+
+from server.lib.questions import SQLMethod as questionsSQLMethod
+from server.lib.auth import SQLMethod as authSQLMethod
+from server.lib.site import SSE_messages
 
 
 @routing.POST("/questions/questions.json")
@@ -44,7 +44,7 @@ def leaderboard(self: RequestHandler, args: dict):
 
 @routing.POST("/questions/adminSolves.json")
 @authenticated
-def userSolves(self: RequestHandler, args: dict):
+def adminSolves(self: RequestHandler, args: dict):
     return self.finish(JSON.data(questionsSQLMethod.questions.getSolves()))
 
 

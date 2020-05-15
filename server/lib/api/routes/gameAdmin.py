@@ -1,8 +1,8 @@
 from .. import routing, JSON
 from tornado.web import authenticated, RequestHandler
 
-from ...questions import SQLMethod as questionsSQLMethod
-from ...auth import SQLMethod as authSQLMethod
+from server.lib.questions import SQLMethod as questionsSQLMethod
+from server.lib.auth import SQLMethod as authSQLMethod
 
 
 @routing.POST("/questions/question/submit")
@@ -68,9 +68,6 @@ def questionDelete(self: RequestHandler, args: dict):
     if result:
         return self.finish(JSON.OK())
     return self.finish(JSON.FALSE())
-
-
-####
 
 @routing.POST("/questions/category/submit")
 @authenticated
