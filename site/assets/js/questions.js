@@ -54,13 +54,6 @@ function getSolves(questionId, getAll) {
   }).then(response => response.json());
 }
 
-function getLeaderboard() {
-  return fetch("/api/questions/leaderboard.json", {
-    method: "post",
-    credentials: "include"
-  }).then(response => response.json());
-}
-
 function trySolve(questionId, answer) {
   return fetch("/api/questions/solve", {
     method: "post",

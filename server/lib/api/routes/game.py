@@ -19,29 +19,6 @@ def categories(self: RequestHandler, args: dict):
     self.finish(JSON.data(questionsSQLMethod.categories.getCategories()))
 
 
-@routing.POST("/questions/leaderboard.json")
-def leaderboard(self: RequestHandler, args: dict):
-    questionsSQL = questionsSQLMethod.questions.getQuestions()
-    solvesSQL = questionsSQLMethod.questions.getSolves()
-    usersSQL = authSQLMethod.getUsers()
-
-    pointsMap = {}
-    for question in questionsSQL:
-        pointsMap[question[0]] = question[3]
-
-    board = {}
-    for user in usersSQL:
-        board[user[0]] = dict(name=user[2] or user[1],  # user might not have a display name?
-                                    points=0)
-
-    for solve in solvesSQL:
-        try:
-            board[solve[0]]["points"] += pointsMap[solve[1]]
-        except Exception:
-            pass
-    return self.finish(JSON.data(board))
-
-
 @routing.POST("/questions/adminSolves.json")
 @authenticated
 def adminSolves(self: RequestHandler, args: dict):

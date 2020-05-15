@@ -62,7 +62,6 @@ function openModalQuestion(questionData, srcElem) {
           solves.push(questionData.id);
           modal.querySelector("[name=solves]").innerText =
             parseInt(modal.querySelector("[name=solves]").innerText) + 1;
-          updateLeaderboard();
         }
         modal.querySelector("[name=value]").classList.add("solved");
         srcElem.classList.add("solved");
