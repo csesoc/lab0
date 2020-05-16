@@ -24,7 +24,7 @@
 
     const score = document.createTextNode("points: " + me.points);
     scoreElem.appendChild(score);
-  })
+  });
 
   let x = document.querySelector(
     ".navbar [name=mouseCoordinates] [name=mouseX]"
@@ -32,8 +32,6 @@
   let y = document.querySelector(
     ".navbar [name=mouseCoordinates] [name=mouseY]"
   );
-
-  document.getElementsByName("html")[0]
 
   document.body.addEventListener("mousemove", evt => {
     x.innerText = evt.clientX;
