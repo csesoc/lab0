@@ -28,8 +28,6 @@ function openModalQuestion(questionData, srcElem) {
     if (!elem.target) elem.target = "_blank";
   }
 
-  // modal.querySelector('[name=description]').srcdoc = "<link rel='stylesheet' href='/assets/css/iframe.sandbox.css'/>" + questionData.description; // XSS AWAY
-
   const answerSubmissionDisable = function() {
     modal.querySelector("form .input").disabled = true;
     modal.querySelector("form .button").disabled = true;
@@ -62,7 +60,7 @@ function openModalQuestion(questionData, srcElem) {
           solves.push(questionData.id);
           modal.querySelector("[name=solves]").innerText =
             parseInt(modal.querySelector("[name=solves]").innerText) + 1;
-        }
+          }
         modal.querySelector("[name=value]").classList.add("solved");
         srcElem.classList.add("solved");
       } else {

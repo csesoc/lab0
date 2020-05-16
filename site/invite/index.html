@@ -402,7 +402,6 @@
             })
               .then(response => response.json())
               .then(jsonData => {
-                console.log(jsonData);
                 if (jsonData.status === true) {
                   usernameElem.classList.remove("active");
                   passwordElem.classList.add("active");
@@ -487,7 +486,6 @@
             })
               .then(response => response.json())
               .then(jsonData => {
-                console.log(jsonData);
                 if (jsonData.status === true) {
                   location.href = "/";
                 } else {
@@ -511,7 +509,6 @@
           evt = evt || window.event;
           var charCode = evt.which || evt.keyCode;
           if (charCode === 13) {
-            console.log(evt);
             evt.preventDefault();
             var name = this.value.trim();
             ((name.length ? cb_true : cb_false) || function() {})(evt);

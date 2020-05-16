@@ -256,8 +256,6 @@ Promise.all([getQuestions(), getCategories(), getSolvesAdmin()]).then(
 
 
 function openModalEditCategory(catId) {
-  console.log("Something happened...");
-
   let modal = document.getElementById("editModalCategory");
 
   let isNew = catId === undefined;
