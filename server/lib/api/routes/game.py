@@ -40,7 +40,7 @@ def questionSolves(self: RequestHandler, args: dict):
 @routing.POST("/questions/solve")
 @authenticated
 def trySolve(self: RequestHandler, args: dict):
-    if args["answer"] == questionsSQLMethod.questions.getAnswer(args["question"]):
+    if args["answer"].lower() == questionsSQLMethod.questions.getAnswer(args["question"]):
         try:
             questionsSQLMethod.questions.solveQuestion(self.current_user.id, args["question"])
             SSE_messages.addMessage(self.current_user.username + " has found an answer!")
