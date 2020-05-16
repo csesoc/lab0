@@ -63,9 +63,8 @@ def me(self: tornado.web.RequestHandler, args: dict):
         pointsMap[question[0]] = question[3]
     
     points = 0
-    if not self.current_user.isAdmin:
-        for solve in solvesSQL:
-            points += pointsMap[solve]
+    for solve in solvesSQL:
+        points += pointsMap[solve]
     
     return self.finish(JSON.data(dict(
         id=self.current_user.id,
