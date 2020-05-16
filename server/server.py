@@ -6,7 +6,7 @@ __VERSION = "0.0.3"
 
 import tornado.ioloop
 import tornado.web
-
+import os
 from lib import database
 from lib.api import APIHandler
 from lib.site import SSEHandler, SSE_messages, SiteHandler
@@ -54,10 +54,15 @@ def run(file: str = None, **kwargs):
         print("Applying config overrides")
         config.update(kwargs)
     print("----------------------------------------")
+    settings = dict(
+        ssl_options = {
+            "certfile": os.path.join("/etc/letsencrypt/live/lab0.tech/fullchain.pem"),
+            "keyfile": os.path.join("/etc/letsencrypt/live/lab0.tech/privkey.pem"),
+	 }
+    )
+    server = tornado.httpserver.HTTPServer(app, **settings)
 
-    server = tornado.httpserver.HTTPServer(app)
-
-    port = config["SERVER"].get("port", 80)
+    port = config["SERVER"].get("port", 443)
     try:
         server.bind(port)
     except OSError:
