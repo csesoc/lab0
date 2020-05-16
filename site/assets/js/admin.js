@@ -207,6 +207,31 @@ Promise.all([getQuestions(), getCategories(), getSolvesAdmin()]).then(
         option.value = data[0];
         option.innerText = data[1];
         categoryElem.appendChild(option);
+
+        const row = document.createElement("tr");
+        
+        const categoryColumn = document.createElement("td");
+        categoryColumn.innerText = data[1];
+        row.appendChild(categoryColumn);
+        
+        for (let i = 0; i < 4; i++) {
+          const emptyColumn = document.createElement("td");
+          row.appendChild(emptyColumn);
+        }
+
+        let edit = document.createElement("td");
+        let editBtn = document.createElement("button");
+        editBtn.innerText = "edit";
+        editBtn.classList.add("button", "is-outlined", "is-info");
+        edit.appendChild(editBtn);
+        row.appendChild(edit);
+
+        const emptyColumn = document.createElement("td");
+          row.appendChild(emptyColumn);
+
+        document
+        .querySelector("[name=categories]")
+        .appendChild(row);
       }
     }
 
@@ -230,7 +255,7 @@ Promise.all([getQuestions(), getCategories(), getSolvesAdmin()]).then(
           questionsByCategory[data[4]].push(data[0]);
         }
         document
-          .querySelector("table tbody")
+          .querySelector("[name=questions]")
           .appendChild(dataToRow(questions[data[0]]));
       }
     }

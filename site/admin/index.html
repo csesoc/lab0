@@ -97,37 +97,69 @@
     </footer>
   </div>
 </div>
-<div class="container">
-  <table class="table is-fullwidth">
+<div class="container is-centered">
+  <div style="margin-top: 25px;"></div>
+  <h2 class="title has-text-white has-text-centered">Categories</h2>
+  <table class="table is-fullwidth" name="categories">
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>Edit</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr onclick="()">
+        <td colspan="7">Add new category</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Category</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>Edit</th>
+        <th></th>
+      </tr>
+    </tfoot>
+  </table>
+  <h2 class="title has-text-white has-text-centered">Questions</h2>
+  <table class="table is-fullwidth" name="questions">
     <thead>
       <tr>
         <th>Title</th>
-        <th>Description</th>
         <th>Category</th>
         <th>Answer</th>
         <th>Points</th>
         <th>Solves</th>
+        <th>Edit</th>
         <th></th>
       </tr>
     </thead>
     <tfoot>
       <tr>
         <th>Title</th>
-        <th>Description</th>
         <th>Category</th>
         <th>Answer</th>
         <th>Points</th>
         <th>Solves</th>
+        <th>Edit</th>
         <th></th>
       </tr>
     </tfoot>
     <tbody>
       <tr onclick="openModalEdit()">
-        <td colspan="6">Add new question</td>
-        <td></td>
+        <td colspan="7">Add new question</td>
       </tr>
     </tbody>
   </table>
+  <div style="margin-bottom: 50px;"></div>
 </div>
 <script src="/assets/js/admin.js"></script>
 {% endblock %}
