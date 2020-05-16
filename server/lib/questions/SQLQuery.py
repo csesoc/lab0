@@ -56,7 +56,7 @@ class SQLQuery:
                 description TEXT,
                 answer TEXT NOT NULL,
                 value INTEGER NOT NULL,
-                category INTEGER NOT NULL
+                category INTEGER NOT NULL,
                 FOREIGN KEY (category) REFERENCES questions (title)
             )
             """
@@ -116,14 +116,14 @@ class SQLQuery:
         createTable = """
             CREATE TABLE IF NOT EXISTS categories (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title TEXT NOT NULL,
-                UNIQUE (title)
+                category TEXT NOT NULL,
+                UNIQUE (category)
             )
             """
         
         add = """
             INSERT
-            INTO categories (title)
+            INTO categories (category)
             VALUES (LOWER(?))
             """
         
@@ -134,11 +134,11 @@ class SQLQuery:
 
         edit = """
             UPDATE categories
-            SET title = LOWER(?)
+            SET category = LOWER(?)
             WHERE id = ?
             """
         
         getAll = """
-            SELECT id, title
+            SELECT id, category
             FROM categories
             """

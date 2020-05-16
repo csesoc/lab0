@@ -10,6 +10,7 @@ from lib.auth import SQLMethod as authSQLMethod
 def questionSubmit(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
+    
     result = questionsSQLMethod.questions.createQuestion(**args)
     if result:
         return self.finish(JSON.OK())
@@ -32,6 +33,7 @@ def questionEdit(self: RequestHandler, args: dict):
 def questionEditAnswer(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
+    
     result = questionsSQLMethod.questions.editQuestionAnswer(**args)
     if result:
         return self.finish(JSON.OK())
@@ -43,6 +45,7 @@ def questionEditAnswer(self: RequestHandler, args: dict):
 def questionGetAnswer(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
+    
     result = questionsSQLMethod.questions.getAnswer(**args)
     if result:
         return self.finish(JSON.data(result))

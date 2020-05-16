@@ -83,12 +83,12 @@ class SQLMethod:
             return database.fetchAll(SQLQuery.categories.getAll)
 
         @staticmethod
-        def createCategory(name: str):
-            return database.insert(SQLQuery.categories.add, (name,))
+        def createCategory(category: str):
+            return database.insert(SQLQuery.categories.add, (category,))
 
         @staticmethod
-        def editCategory(catId: int, name: str):
-            return database.update(SQLQuery.categories.edit, (name, catId))
+        def editCategory(catId: int, category: str):
+            return database.update(SQLQuery.categories.edit, (category, catId))
 
         @staticmethod
         def deleteCategory(catId: int):
