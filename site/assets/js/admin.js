@@ -46,7 +46,7 @@ function openModalEdit(questionId, srcElem) {
         credentials: "include",
         body: JSON.stringify({
           question: questionId,
-          answer: answerInput.value.toLowerCase()
+          answer: answerInput.value
         })
       })
         .then(response => response.json())
@@ -56,11 +56,8 @@ function openModalEdit(questionId, srcElem) {
           if (jsonData.status) {
             let answerColumn = srcElem.querySelector(".answer");
             if (!answerColumn.children.length) {
-              answerColumn.innerText = answerInput.value.toLowerCase();
+              answerColumn.innerText = answerInput.value;
             }
-            answerInput.value = "";
-          } else if (parseInt(jsonData.error) === -1) {
-            answerInput.placeholder = "Answer already used";
             answerInput.value = "";
           }
         });
@@ -83,7 +80,7 @@ function openModalEdit(questionId, srcElem) {
       };
 
       if (isNew) {
-        data.answer = answerInput.value.toLowerCase();
+        data.answer = answerInput.value;
       } else {
         data.question = questionId;
       }
@@ -99,12 +96,7 @@ function openModalEdit(questionId, srcElem) {
           modal
             .querySelector("button.confirm")
             .addEventListener("click", confirmEvent);
-          if (jsonData.status) {
-            location.reload();
-          } else if (parseInt(jsonData.error) === -1) {
-            answerInput.placeholder = "Answer already used";
-            answerInput.value = "";
-          }
+          location.reload();
         });
     }
   };

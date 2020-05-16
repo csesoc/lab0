@@ -56,16 +56,15 @@ class SQLQuery:
                 description TEXT,
                 answer TEXT NOT NULL,
                 value INTEGER NOT NULL,
-                category INTEGER NOT NULL,
-            
-                UNIQUE (answer)
+                category INTEGER NOT NULL
+                FOREIGN KEY (category) REFERENCES questions (title)
             )
             """
 
         add = """
             INSERT
             INTO questions (title, description, answer, value, category)
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (?, ?, LOWER(?), ?, LOWER(?))
             """
 
         delete = """
@@ -75,13 +74,13 @@ class SQLQuery:
 
         edit = """
             UPDATE questions
-            SET title = ?, description = ?, value = ?, category = ?
+            SET title = ?, description = ?, value = ?, category = LOWER(?)
             WHERE id = ?
             """
         
         editAnswer = """
             UPDATE questions
-            SET answer = ?
+            SET answer = LOWER(?)
             WHERE id = ?
             """
 
@@ -125,7 +124,7 @@ class SQLQuery:
         add = """
             INSERT
             INTO categories (title)
-            VALUES (?)
+            VALUES (LOWER(?))
             """
         
         delete = """
@@ -135,7 +134,7 @@ class SQLQuery:
 
         edit = """
             UPDATE categories
-            SET title = ?
+            SET title = LOWER(?)
             WHERE id = ?
             """
         
