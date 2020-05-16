@@ -20,12 +20,12 @@ def passwordHash(password: str, salt: str = None):
     return hash if salt else (hash, _salt)
 
 
-def createUser(username: str, password: str, name: str):
+def createUser(username: str, password: str):
     if username == config["ADMIN"].get("username", "admin"):
         return False
 
     hash, salt = passwordHash(password)
-    return SQLMethod.createUser(username, name, hash, salt)
+    return SQLMethod.createUser(username, hash, salt)
 
 
 def changePassword(user: id, password: str):

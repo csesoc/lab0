@@ -16,7 +16,6 @@ class User:
         if user == 0:
             self.id = 0
             self.username = config["ADMIN"].get("username", "admin")
-            self.name = "Admin"
             self.isAdmin = True
         else:
             data = SQLMethod.getUser(user)
@@ -28,8 +27,7 @@ class User:
             else:
                 self.id = data[0]
                 self.username = user
-            self.name = data[1]
-            self.isAdmin = data[2] == 1
+            self.isAdmin = data[1] == 1
 
 
 class UserSession(User):

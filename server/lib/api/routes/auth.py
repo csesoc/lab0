@@ -28,11 +28,11 @@ def register(self: tornado.web.RequestHandler, args: dict):
     self.request: tornado.httputil.HTTPServerRequest
     if "username" and "password" in args:
         uid = authTools.createUser(
-            args["password"], args["name"])
+            args["username"], args["password"])
         if uid is not None:
             token = createSession(uid)
             self.set_secure_cookie('session', token)
-            SSE_messages.addMessage(User(uid).name + " has joined the game")
+            SSE_messages.addMessage(User(uid).username + " has joined the game")
 
             return self.finish(JSON.OK())
         return self.finish(JSON.error("something went wrong"))

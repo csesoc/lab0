@@ -386,7 +386,6 @@
         var passwordInput = elem.querySelector("input[name=password]");
         var password2Input = elem.querySelector("input[name=password2]");
 
-        var nameElem = elem.querySelector(".page[name=name]");
         var usernameElem = elem.querySelector(".page[name=username]");
         var passwordElem = elem.querySelector(".page[name=password]");
         var password2Elem = elem.querySelector(".page[name=password2]");
@@ -526,11 +525,10 @@
         var elem = document.querySelector(".section[name=register]");
         elem.classList.remove("hide");
 
-        var page_name = elem.querySelector(".page[name=name]");
+        var page_name = elem.querySelector(".page[name=username]");
 
         page_name.classList.add("active");
-        page_name.querySelector(".salutation").innerText = getTimeSalutation();
-        page_name.querySelector("input[name=name]").focus();
+        page_name.querySelector("input[name=username]").focus();
       }
 
       function showLogin() {

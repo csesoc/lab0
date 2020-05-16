@@ -6,8 +6,8 @@ from .. import database
 
 class SQLMethod:
     @staticmethod
-    def createUser(username: str, name: str, hash: str, salt: str):
-        return database.insert(SQLQuery.add, (username, name, hash, salt))
+    def createUser(username: str, hash: str, salt: str):
+        return database.insert(SQLQuery.add, (username, hash, salt))
 
     @staticmethod
     def deleteUser(user: int):

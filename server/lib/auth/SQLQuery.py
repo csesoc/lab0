@@ -13,7 +13,7 @@ class SQLQuery:
     add = """
         INSERT
         INTO users (username, _hash, _salt)
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?, ?)
         """
 
     delete = """
