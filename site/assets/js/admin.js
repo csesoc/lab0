@@ -13,14 +13,14 @@
 
 function openModalEdit(questionId, srcElem) {
   let modal = document.getElementById("editModal");
-  let flagInput = modal.querySelector("[name=flag]");
+  let answerInput = modal.querySelector("[name=answer]");
 
   let isNew = questionId === undefined;
   modal.classList.toggle("editQuestion", !isNew);
 
-  flagInput.value = "";
-  flagInput.placeholder = "answer";
-  flagInput.required = isNew;
+  answerInput.value = "";
+  answerInput.placeholder = "answer";
+  answerInput.required = isNew;
 
   if (isNew) {
     modal.querySelector("[name=title]").value = "";
@@ -35,33 +35,30 @@ function openModalEdit(questionId, srcElem) {
     modal.querySelector("input[type=range]").value = question.value;
   }
 
-  const updateFlagEvent = function(evt) {
-    flagInput.required = true;
-    if (flagInput.reportValidity()) {
-      flagInput.required = false;
-      this.removeEventListener("click", updateFlagEvent);
+  const updateAnswerEvent = function(evt) {
+    answerInput.required = true;
+    if (answerInput.reportValidity()) {
+      answerInput.required = false;
+      this.removeEventListener("click", updateAnswerEvent);
       this.classList.add("is-loading");
-      fetch("/api/v1/ctf/question/editFlag", {
+      fetch("/api/questions/question/editAnswer", {
         method: "post",
         credentials: "include",
         body: JSON.stringify({
           question: questionId,
-          flag: flagInput.value.toLowerCase()
+          answer: answerInput.value
         })
       })
         .then(response => response.json())
         .then(jsonData => {
-          this.addEventListener("click", updateFlagEvent);
+          this.addEventListener("click", updateAnswerEvent);
           this.classList.remove("is-loading");
           if (jsonData.status) {
-            let flagColumn = srcElem.querySelector(".flag");
-            if (!flagColumn.children.length) {
-              flagColumn.innerText = flagInput.value.toLowerCase();
+            let answerColumn = srcElem.querySelector(".answer");
+            if (!answerColumn.children.length) {
+              answerColumn.innerText = answerInput.value;
             }
-            flagInput.value = "";
-          } else if (parseInt(jsonData.error) === -1) {
-            flagInput.placeholder = "Answer already used";
-            flagInput.value = "";
+            answerInput.value = "";
           }
         });
     }
@@ -83,12 +80,12 @@ function openModalEdit(questionId, srcElem) {
       };
 
       if (isNew) {
-        data.flag = flagInput.value.toLowerCase();
+        data.answer = answerInput.value;
       } else {
         data.question = questionId;
       }
 
-      fetch("/api/v1/ctf/question/" + endpoint, {
+      fetch("/api/questions/question/" + endpoint, {
         method: "post",
         credentials: "include",
         body: JSON.stringify(data)
@@ -99,12 +96,7 @@ function openModalEdit(questionId, srcElem) {
           modal
             .querySelector("button.confirm")
             .addEventListener("click", confirmEvent);
-          if (jsonData.status) {
-            location.reload();
-          } else if (parseInt(jsonData.error) === -1) {
-            flagInput.placeholder = "Answer already used";
-            flagInput.value = "";
-          }
+          location.reload();
         });
     }
   };
@@ -124,8 +116,8 @@ function openModalEdit(questionId, srcElem) {
   const cancelEvent = closeModal;
 
   modal
-    .querySelector(".button[name=updateFlag]")
-    .addEventListener("click", updateFlagEvent);
+    .querySelector(".button[name=updateAnswer]")
+    .addEventListener("click", updateAnswerEvent);
   modal.querySelector("button.confirm").addEventListener("click", confirmEvent);
   modal.querySelector("button.cancel").addEventListener("click", cancelEvent);
   modal
@@ -143,22 +135,18 @@ function dataToRow(data) {
   title.innerText = data.title;
   row.appendChild(title);
 
-  let description = document.createElement("td");
-  description.innerText = data.description.replace(/<(?:.|\n)*?>/gm, "");
-  row.appendChild(description);
-
   let category = document.createElement("td");
   category.innerText = categories[data.category] || "";
   row.appendChild(category);
 
-  let flag = document.createElement("td");
-  flag.classList.add("flag");
+  let answer = document.createElement("td");
+  answer.classList.add("answer");
 
-  let flagReveal = document.createElement("button");
-  flagReveal.classList.add("button", "is-outlined", "is-info");
-  flagReveal.innerText = "click to reveal";
-  flag.appendChild(flagReveal);
-  row.appendChild(flag);
+  let answerReveal = document.createElement("button");
+  answerReveal.classList.add("button", "is-outlined", "is-info");
+  answerReveal.innerText = "click to reveal";
+  answer.appendChild(answerReveal);
+  row.appendChild(answer);
 
   let points = document.createElement("td");
   points.innerText = data.value;
@@ -175,10 +163,10 @@ function dataToRow(data) {
   edit.appendChild(editBtn);
   row.appendChild(edit);
 
-  const flagRevealClickEvent = function() {
-    flagReveal.removeEventListener("click", flagRevealClickEvent);
+  const answerRevealClickEvent = function() {
+    answerReveal.removeEventListener("click", answerRevealClickEvent);
     this.classList.add("is-loading");
-    fetch("/api/v1/ctf/question/getFlag", {
+    fetch("/api/questions/question/getAnswer", {
       method: "post",
       credentials: "include",
       body: JSON.stringify({
@@ -194,7 +182,7 @@ function dataToRow(data) {
       });
   };
 
-  flagReveal.addEventListener("click", flagRevealClickEvent);
+  answerReveal.addEventListener("click", answerRevealClickEvent);
   editBtn.addEventListener("click", function(evt) {
     openModalEdit(data.id, this.parentElement.parentElement);
   });
@@ -215,6 +203,27 @@ Promise.all([getQuestions(), getCategories(), getSolvesAdmin()]).then(
         option.value = data[0];
         option.innerText = data[1];
         categoryElem.appendChild(option);
+
+        const row = document.createElement("tr");
+        
+        const categoryColumn = document.createElement("td");
+        categoryColumn.innerText = data[1];
+        row.appendChild(categoryColumn);
+
+        let edit = document.createElement("td");
+        let editBtn = document.createElement("button");
+        editBtn.innerText = "edit";
+        editBtn.classList.add("button", "is-outlined", "is-info");
+        edit.appendChild(editBtn);
+        row.appendChild(edit);
+
+        document
+        .querySelector("[name=categories]")
+        .appendChild(row);
+
+        editBtn.addEventListener("click", function(evt) {
+          openModalEditCategory(data[0]);
+        });
       }
     }
 
@@ -238,9 +247,81 @@ Promise.all([getQuestions(), getCategories(), getSolvesAdmin()]).then(
           questionsByCategory[data[4]].push(data[0]);
         }
         document
-          .querySelector("table tbody")
+          .querySelector("[name=questions]")
           .appendChild(dataToRow(questions[data[0]]));
       }
     }
   }
 );
+
+
+function openModalEditCategory(catId) {
+  console.log("Something happened...");
+
+  let modal = document.getElementById("editModalCategory");
+
+  let isNew = catId === undefined;
+  modal.classList.toggle("editQuestion", !isNew);
+
+  if (isNew) {
+    modal.querySelector("[name=category]").value = "";
+  } else {
+    let cat = categories[catId];
+    modal.querySelector("[name=category]").value = cat;
+  }
+
+  const confirmEventCategory = function(evt) {
+    if (modal.querySelector("form").reportValidity()) {
+      modal
+        .querySelector("button.confirm")
+        .removeEventListener("click", confirmEventCategory);
+      this.classList.add("is-loading");
+
+      let endpoint = isNew ? "submit" : "edit";
+      let data = {
+        category: modal.querySelector("[name=category]").value,
+      };
+
+      if (!isNew) {
+        data.catId = catId;
+      }
+
+      fetch("/api/questions/category/" + endpoint, {
+        method: "post",
+        credentials: "include",
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(jsonData => {
+          this.classList.remove("is-loading");
+          modal
+            .querySelector("button.confirm")
+            .addEventListener("click", confirmEventCategory);
+          location.reload();
+        });
+    }
+  };
+
+  const closeModalCategory = function() {
+    modal
+      .querySelector("button.confirm")
+      .removeEventListener("click", confirmEventCategory);
+    modal
+      .querySelector("button.cancel")
+      .removeEventListener("click", cancelEventCategory);
+    modal
+      .querySelector(".modal-background")
+      .removeEventListener("click", cancelEventCategory);
+    modal.classList.remove("is-active");
+  };
+
+  const cancelEventCategory = closeModalCategory;
+
+  modal.querySelector("button.confirm").addEventListener("click", confirmEventCategory);
+  modal.querySelector("button.cancel").addEventListener("click", cancelEventCategory);
+  modal
+    .querySelector(".modal-background")
+    .addEventListener("click", cancelEventCategory);
+
+  modal.classList.add("is-active");
+}

@@ -2,7 +2,7 @@
 {% block head %}
 <link rel="stylesheet" href="/assets/css/game.css" />
 <script
-  src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"
+  src="assets/js/isotope.pkgd.min.js"
   defer
 ></script>
 <link rel="stylesheet" href="/assets/css/fun.css" />
@@ -20,15 +20,14 @@
     </header>
     <section class="modal-card-body">
       <p name="description"></p>
-      <!-- <iframe name="description" sandbox seamless></iframe> -->
       <form>
         <div class="field is-grouped">
           <p class="control is-expanded">
             <input
               class="input blueBox has-text-centered has-text-light"
-              name="flag"
+              name="answer"
               type="text"
-              placeholder="noice"
+              placeholder="good work!!! :D"
               spellcheck="false"
             />
           </p>
@@ -64,6 +63,7 @@
   <div class="tile is-ancestor is-unselectable">
     <div class="tile is-parent"></div>
   </div>
+  <div style="margin-bottom: 50px;"></div>
 </div>
 <script src="/assets/js/orchestrator.js" defer></script>
 <script src="/assets/js/fun.js" defer></script>

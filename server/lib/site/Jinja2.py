@@ -8,7 +8,7 @@ from ..config import config
 class BaseHandler(RequestHandler):
     def render_jinja2(self, template_name, **kwargs):
         kwargs.update({
-            'name': self.current_user.name,
+            'usernamename': self.current_user.username,
             # 'isAdmin': self.current_user.userHasPermission(PEM.SITE_ADMIN)
         })
         content = self.render_template(template_name, **kwargs)

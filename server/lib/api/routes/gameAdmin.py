@@ -1,108 +1,99 @@
 from .. import routing, JSON
 from tornado.web import authenticated, RequestHandler
 
-from ...ctf import SQLMethod as ctfSQLMethod
-from ...auth import SQLMethod as authSQLMethod
+from lib.questions import SQLMethod as questionsSQLMethod
+from lib.auth import SQLMethod as authSQLMethod
 
 
-@routing.POST("/ctf/question/submit")
+@routing.POST("/questions/question/submit")
 @authenticated
 def questionSubmit(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
+    
+    result = questionsSQLMethod.questions.createQuestion(**args)
+    if result:
+        return self.finish(JSON.OK())
+    return self.finish(JSON.FALSE())
 
-    try:
-        result = ctfSQLMethod.questions.createQuestion(**args)
-        if result:
-            return self.finish(JSON.OK())
-        return self.finish(JSON.FALSE())
-    except Exception as e:
-        return self.finish(JSON.error("-1"))
-
-
-@routing.POST("/ctf/question/edit")
+@routing.POST("/questions/question/edit")
 @authenticated
 def questionEdit(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
 
-    result = ctfSQLMethod.questions.editQuestion(**args)
+    result = questionsSQLMethod.questions.editQuestion(**args)
     if result:
         return self.finish(JSON.OK())
     return self.finish(JSON.FALSE())
 
 
-@routing.POST("/ctf/question/editFlag")
+@routing.POST("/questions/question/editAnswer")
 @authenticated
-def questionEditFlag(self: RequestHandler, args: dict):
+def questionEditAnswer(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
-
-    try:
-        result = ctfSQLMethod.questions.editQuestionFlag(**args)
-        if result:
-            return self.finish(JSON.OK())
-        return self.finish(JSON.FALSE())
-    except Exception:
-        return self.finish(JSON.error("-1"))
+    
+    result = questionsSQLMethod.questions.editQuestionAnswer(**args)
+    if result:
+        return self.finish(JSON.OK())
+    return self.finish(JSON.FALSE())
 
 
-@routing.POST("/ctf/question/getFlag")
+@routing.POST("/questions/question/getAnswer")
 @authenticated
-def questionGetFlag(self: RequestHandler, args: dict):
+def questionGetAnswer(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
-    result = ctfSQLMethod.questions.getFlag(**args)
+    
+    result = questionsSQLMethod.questions.getAnswer(**args)
     if result:
         return self.finish(JSON.data(result))
     return self.finish(JSON.FALSE())
 
 
-@routing.POST("/ctf/question/delete")
+@routing.POST("/questions/question/delete")
 @authenticated
 def questionDelete(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
 
-    result = ctfSQLMethod.questions.deleteQuestion(**args)
+    result = questionsSQLMethod.questions.deleteQuestion(**args)
     if result:
         return self.finish(JSON.OK())
     return self.finish(JSON.FALSE())
 
-
-####
-
-@routing.POST("/ctf/category/submit")
+@routing.POST("/questions/category/submit")
 @authenticated
 def categorySubmit(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
 
-    result = ctfSQLMethod.categories.createCategory(**args)
+    result = questionsSQLMethod.categories.createCategory(**args)
     if result:
         return self.finish(JSON.OK())
     return self.finish(JSON.FALSE())
 
 
-@routing.POST("/ctf/category/edit")
+@routing.POST("/questions/category/edit")
 @authenticated
 def categoryEdit(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
 
-    result = ctfSQLMethod.categories.editCategory(**args)
+    result = questionsSQLMethod.categories.editCategory(**args)
     if result:
         return self.finish(JSON.OK())
     return self.finish(JSON.FALSE())
 
 
-@routing.POST("/ctf/category/delete")
+@routing.POST("/questions/category/delete")
 @authenticated
 def categoryDelete(self: RequestHandler, args: dict):
     if not self.current_user.isAdmin:
         return self.finish(JSON.error("access denied"))
 
-    result = ctfSQLMethod.categories.deleteCategory(**args)
+    result = questionsSQLMethod.categories.deleteCategory(**args)
     if result:
         return self.finish(JSON.OK())
     return self.finish(JSON.FALSE())

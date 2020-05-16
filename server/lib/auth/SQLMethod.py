@@ -6,8 +6,8 @@ from .. import database
 
 class SQLMethod:
     @staticmethod
-    def createUser(username: str, name: str, hash: str, salt: str):
-        return database.insert(SQLQuery.add, (username, name, hash, salt))
+    def createUser(username: str, hash: str, salt: str):
+        return database.insert(SQLQuery.add, (username, hash, salt))
 
     @staticmethod
     def deleteUser(user: int):
@@ -18,8 +18,8 @@ class SQLMethod:
         return database.update(SQLQuery.changeHashSalt, (hash, salt, user))
 
     @staticmethod
-    def changeName(user: int, name: str):
-        return database.update(SQLQuery.changeName, (name, user))
+    def changeUsername(user: int, username: str):
+        return database.update(SQLQuery.changeUsername, (username, user))
 
     @staticmethod
     def checkPassword(username: str, password: str):

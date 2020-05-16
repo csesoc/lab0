@@ -32,5 +32,5 @@ def register(self: BaseHandler):
 
 @routing.GET('/template.html')
 @authenticated
-def gameHome(self: BaseHandler):
+def gameTemplate(self: BaseHandler):
     return self.finish("No.<br>(but yes, the template file is here)")

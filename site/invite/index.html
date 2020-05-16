@@ -35,7 +35,7 @@
     />
     <meta name="theme-color" content="#ffffff" />
 
-    <title>Lab 0 2020</title>
+    <title>Lab 0</title>
     <meta
       name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1"
@@ -283,29 +283,6 @@
         </section>
         <section class="section hide" name="register">
           <form>
-            <div class="page" name="name">
-              <style>
-                .page[name="name"] input.minimal {
-                  background-color: transparent;
-                  outline: none;
-                  border: none;
-                  border-bottom: 5px solid white;
-                  padding: 15px;
-                }
-              </style>
-              <h1 class="is-size-1 has-text-light">
-                Good <span class="salutation"></span>, Agent
-                <input
-                  type="text"
-                  name="name"
-                  class="has-text-light minimal"
-                  spellcheck="false"
-                  required
-                  placeholder="(your display name)"
-                  maxlength="20"
-                />.
-              </h1>
-            </div>
             <div class="page" name="username">
               <h1 class="is-size-1 has-text-light">
                 Username:
@@ -316,7 +293,6 @@
                   spellcheck="false"
                   pattern="\w."
                   maxlength="20"
-                  placeholder="(your username)"
                 />
               </h1>
             </div>
@@ -405,30 +381,19 @@
       (function registerSection() {
         let elem = document.querySelector(".section[name=register]");
 
-        var nameInput = elem.querySelector("input[name=name]");
         var usernameInput = elem.querySelector("input[name=username]");
         var passwordInput = elem.querySelector("input[name=password]");
         var password2Input = elem.querySelector("input[name=password2]");
 
-        var nameElem = elem.querySelector(".page[name=name]");
         var usernameElem = elem.querySelector(".page[name=username]");
         var passwordElem = elem.querySelector(".page[name=password]");
         var password2Elem = elem.querySelector(".page[name=password2]");
-
-        nameInput.addEventListener(
-          "keypress",
-          validateEnterEvent(function() {
-            nameElem.classList.remove("active");
-            usernameElem.classList.add("active");
-            usernameInput.focus();
-          })
-        );
 
         usernameInput.addEventListener(
           "keypress",
           validateEnterEvent(function() {
             // Check if username used
-            fetch("/api/v1/auth/usernameAvailable", {
+            fetch("/api/auth/usernameAvailable", {
               method: "post",
               credentials: "include",
               body: JSON.stringify({
@@ -468,11 +433,10 @@
             password2Elem.classList.remove("active");
 
             if (password2Input.value === passwordInput.value) {
-              fetch("/api/v1/auth/register", {
+              fetch("/api/auth/register", {
                 method: "post",
                 credentials: "include",
                 body: JSON.stringify({
-                  name: nameInput.value.trim(),
                   username: usernameInput.value.trim(),
                   password: passwordInput.value
                 })
@@ -513,7 +477,7 @@
           "keypress",
           validateEnterEvent(function() {
             // Logon
-            fetch("/api/v1/auth/login", {
+            fetch("/api/auth/login", {
               method: "post",
               credentials: "include",
               body: JSON.stringify({
@@ -560,11 +524,10 @@
         var elem = document.querySelector(".section[name=register]");
         elem.classList.remove("hide");
 
-        var page_name = elem.querySelector(".page[name=name]");
+        var page_name = elem.querySelector(".page[name=username]");
 
         page_name.classList.add("active");
-        page_name.querySelector(".salutation").innerText = getTimeSalutation();
-        page_name.querySelector("input[name=name]").focus();
+        page_name.querySelector("input[name=username]").focus();
       }
 
       function showLogin() {

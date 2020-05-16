@@ -43,8 +43,8 @@ password = password     # Superuser password
 ## Admin users
 Edit the SQLite entry for the user in the `users` table.  
 
-## CTF question categorise
-Edit the SQLite entry for the user in the `ctf_question_categories` table.  
+## Question categorise
+Edit the SQLite entry for the user in the `categories` table.  
 
 ---
 ## Credits

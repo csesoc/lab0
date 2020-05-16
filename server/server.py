@@ -1,8 +1,4 @@
-__VERSION = "0.0.3"
-# github.com/featherbear/UNSW-CompClub2019Summer-CTF
-
-# print("TODO")
-# print("- Concurrent SQLCursors")
+__VERSION = "1.0.0"
 
 import tornado.ioloop
 import tornado.web
@@ -12,27 +8,23 @@ from lib.api import APIHandler
 from lib.site import SSEHandler, SSE_messages, SiteHandler
 
 app = tornado.web.Application([
-    ("/api/v1/(.*)", APIHandler),
-    ("/orchestrator", SSEHandler),
-    ("/(.*)", SiteHandler),
-],
-    cookie_secret="5206677",
+        ("/api/(.*)", APIHandler),
+        ("/orchestrator", SSEHandler),
+        ("/(.*)", SiteHandler),
+    ],
+    cookie_secret="5206688",
     login_url="/invite"
 )
 
 if database.conn is not None:
-    import lib.auth
+    import lib
 
     lib.auth.initDatabase()
-
-    import lib.authSession
 
     lib.authSession.initDatabase()
     lib.authSession.cleanup()
 
-    import lib.ctf
-
-    lib.ctf.initDatabase()
+    lib.questions.initDatabase()
 
 else:
     raise Exception("Cannot create the database connection.")
