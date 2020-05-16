@@ -46,15 +46,22 @@ def run(file: str = None, **kwargs):
         print("Applying config overrides")
         config.update(kwargs)
     print("----------------------------------------")
-    settings = dict(
-        ssl_options = {
-            "certfile": os.path.join("/etc/letsencrypt/live/lab0.tech/fullchain.pem"),
-            "keyfile": os.path.join("/etc/letsencrypt/live/lab0.tech/privkey.pem"),
-	 }
-    )
-    server = tornado.httpserver.HTTPServer(app, **settings)
 
-    port = config["SERVER"].get("port", 443)
+    try:
+        settings = dict(
+            ssl_options = {
+                "certfile": os.path.join("/etc/letsencrypt/live/lab0.tech/fullchain.pem"),
+                "keyfile": os.path.join("/etc/letsencrypt/live/lab0.tech/privkey.pem"),
+        }
+        )
+        server = tornado.httpserver.HTTPServer(app, **settings)
+
+        port = config["SERVER"].get("port", 443)
+    except:
+        # Unable to run on HTTPS
+        server = tornado.httpserver.HTTPServer(app)
+        port = config["SERVER"].get("port", 80)
+    
     try:
         server.bind(port)
     except OSError:
