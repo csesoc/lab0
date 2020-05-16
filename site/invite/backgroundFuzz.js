@@ -77,7 +77,7 @@ void main(void) {
 
     init(callback) {
       const loader = new THREE.TextureLoader();
-      loader.load("background.jpg", tex => {
+      loader.load("background.png", tex => {
         this.uniforms.texture.value = tex;
         this.obj = this.createObj();
         callback();
