@@ -11,14 +11,14 @@ A [_requirements.txt_](server/requirements.txt) file is located in the _server_ 
 
 ## Run
 ```bash
+cd ~/lab0/server
 python3 -m pip install -r requirements.txt
-cd server
 python3 server.py
 ```
 
 ## Run on Server
 ```bash
-cd server
+cd ~/lab0/server
 sudo lsof -t -i tcp:443 -s tcp:listen | sudo xargs kill
 sudo nohup python3 server.py &
 ```
