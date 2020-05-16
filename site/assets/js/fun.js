@@ -3,15 +3,19 @@
     ".navbar [name=username]"
   );
 
-  const username = document.createTextNode("username: Username");
+  const username = document.createTextNode("username: " +  me.username);
   usernameElem.appendChild(username);
 
   const scoreElem = document.querySelector(
     ".navbar [name=score]"
   );
 
-  const score = document.createTextNode("points: Score");
-  scoreElem.appendChild(score);
+  getSolves().then(jsonData => {
+    if (jsonData.status) {
+      const score = document.createTextNode("points: " + jsonData.data.length);
+      scoreElem.appendChild(score);
+    }
+  });
 
   let x = document.querySelector(
     ".navbar [name=mouseCoordinates] [name=mouseX]"
