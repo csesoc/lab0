@@ -3,7 +3,6 @@ class SQLQuery:
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
-            name TEXT,
             _hash TEXT NOT NULL,
             _salt TEXT NOT NULL,
             _isAdmin INTEGER DEFAULT 0,
@@ -13,7 +12,7 @@ class SQLQuery:
 
     add = """
         INSERT
-        INTO users (username, name, _hash, _salt)
+        INTO users (username, _hash, _salt)
         VALUES (?, ?, ?, ?)
         """
 
@@ -22,9 +21,9 @@ class SQLQuery:
         WHERE user = ?
         """
 
-    changeName = """
+    changeUsername = """
         UPDATE users
-        SET name = ?
+        SET usernamename = ?
         WHERE id = ?
         """
 
@@ -40,17 +39,18 @@ class SQLQuery:
         """
 
     getUserByUsername = """
-        SELECT id, name, _isAdmin
-        FROM users WHERE username = ?
+        SELECT id, _isAdmin
+        FROM users
+        WHERE username = ?
         """
     
     getUserById = """
-        SELECT username, name, _isAdmin
+        SELECT username, _isAdmin
         FROM users
         WHERE id = ?
         """
 
     getUsers = """
-        SELECT id, username, name, _isAdmin
+        SELECT id, username, _isAdmin
         FROM users
         """

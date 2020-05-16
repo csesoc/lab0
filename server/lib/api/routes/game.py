@@ -43,7 +43,7 @@ def trySolve(self: RequestHandler, args: dict):
     if args["answer"] == questionsSQLMethod.questions.getAnswer(args["question"]):
         try:
             questionsSQLMethod.questions.solveQuestion(self.current_user.id, args["answer"])
-            SSE_messages.addMessage(self.current_user.name + " has found an answer!")
+            SSE_messages.addMessage(self.current_user.username + " has found an answer!")
         except IntegrityError:
             pass
         return self.finish(JSON.YES())

@@ -117,14 +117,14 @@ class SQLQuery:
         createTable = """
             CREATE TABLE IF NOT EXISTS categories (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                UNIQUE (name)
+                title TEXT NOT NULL,
+                UNIQUE (title)
             )
             """
         
         add = """
             INSERT
-            INTO categories (name)
+            INTO categories (title)
             VALUES (?)
             """
         
@@ -135,11 +135,11 @@ class SQLQuery:
 
         edit = """
             UPDATE categories
-            SET name = ?
+            SET title = ?
             WHERE id = ?
             """
         
         getAll = """
-            SELECT id, name
+            SELECT id, title
             FROM categories
             """

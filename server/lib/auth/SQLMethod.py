@@ -18,8 +18,8 @@ class SQLMethod:
         return database.update(SQLQuery.changeHashSalt, (hash, salt, user))
 
     @staticmethod
-    def changeName(user: int, name: str):
-        return database.update(SQLQuery.changeName, (name, user))
+    def changeUsername(user: int, username: str):
+        return database.update(SQLQuery.changeUsername, (username, user))
 
     @staticmethod
     def checkPassword(username: str, password: str):
