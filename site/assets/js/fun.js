@@ -10,12 +10,8 @@
     ".navbar [name=score]"
   );
 
-  getSolves().then(jsonData => {
-    if (jsonData.status) {
-      const score = document.createTextNode("points: " + jsonData.data.length);
-      scoreElem.appendChild(score);
-    }
-  });
+  const score = document.createTextNode("points: " + me.points);
+  scoreElem.appendChild(score);
 
   let x = document.querySelector(
     ".navbar [name=mouseCoordinates] [name=mouseX]"

@@ -37,6 +37,22 @@ def questionSolves(self: RequestHandler, args: dict):
     return self.finish(JSON.data(len(questionsSQLMethod.questions.getSolves(question=args["question"]))))
 
 
+@routing.POST("/questions/userPoints.json")
+def userPoints(self: RequestHandler, args: dict):
+    questionsSQL = questionsSQLMethod.questions.getQuestions()
+    solvesSQL = questionsSQLMethod.questions.getSolves(user=self.current_user.id)
+
+    pointsMap = {}
+    for question in questionsSQL:
+        pointsMap[question[0]] = question[3]
+
+    points = 0
+    for solve in solvesSQL:
+        points += pointsMap[solve[1]]
+    
+    return self.finish(JSON.data(points))
+
+
 @routing.POST("/questions/solve")
 @authenticated
 def trySolve(self: RequestHandler, args: dict):

@@ -7,6 +7,7 @@ from ...authSession import createSession
 from ...config import config
 from ...site import SSE_messages
 from tornado.web import authenticated
+from ...questions import SQLMethod as questionsSQLMethod
 
 
 @routing.POST("/auth/login")
@@ -53,7 +54,21 @@ def usernameAvailable(self: tornado.web.RequestHandler, args: dict):
 @authenticated
 def me(self: tornado.web.RequestHandler, args: dict):
     self.request: tornado.httputil.HTTPServerRequest
+
+    questionsSQL = questionsSQLMethod.questions.getQuestions()
+    solvesSQL = questionsSQLMethod.questions.getSolves(user=self.current_user.id)
+
+    pointsMap = {}
+    for question in questionsSQL:
+        pointsMap[question[0]] = question[3]
+    
+    points = 0
+    if not self.current_user.isAdmin:
+        for solve in solvesSQL:
+            points += pointsMap[solve]
+    
     return self.finish(JSON.data(dict(
         id=self.current_user.id,
-        username=self.current_user.username
+        username=self.current_user.username,
+        points=points
     )))

@@ -9,12 +9,13 @@ fetch("/api/auth/me", {
   method: "POST",
   credentials: "include"
 })
-  .then(response => response.json())
-  .then(jsonData => {
-    if (jsonData.status) {
-      me = jsonData.data;
-    }
-  });
+.then(response => response.json())
+.then(jsonData => {
+  if (jsonData.status) {
+    me = jsonData.data;
+    console.log(me)
+  }
+})
 
 function getQuestions() {
   return fetch("/api/questions/questions.json", {
