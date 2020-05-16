@@ -135,10 +135,6 @@ function dataToRow(data) {
   title.innerText = data.title;
   row.appendChild(title);
 
-  let description = document.createElement("td");
-  description.innerText = data.description.replace(/<(?:.|\n)*?>/gm, "");
-  row.appendChild(description);
-
   let category = document.createElement("td");
   category.innerText = categories[data.category] || "";
   row.appendChild(category);
@@ -213,11 +209,6 @@ Promise.all([getQuestions(), getCategories(), getSolvesAdmin()]).then(
         const categoryColumn = document.createElement("td");
         categoryColumn.innerText = data[1];
         row.appendChild(categoryColumn);
-        
-        for (let i = 0; i < 4; i++) {
-          const emptyColumn = document.createElement("td");
-          row.appendChild(emptyColumn);
-        }
 
         let edit = document.createElement("td");
         let editBtn = document.createElement("button");
@@ -226,12 +217,13 @@ Promise.all([getQuestions(), getCategories(), getSolvesAdmin()]).then(
         edit.appendChild(editBtn);
         row.appendChild(edit);
 
-        const emptyColumn = document.createElement("td");
-          row.appendChild(emptyColumn);
-
         document
         .querySelector("[name=categories]")
         .appendChild(row);
+
+        editBtn.addEventListener("click", function(evt) {
+          openModalEditCategory(data[0]);
+        });
       }
     }
 
@@ -261,3 +253,75 @@ Promise.all([getQuestions(), getCategories(), getSolvesAdmin()]).then(
     }
   }
 );
+
+
+function openModalEditCategory(catId) {
+  console.log("Something happened...");
+
+  let modal = document.getElementById("editModalCategory");
+
+  let isNew = catId === undefined;
+  modal.classList.toggle("editQuestion", !isNew);
+
+  if (isNew) {
+    modal.querySelector("[name=category]").value = "";
+  } else {
+    let cat = categories[catId];
+    modal.querySelector("[name=category]").value = cat;
+  }
+
+  const confirmEventCategory = function(evt) {
+    if (modal.querySelector("form").reportValidity()) {
+      modal
+        .querySelector("button.confirm")
+        .removeEventListener("click", confirmEventCategory);
+      this.classList.add("is-loading");
+
+      let endpoint = isNew ? "submit" : "edit";
+      let data = {
+        category: modal.querySelector("[name=category]").value,
+      };
+
+      if (!isNew) {
+        data.catId = catId;
+      }
+
+      fetch("/api/questions/category/" + endpoint, {
+        method: "post",
+        credentials: "include",
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(jsonData => {
+          this.classList.remove("is-loading");
+          modal
+            .querySelector("button.confirm")
+            .addEventListener("click", confirmEventCategory);
+          location.reload();
+        });
+    }
+  };
+
+  const closeModalCategory = function() {
+    modal
+      .querySelector("button.confirm")
+      .removeEventListener("click", confirmEventCategory);
+    modal
+      .querySelector("button.cancel")
+      .removeEventListener("click", cancelEventCategory);
+    modal
+      .querySelector(".modal-background")
+      .removeEventListener("click", cancelEventCategory);
+    modal.classList.remove("is-active");
+  };
+
+  const cancelEventCategory = closeModalCategory;
+
+  modal.querySelector("button.confirm").addEventListener("click", confirmEventCategory);
+  modal.querySelector("button.cancel").addEventListener("click", cancelEventCategory);
+  modal
+    .querySelector(".modal-background")
+    .addEventListener("click", cancelEventCategory);
+
+  modal.classList.add("is-active");
+}

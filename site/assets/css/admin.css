@@ -63,6 +63,71 @@
   margin: 0;
 }
 
+#editModalCategory .modal-card > * {
+  border: 2px solid rgba(22, 131, 155, 0.5);
+}
+
+#editModalCategory .modal-card header,
+#editModalCategory .modal-card footer {
+  background-color: rgba(22, 131, 155, 0.5);
+}
+
+#editModalCategory .modal-card section {
+  background-color: rgba(11, 126, 152, 0.22);
+}
+
+#editModalCategory textarea[name="description"] {
+  resize: none;
+}
+
+#editModalCategory .modal-card-title::before {
+  content: "Category";
+}
+
+#editModalCategory.editQuestion .modal-card-title::after {
+  content: "\00a0 Edit";
+}
+
+#editModalCategory .modal-card-title::after {
+  content: "\00a0 Create";
+}
+
+#editModalCategory:not(.editQuestion) form p {
+  margin-right: 0;
+}
+
+#editModalCategory:not(.editQuestion) form a.button {
+  display: none;
+}
+
+#editModalCategory .valueField {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+#editModalCategory [name="value"] {
+  width: 100px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+#editModalCategory select {
+  background-color: #133945 !important;
+}
+
+#editModalCategory.editQuestion .modal-card-foot button.confirm::before {
+  content: "Save";
+}
+
+#editModalCategory .modal-card-foot button.confirm::before {
+  content: "Create";
+}
+
+#editModalCategory input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 body > div.container {
   max-width: 1152px !important;
   height: 95vh;
