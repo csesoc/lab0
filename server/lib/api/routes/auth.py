@@ -40,7 +40,7 @@ def register(self: tornado.web.RequestHandler, args: dict):
 
 
 @routing.POST("/auth/usernameAvailable")
-def register(self: tornado.web.RequestHandler, args: dict):
+def usernameAvailable(self: tornado.web.RequestHandler, args: dict):
     self.request: tornado.httputil.HTTPServerRequest
     if "username" in args:
         if args["username"] != config["ADMIN"].get("username", "admin") and not authSQLMethod.getUser(args["username"]):
@@ -51,7 +51,7 @@ def register(self: tornado.web.RequestHandler, args: dict):
 
 @routing.POST("/auth/me")
 @authenticated
-def login(self: tornado.web.RequestHandler, args: dict):
+def me(self: tornado.web.RequestHandler, args: dict):
     self.request: tornado.httputil.HTTPServerRequest
     return self.finish(JSON.data(dict(
         id=self.current_user.id,

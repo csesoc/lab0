@@ -88,8 +88,8 @@ class SQLMethod:
 
         @staticmethod
         def editCategory(catId: int, name: str):
-            return database.insert(SQLQuery.categories.edit, (name, catId))
+            return database.update(SQLQuery.categories.edit, (name, catId))
 
         @staticmethod
         def deleteCategory(catId: int):
-            return database.insert(SQLQuery.categories.delete, (catId,))
+            return database.update(SQLQuery.categories.delete, (catId,))

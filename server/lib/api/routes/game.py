@@ -42,7 +42,7 @@ def questionSolves(self: RequestHandler, args: dict):
 def trySolve(self: RequestHandler, args: dict):
     if args["answer"] == questionsSQLMethod.questions.getAnswer(args["question"]):
         try:
-            questionsSQLMethod.questions.solveQuestion(self.current_user.id, args["answer"])
+            questionsSQLMethod.questions.solveQuestion(self.current_user.id, args["question"])
             SSE_messages.addMessage(self.current_user.username + " has found an answer!")
         except IntegrityError:
             pass
