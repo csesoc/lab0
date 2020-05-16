@@ -19,8 +19,8 @@ python3 server.py
 ## Run on Server
 ```bash
 cd server
-sudo lsof -t -i tcp:80 -s tcp:listen | sudo xargs kill
-sudo python3 server.py &
+sudo lsof -t -i tcp:443 -s tcp:listen | sudo xargs kill
+sudo nohup python3 server.py &
 ```
 
 ## Configuration File
@@ -28,7 +28,7 @@ When the server first runs, a `settings.ini` file will be automatically created 
 
 ```ini
 [SERVER]
-port = 80               # Port to listen on
+port = 443               # Port to listen on
 database = data.sqlite3 # SQLite database file 
 
 [SITE]
@@ -39,12 +39,6 @@ staticDir = ../site     # Static file base path
 username = admin        # Superuser username
 password = password     # Superuser password
 ```
-
-## Admin users
-Edit the SQLite entry for the user in the `users` table.  
-
-## Question categorise
-Edit the SQLite entry for the user in the `categories` table.  
 
 ---
 ## Credits
