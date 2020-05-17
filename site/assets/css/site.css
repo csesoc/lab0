@@ -1,11 +1,11 @@
 html,
 body {
   overflow-y: hidden;
+  cursor: crosshair !important;
 }
 
 * {
   font-family: Hack, monospace !important;
-  cursor: crosshair;
   user-select: none;
 }
 
@@ -25,10 +25,6 @@ div.background:after {
   top: 0;
   left: 0;
   background-color: rgba(0, 35, 88, 0.7);
-}
-
-div.background * {
-  cursor: crosshair !important;
 }
 
 div.background img,

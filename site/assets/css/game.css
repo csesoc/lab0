@@ -59,13 +59,11 @@
   color: green;
 }
 
-/* #questionModal iframe  */
 #questionModal [name="description"] {
   width: 100%;
   flex-grow: 1;
 
   font-family: Hack, monospace;
-  cursor: pointer;
   color: white;
 
   white-space: pre-wrap;
