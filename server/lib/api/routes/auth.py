@@ -63,11 +63,14 @@ def me(self: tornado.web.RequestHandler, args: dict):
         pointsMap[question[0]] = question[3]
     
     points = 0
+    solves = 0
     for solve in solvesSQL:
         points += pointsMap[solve]
+        solves += 1
     
     return self.finish(JSON.data(dict(
         id=self.current_user.id,
         username=self.current_user.username,
-        points=points
+        points=points,
+        solves=solves
     )))

@@ -24,6 +24,13 @@
 
     const score = document.createTextNode("points: " + me.points);
     scoreElem.appendChild(score);
+  
+    const solvesElem = document.querySelector(
+      ".navbar [name=solves]"
+    );
+
+    const solves = document.createTextNode("solves: " + me.solves);
+    solvesElem.appendChild(solves);
   });
 
   let x = document.querySelector(
