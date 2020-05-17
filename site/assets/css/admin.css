@@ -128,6 +128,43 @@
   margin: 0;
 }
 
+.deleteModal .modal-card > * {
+  border: 2px solid rgba(22, 131, 155, 0.5);
+}
+
+.deleteModal .modal-card header,
+.deleteModal .modal-card footer {
+  background-color: rgba(22, 131, 155, 0.5);
+}
+
+.deleteModal .modal-card section {
+  background-color: rgba(11, 126, 152, 0.22);
+}
+
+.deleteModal textarea[name="description"] {
+  resize: none;
+}
+
+.deleteModal .valueField {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.deleteModal [name="value"] {
+  width: 100px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.deleteModal select {
+  background-color: #133945 !important;
+}
+
+.deleteModal input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 body > div.container {
   max-width: 1152px !important;
   height: 95vh;
