@@ -65,14 +65,14 @@ class SQLQuery:
                 answer TEXT NOT NULL,
                 value INTEGER NOT NULL,
                 category INTEGER NOT NULL,
-                FOREIGN KEY (category) REFERENCES questions (title)
+                FOREIGN KEY (category) REFERENCES categories (id)
             );
             """
 
         add = """
             INSERT
             INTO questions (title, description, answer, value, category)
-            VALUES (?, ?, LOWER(?), ?, LOWER(?))
+            VALUES (?, ?, LOWER(?), ?, ?)
             ;
             """
         
@@ -90,7 +90,7 @@ class SQLQuery:
 
         edit = """
             UPDATE questions
-            SET title = ?, description = ?, value = ?, category = LOWER(?)
+            SET title = ?, description = ?, value = ?, category = ?
             WHERE id = ?
             ;
             """
