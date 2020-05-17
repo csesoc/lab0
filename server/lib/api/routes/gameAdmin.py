@@ -97,3 +97,23 @@ def categoryDelete(self: RequestHandler, args: dict):
     if result:
         return self.finish(JSON.OK())
     return self.finish(JSON.FALSE())
+
+
+@routing.POST("/questions/users/getAll")
+@authenticated
+def usersGetAll(self: RequestHandler, args: dict):
+    if not self.current_user.isAdmin:
+        return self.finish(JSON.error("access denied"))
+
+    return self.finish(JSON.data(questionsSQLMethod.users.getAllUsers()))
+
+@routing.POST("/questions/users/delete")
+@authenticated
+def usersDelete(self: RequestHandler, args: dict):
+    if not self.current_user.isAdmin:
+        return self.finish(JSON.error("access denied"))
+
+    result = questionsSQLMethod.users.deleteUser(**args)
+    if result:
+        return self.finish(JSON.OK())
+    return self.finish(JSON.FALSE())

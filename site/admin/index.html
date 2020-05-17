@@ -5,6 +5,61 @@
 {% endblock %}
 {% block content %}
 
+<div class="modal deleteModal"id = "deleteModalCategory">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title has-text-light">Category Delete</p>
+    </header>
+    <section class="modal-card-body">
+      <p class="has-text-light" id="delete-category-text"></P>
+      <p class="has-text-light">Are you sure you want to delete this category?</p>
+      <p class="has-text-light">This cannot be undone.</p>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success confirm">Delete</button>
+      <button class="button cancel">Cancel</button>
+    </footer>
+  </div>
+</div>
+
+
+<div class="modal deleteModal" id ="deleteModalQuestion">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title has-text-light">Question Delete</p>
+    </header>
+    <section class="modal-card-body">
+      <p class="has-text-light" id="delete-question-text"></P>
+      <p class="has-text-light">Are you sure you want to delete this question?</p>
+      <p class="has-text-light">This cannot be undone.</p>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success confirm">Delete</button>
+      <button class="button cancel">Cancel</button>
+    </footer>
+  </div>
+</div>
+
+<div class="modal deleteModal"id = "deleteModalUser">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title has-text-light">User Delete</p>
+    </header>
+    <section class="modal-card-body">
+      <p class="has-text-light" id="delete-user-text"></P>
+      <p class="has-text-light">Are you sure you want to delete this user?</p>
+      <p class="has-text-light">This cannot be undone.</p>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success confirm">Delete</button>
+      <button class="button cancel">Cancel</button>
+    </footer>
+  </div>
+</div>
+
 
 <div id="editModalCategory" class="modal">
   <div class="modal-background"></div>
@@ -13,7 +68,7 @@
       <p class="modal-card-title has-text-light"></p>
     </header>
     <section class="modal-card-body">
-      <form>
+      <form onSubmit="return false;">
         <div class="field">
           <label class="label has-text-light">Category</label>
           <div class="control">
@@ -131,7 +186,7 @@
 </div>
 
 
-<div class="container is-centered">
+<div class="container is-centered" style="margin-right: 25vw; width: 70vw;">
   <div style="margin-top: 25px;"></div>
   <h2 class="title has-text-white has-text-centered">Categories</h2>
   <table class="table is-fullwidth" name="categories">
@@ -139,17 +194,19 @@
       <tr>
         <th>Category</th>
         <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
       <tr onclick="openModalEditCategory()">
-        <td colspan="2">Add new category</td>
+        <td colspan="3">Add new category</td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
         <th>Category</th>
         <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </tfoot>
   </table>
@@ -163,6 +220,7 @@
         <th>Points</th>
         <th>Solves</th>
         <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tfoot>
@@ -173,13 +231,44 @@
         <th>Points</th>
         <th>Solves</th>
         <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </tfoot>
     <tbody>
       <tr onclick="openModalEdit()">
-        <td colspan="6">Add new question</td>
+        <td colspan="7">Add new question</td>
       </tr>
     </tbody>
+  </table>
+  <h2 class="title has-text-white has-text-centered">Users</h2>
+    <div class="subtitle is-6 has-text-white">
+      Sort:
+      <select id="sort" autocomplete="off">
+        <option value="username_desc">Username (Descending)</option>
+        <option value="username_asc">Username (Ascending)</option>
+        <option value="points_desc">Points (Descending)</option>
+        <option value="points_asc">Points (Ascending)</option>
+        <option value="category_desc">Solves (Descending)</option>
+        <option value="category_asc">Solves (Ascending)</option>
+      </select>
+    </div>
+  <table class="table is-fullwidth" name="users">
+    <thead>
+      <tr>
+        <th>Names</th>
+        <th>Points</th>
+        <th>Solves</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Names</th>
+        <th>Points</th>
+        <th>Solves</th>
+        <th>Delete</th>
+      </tr>
+    </tfoot>
   </table>
   <div style="margin-bottom: 50px;"></div>
 </div>

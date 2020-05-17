@@ -2,15 +2,6 @@ from .SQLQuery import SQLQuery
 from .. import database
 
 
-def assertSQLResult(result):
-    result = all(result)
-    if result:
-        database.conn.commit()
-    else:
-        database.conn.rollback()
-    return result
-
-
 class SQLMethod:
     class questions:
         # User Functions
@@ -37,13 +28,14 @@ class SQLMethod:
 
         @staticmethod
         def deleteQuestion(question: int):
+            # Delete solves
             result = []
             result.append(database.update(
-                SQLQuery.questions.delete, (question,), commit=False))
+                SQLQuery.questions.deleteQuestionSolves, (question,), commit=False))
             result.append(database.update(
-                SQLQuery.solves.deleteQuestion, (question,), commit=False))
+                SQLQuery.questions.deleteQuestion, (question,), commit=False))
 
-            return assertSQLResult(result)
+            return database.assertSQLResult(result)
 
         @staticmethod
         def deleteUser(user: int):
@@ -92,4 +84,42 @@ class SQLMethod:
 
         @staticmethod
         def deleteCategory(catId: int):
-            return database.update(SQLQuery.categories.delete, (catId,))
+            # Delete questions and solves
+            result = []
+            result.append(database.update(
+                SQLQuery.categories.deleteCategorySolves, (catId,), commit=False))
+            result.append(database.update(
+                SQLQuery.categories.deleteCategoryQuestions, (catId,), commit=False))
+            result.append(database.update(
+                SQLQuery.categories.deleteCategory, (catId,), commit=False))
+            return database.assertSQLResult(result)
+
+    class users:
+        @staticmethod
+        def getAllUsers():
+            users = database.fetchAll(SQLQuery.users.getAllUsers)
+            for i, user in enumerate(users):
+                questionsSQL = SQLMethod.questions.getQuestions()
+                solvesSQL = SQLMethod.questions.getSolves(user=user[0])
+
+                pointsMap = {}
+                for question in questionsSQL:
+                    pointsMap[question[0]] = question[3]
+                
+                points = 0
+                for solve in solvesSQL:
+                    points += pointsMap[solve]
+
+                solves = database.fetchOne(SQLQuery.solves.getUserCount, (user[0],))[0]
+                users[i] = (user[0], user[1], points, solves)
+            return users
+        
+        @staticmethod
+        def deleteUser(userId: int):
+            result = []
+            result.append(database.update(
+                SQLQuery.users.deleteUserSolves, (userId,), commit=False))
+            result.append(database.update(
+                SQLQuery.users.deleteUser, (userId,), commit=False))
+
+            return database.assertSQLResult(result)
