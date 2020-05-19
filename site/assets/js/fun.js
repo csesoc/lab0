@@ -21,16 +21,12 @@
     const scoreElem = document.querySelector(
       ".navbar [name=score]"
     );
-
-    const score = document.createTextNode("points: " + me.points);
-    scoreElem.appendChild(score);
+    scoreElem.innerText = me.points;
   
     const solvesElem = document.querySelector(
       ".navbar [name=solves]"
     );
-
-    const solves = document.createTextNode("solves: " + me.solves);
-    solvesElem.appendChild(solves);
+    solvesElem.innerText = me.solves;
   });
 
   let x = document.querySelector(

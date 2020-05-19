@@ -60,9 +60,19 @@ function openModalQuestion(questionData, srcElem) {
           solves.push(questionData.id);
           modal.querySelector("[name=solves]").innerText =
             parseInt(modal.querySelector("[name=solves]").innerText) + 1;
-          updateLeaderboard();
+          const pointsElem = document.querySelector(
+            ".navbar [name=score]"
+          );
+          pointsElem.innerText = parseInt(pointsElem.innerText) + questionData.value;
+          solvesElem = document.querySelector(
+            ".navbar [name=solves]"
+          );
+          solvesElem.innerText = parseInt(solvesElem.innerText) + 1;
+          console.log(pointsElem);
+          console.log(solvesElem);
           }
         modal.querySelector("[name=value]").classList.add("solved");
+        modal.classList.add("solved");
         srcElem.classList.add("solved");
       } else {
         modal.querySelector("[name=answer]").placeholder =

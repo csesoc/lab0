@@ -161,3 +161,11 @@ article.tile.is-child {
     min-height: 25vh;
   }
 }
+
+div [name="score"]::before {
+  content: "points:\00a0";
+}
+
+div [name="solves"]::before {
+  content: "solves:\00a0";
+}
