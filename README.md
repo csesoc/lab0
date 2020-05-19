@@ -5,6 +5,22 @@
 [Original repo](https://github.com/featherbear/UNSW-CompClub2019Summer-CTF)
 
 ---
+## Features
+The admin can create/edit categories.All questions and submissions must be associated with a category.
+
+The admin can create/edit questions. Users can submit an answer for a question. There can only be one correct answer for a question. It is not case sensitive.
+
+Solved questions appear green to users. They also receive points.
+
+The admin can view a user's username, points and solves. They can also delete a user.
+Users can be viewed sorted by:
+- Username (Descending)
+- Username (Ascending)
+- Points (Descending)
+- Points (Ascending)
+- Solves (Descending)
+- Solves (Ascending)
+
 ## Installation
 A [_requirements.txt_](server/requirements.txt) file is located in the _server_ folder  
 `python3 -m pip install -r requirements.txt`
@@ -16,9 +32,36 @@ python3 -m pip install -r requirements.txt
 python3 server.py
 ```
 
+## HTTP v HTTPS
+The following assumes the server will run over HTTPS. Change ```lab0.tech``` to the appropriate domain. It also assumes that you have installed a HTTPS certificate at the following location:
+```
+/etc/letsencrypt/live/lab0.tech/fullchain.pem
+/etc/letsencrypt/live/lab0.tech/privkey.pem
+```
+
+If this is not the case, the server will instead try to run over HTTP.
+
+To get HTTPS certificates, type the following on the server:
+```bash
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install certbot
+sudo certbot certonly --standalone
+```
+
+To autorenew, add the following into crontab:
+```bash
+0 0 1 * * sudo apt-get update && sudo apt-get upgrade && sudo apt autoremove
+0 0 1 * * sudo certbot renew
+```
+
 ## Run on Server
 ```bash
-cd ~/lab0/server
+cd ~/scavhunt/server
+sudo apt-get update && sudo apt-get upgrade && sudo apt autoremove
 sudo lsof -t -i tcp:443 -s tcp:listen | sudo xargs kill
 sudo nohup python3 server.py &
 ```
