@@ -13,6 +13,7 @@ The admin can create/edit questions. Users can submit an answer for a question. 
 Solved questions appear green to users. They also receive points for each question they solve.
 
 The admin can view a user's username, points and solves. They can also delete a user.
+
 Users can be viewed sorted by:
 - Username (Descending)
 - Username (Ascending)
