@@ -68,8 +68,6 @@ function openModalQuestion(questionData, srcElem) {
             ".navbar [name=solves]"
           );
           solvesElem.innerText = parseInt(solvesElem.innerText) + 1;
-          console.log(pointsElem);
-          console.log(solvesElem);
           }
         modal.querySelector("[name=value]").classList.add("solved");
         modal.classList.add("solved");

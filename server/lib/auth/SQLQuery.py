@@ -1,7 +1,7 @@
 class SQLQuery:
     createTable = """
         CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY,
             username TEXT NOT NULL,
             _hash TEXT NOT NULL,
             _salt TEXT NOT NULL,
