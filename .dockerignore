@@ -1,0 +1,6 @@
+data.sqlite
+LICENSE
+*.md
+.dockerignore
+.git
+.gitignore

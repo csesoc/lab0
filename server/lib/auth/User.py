@@ -1,4 +1,5 @@
 from typing import Union
+import os
 
 from . import Tools
 from .SQLMethod import SQLMethod
@@ -15,7 +16,7 @@ class User:
     def __init__(self, user: userType):
         if user == 0:
             self.id = 0
-            self.username = config["ADMIN"].get("username", "admin")
+            self.username = os.environ.get("admin_username", "admin")
             self.isAdmin = True
         else:
             data = SQLMethod.getUser(user)

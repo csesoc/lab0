@@ -1,10 +1,10 @@
+import os
 from .SQLMethod import SQLMethod
 from .. import database
 from ..config import config
 
-
 def authenticate(username, password):
-    if config["ADMIN"]["username"] == username and config["ADMIN"]["password"] == password:
+    if os.environ.get("admin_username", "admin") == username and os.environ.get("admin_username", "admin") == password:
         return 0, "Admin"
     else:
         if SQLMethod.checkPassword(username, password):
@@ -21,7 +21,7 @@ def passwordHash(password: str, salt: str = None):
 
 
 def createUser(username: str, password: str):
-    if username == config["ADMIN"].get("username", "admin"):
+    if username == os.environ.get("admin_username", "admin"):
         return False
 
     hash, salt = passwordHash(password)

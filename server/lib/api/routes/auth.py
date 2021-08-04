@@ -1,5 +1,6 @@
 import tornado.httputil
 import tornado.web
+import os
 
 from .. import JSON, routing
 from ...auth import SQLMethod as authSQLMethod, Tools as authTools, User
@@ -12,7 +13,7 @@ from ...questions import SQLMethod as questionsSQLMethod
 
 @routing.POST("/auth/login")
 def login(self: tornado.web.RequestHandler, args: dict):
-    self.request: tornado.httputil.HTTPServerRequest
+    # self.request: tornado.httputil.HTTPServerRequest
 
     if "username" in args and "password" in args:
         uid = authTools.authenticate(args["username"], args["password"])
@@ -26,7 +27,7 @@ def login(self: tornado.web.RequestHandler, args: dict):
 
 @routing.POST("/auth/register")
 def register(self: tornado.web.RequestHandler, args: dict):
-    self.request: tornado.httputil.HTTPServerRequest
+    # self.request: tornado.httputil.HTTPServerRequest
     if "username" and "password" in args:
         uid = authTools.createUser(
             args["username"], args["password"])
@@ -42,9 +43,9 @@ def register(self: tornado.web.RequestHandler, args: dict):
 
 @routing.POST("/auth/usernameAvailable")
 def usernameAvailable(self: tornado.web.RequestHandler, args: dict):
-    self.request: tornado.httputil.HTTPServerRequest
+    # self.request: tornado.httputil.HTTPServerRequest
     if "username" in args:
-        if args["username"] != config["ADMIN"].get("username", "admin") and not authSQLMethod.getUser(args["username"]):
+        if args["username"] != os.environ.get("admin_username", "admin") and not authSQLMethod.getUser(args["username"]):
             return self.finish(JSON.OK())
         return self.finish(JSON.FALSE())
     return self.finish(JSON.error("bad arguments"))
@@ -53,7 +54,7 @@ def usernameAvailable(self: tornado.web.RequestHandler, args: dict):
 @routing.POST("/auth/me")
 @authenticated
 def me(self: tornado.web.RequestHandler, args: dict):
-    self.request: tornado.httputil.HTTPServerRequest
+    # self.request: tornado.httputil.HTTPServerRequest
 
     questionsSQL = questionsSQLMethod.questions.getQuestions()
     solvesSQL = questionsSQLMethod.questions.getSolves(user=self.current_user.id)

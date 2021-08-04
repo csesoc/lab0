@@ -12,7 +12,6 @@ app = tornado.web.Application([
         ("/orchestrator", SSEHandler),
         ("/(.*)", SiteHandler),
     ],
-    cookie_secret="5206688",
     login_url="/invite"
 )
 
@@ -47,20 +46,9 @@ def run(file: str = None, **kwargs):
         config.update(kwargs)
     print("----------------------------------------")
 
-    try:
-        settings = dict(
-            ssl_options = {
-                "certfile": os.path.join("/etc/letsencrypt/live/lab0.tech/fullchain.pem"),
-                "keyfile": os.path.join("/etc/letsencrypt/live/lab0.tech/privkey.pem"),
-        }
-        )
-        server = tornado.httpserver.HTTPServer(app, **settings)
-
-        port = config["SERVER"].get("port", 443)
-    except:
-        # Unable to run on HTTPS
-        server = tornado.httpserver.HTTPServer(app)
-        port = config["SERVER"].get("port", 80)
+    app.cookie_secret = config["SERVER"].get("cookie_secret")
+    server = tornado.httpserver.HTTPServer(app)
+    port = config["SERVER"].get("port")
     
     try:
         server.bind(port)

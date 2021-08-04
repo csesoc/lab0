@@ -26,6 +26,13 @@ Users can be viewed sorted by:
 A [_requirements.txt_](server/requirements.txt) file is located in the _server_ folder  
 `python3 -m pip install -r requirements.txt`
 
+## 
+
+Environment variables:
+- admin_username
+- admin_password
+- secret_cookie
+
 ## Run
 ```bash
 cd ~/lab0/server
