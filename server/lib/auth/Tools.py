@@ -4,7 +4,7 @@ from .. import database
 from ..config import config
 
 def authenticate(username, password):
-    if os.environ.get("admin_username", "admin") == username and os.environ.get("admin_username", "admin") == password:
+    if os.environ.get("admin_username", "admin") == username and os.environ.get("admin_password", "password") == password:
         return 0, "Admin"
     else:
         if SQLMethod.checkPassword(username, password):

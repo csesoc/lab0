@@ -12,6 +12,7 @@ app = tornado.web.Application([
         ("/orchestrator", SSEHandler),
         ("/(.*)", SiteHandler),
     ],
+    cookie_secret=os.environ.get("cookie_secret", "342342342"),
     login_url="/invite"
 )
 
@@ -46,7 +47,6 @@ def run(file: str = None, **kwargs):
         config.update(kwargs)
     print("----------------------------------------")
 
-    app.cookie_secret = config["SERVER"].get("cookie_secret")
     server = tornado.httpserver.HTTPServer(app)
     port = config["SERVER"].get("port")
     
