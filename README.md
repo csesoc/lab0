@@ -33,62 +33,17 @@ Environment variables:
 - admin_password
 - secret_cookie
 
-## Run
-```bash
-cd ~/lab0/server
-python3 -m pip install -r requirements.txt
-python3 server.py
-```
-
-## HTTP v HTTPS
-The following assumes the server will run over HTTPS. Change ```lab0.tech``` to the appropriate domain. It also assumes that you have installed a HTTPS certificate at the following location:
-```
-/etc/letsencrypt/live/lab0.tech/fullchain.pem
-/etc/letsencrypt/live/lab0.tech/privkey.pem
-```
-
-If this is not the case, the server will instead try to run over HTTP.
-
-To get HTTPS certificates, type the following on the server:
-```bash
-sudo apt-get update
-sudo apt-get install software-properties-common
-sudo add-apt-repository universe
-sudo add-apt-repository ppa:certbot/certbot
-sudo apt-get update
-sudo apt-get install certbot
-sudo certbot certonly --standalone
-```
-
-To autorenew, add the following into crontab:
-```bash
-0 0 1 * * sudo apt-get update && sudo apt-get upgrade && sudo apt autoremove
-0 0 1 * * sudo certbot renew
-```
-
-## Run on Server
-```bash
-cd ~/scavhunt/server
-sudo apt-get update && sudo apt-get upgrade && sudo apt autoremove
-sudo lsof -t -i tcp:443 -s tcp:listen | sudo xargs kill
-sudo nohup python3 server.py &
-```
-
 ## Configuration File
 When the server first runs, a `settings.ini` file will be automatically created from the `settings.example.ini` skeleton.
 
 ```ini
 [SERVER]
-port = 443               # Port to listen on
-database = data.sqlite3 # SQLite database file 
+port = 6969
+database = data.sqlite3
 
 [SITE]
-templatesDir = ../site  # Jinja template base path
-staticDir = ../site     # Static file base path
-
-[ADMIN]
-username = admin        # Superuser username
-password = password     # Superuser password
+templatesDir = ../site
+staticDir = ../site
 ```
 
 ---
